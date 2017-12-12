@@ -15,8 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Users
 Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
 
+//Friends
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+
+//Comments
+Route::get('/comments', 'CommentController@index');

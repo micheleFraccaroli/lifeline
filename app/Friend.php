@@ -14,13 +14,11 @@ class Friend extends Model
 
  	   	$query = json_decode($query);
  	   	$query_2 = json_decode($query_2);
- 	   	//dd($query, $query_2);
 
  	   	foreach ($query as $value) {
  	   		$friends[] = User::where('id',$value)->pluck('name');
  	   	}
 
- 	   	//dd($friends);
  	   	return $friends;
     }
     

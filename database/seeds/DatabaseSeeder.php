@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	$faker = Faker::create();
-    	foreach (range(1,10) as $index) {
+    	/*foreach (range(1,10) as $index) {
 	        DB::table('users')->insert([
 	            'name' => str_random(10),
 	            'surname' => str_random(10),
@@ -47,6 +47,30 @@ class DatabaseSeeder extends Seeder
 		DB::table('friends')->insert([
 			'id_utente1' => '5',
 			'id_utente2' => '1',
+		]);*/
+		DB::table('groups')->insert([
+        	'name' => 'Gruppo_test',
+        	'description' => 'finto gruppo di test',
+    	]);
+
+		DB::table('posts')->insert([
+			'id_group' => '1',
+			'body' => 'Qusto è il primo post',
+			'photo' => '0',
 		]);
+
+        DB::table('comments')->insert([
+        	'body' => 'per me è no',
+        	'id_post' => '1',
+    	]);
+    	DB::table('comments')->insert([
+        	'body' => 'blablabla',
+        	'id_post' => '1',
+    	]);
+    	DB::table('comments')->insert([
+        	'body' => 'ciao a tutti',
+        	'id_post' => '1',
+    	]);
+
     }
 }
