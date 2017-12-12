@@ -26,7 +26,7 @@ class CreateTableMessages extends Migration
                   ->references('id')->on('users')
                   ->onUpdate('cascade');
             $table->foreign('id_conversazione')
-                  ->references('id')->on('conversationes')
+                  ->references('id')->on('conversations')
                   ->onUpdate('cascade');
         });
     }

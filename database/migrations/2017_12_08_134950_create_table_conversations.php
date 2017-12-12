@@ -13,8 +13,9 @@ class CreateTableConversations extends Migration
      */
     public function up()
     {
-        Schema::create('conversationes', function (Blueprint $table) {
+        Schema::create('conversations', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('tipo');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class CreateTableConversations extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('conversationes');
+        Schema::dropIfExists('conversations');
     }
 }

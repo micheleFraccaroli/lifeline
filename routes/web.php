@@ -15,7 +15,26 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Users
 Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
+
+//Groups
 Route::get('/groups','GroupController@index');
 Route::get('/groups/{id}','GroupController@group_details');
+
+//Friends
+Route::get('/friends', 'FriendController@index');
+Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+
+//Comments
+Route::get('/comments', 'CommentController@index');
+Route::get('/comments/{id_post}', 'CommentController@showPost');
+
+//Friends
+Route::get('/friends', 'FriendController@index');
+Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+
+//Conversations
+Route::get('/conversations','ConversationController@index');
+Route::get('/conversations/{id}','ConversationController@get_id');
