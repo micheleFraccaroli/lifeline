@@ -19,6 +19,7 @@ Route::get('/', function () {
 Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
 
+
 //Friends
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
@@ -26,3 +27,12 @@ Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 //Comments
 Route::get('/comments', 'CommentController@index');
 Route::get('/comments/{id_post}', 'CommentController@showPost');
+
+//Friends
+Route::get('/friends', 'FriendController@index');
+Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+
+/Conversations
+Route::get('/conversations','ConversationController@index');
+Route::get('/conversations/{id}','ConversationController@get_id');
+

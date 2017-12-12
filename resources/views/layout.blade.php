@@ -8,7 +8,6 @@
 	<br><br>
 	@yield('content')
 	<br>
-	<?php echo "<a href=\"/users\">Back</a><br>";?>
 	<br><br>
 	@include('footer')
 </body>
