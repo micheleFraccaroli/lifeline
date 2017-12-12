@@ -3,7 +3,7 @@
 
 <?php 	foreach($conversation as $conv)
 		{
-			echo "<a href=\"/conversations/{$conv->id}\">{$conv->id}</a><br>";
+			echo "<a href=\"/conversations/{$conv}\">{$conv}</a><br>";
 		}?>
 
 @endsection

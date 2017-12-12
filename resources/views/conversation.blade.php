@@ -1,9 +1,11 @@
 @extends('layout')
 @section('content')
 
-<?php 	//$messages=json_decode($messages);
-		//foreach($messages as $m){echo "{$m->id_conversazione}";}
-		foreach($messages as $m){echo "{$m->id_conversazione}<br>";}
+<?php
+		if($messages==null)
+			echo "Nessuna conversazione :'(";
+		else
+			foreach($messages as $m){echo "<br>{$m->body} {$m->id_utente}<br>";}
 ?>
 <br><a href="/conversations">Back</a><br>
 @endsection
