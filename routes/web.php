@@ -17,3 +17,5 @@ Route::get('/', function () {
 
 Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
+Route::get('/groups','GroupController@index');
+Route::get('/groups/{id}','GroupController@group_details');
