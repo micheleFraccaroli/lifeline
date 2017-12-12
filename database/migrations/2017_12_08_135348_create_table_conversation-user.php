@@ -13,17 +13,17 @@ class CreateTableConversationUser extends Migration
      */
     public function up()
     {
-        Schema::create('conversationes-users', function (Blueprint $table) {
+        Schema::create('conversations_users', function (Blueprint $table) {
             $table->integer('id_utente')->unsigned();
             $table->integer('id_conversazione')->unsigned();
         });
 
-        Schema::table('conversationes-users', function (Blueprint $table) {
+        Schema::table('conversations_users', function (Blueprint $table) {
             $table->foreign('id_utente')
                   ->references('id')->on('users')
                   ->onUpdate('cascade');
             $table->foreign('id_conversazione')
-                  ->references('id')->on('conversationes')
+                  ->references('id')->on('conversations')
                   ->onUpdate('cascade');
         });
     }
@@ -35,6 +35,6 @@ class CreateTableConversationUser extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('conversations_users');
     }
 }

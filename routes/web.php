@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/users', 'UserController@index');
+Route::get('/users/{id}', 'UserController@show');
+Route::get('/conversations','ConversationController@index');
+Route::get('/conversations/{id}','ConversationController@get_id');
