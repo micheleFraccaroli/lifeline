@@ -26,5 +26,27 @@ class DatabaseSeeder extends Seeder
 	            'password' => bcrypt('secret'),
 	        ]);
     	}
+
+    	
+		DB::table('friends')->insert([
+			'id_utente1' => '1',
+			'id_utente2' => '2',
+		]);
+    	DB::table('friends')->insert([
+			'id_utente1' => '1',
+			'id_utente2' => '3',
+		]);
+		DB::table('friends')->insert([
+			'id_utente1' => '1',
+			'id_utente2' => '4',
+		]);
+		DB::table('friends')->insert([
+			'id_utente1' => '2',
+			'id_utente2' => '4',
+		]);
+		DB::table('friends')->insert([
+			'id_utente1' => '5',
+			'id_utente2' => '1',
+		]);
     }
 }
