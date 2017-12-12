@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 	            'job' => str_random(10),
 	            'relation' => str_random(10),
 	            'image' => '0',
-	            'password' => bcrypt('secret'),
+	            'password' => bcrypt('secret')
 	        ]);
     	}
 
@@ -48,5 +48,13 @@ class DatabaseSeeder extends Seeder
 			'id_utente1' => '5',
 			'id_utente2' => '1',
 		]);
+
+    	foreach (range(1,2) as $index) {
+	        DB::table('conversations')->insert([
+	        	'tipo' => 1,
+	            'created_at' => NULL,
+	            'updated_at' => NULL
+	        ]);
+    	}
     }
 }

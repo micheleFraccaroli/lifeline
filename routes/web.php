@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
-
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+Route::get('/conversations','ConversationController@index');
+Route::get('/conversations/{id}','ConversationController@get_id');
