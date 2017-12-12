@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Conversation;
+use Illuminate\Support\Facades\DB;
 
 class ConversationController extends Controller
 {
     public function index()
     {
-		$conversation=Conversation::all();
+		$conversation=DB::table('users')->pluck('id');
 		return view('conversations',compact('conversation'));
     }
 
