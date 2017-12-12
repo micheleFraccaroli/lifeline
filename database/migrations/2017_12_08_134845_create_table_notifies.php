@@ -17,6 +17,10 @@ class CreateTableNotifies extends Migration
             $table->increments('id');
             $table->text('body');
             $table->string('type');
+            $table->integer('from-request')->nullable();
+            $table->integer('from-comment')->nullable();
+            $table->integer('from-post')->nullable();
+            $table->integer('from-like')->nullable();
             $table->integer('id_utente')->unsigned();
             $table->timestamps();
         });

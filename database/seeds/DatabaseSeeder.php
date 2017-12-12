@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	$faker = Faker::create();
-    	/*foreach (range(1,10) as $index) {
+    	foreach (range(1,10) as $index) {
 	        DB::table('users')->insert([
 	            'name' => str_random(10),
 	            'surname' => str_random(10),
@@ -47,8 +47,9 @@ class DatabaseSeeder extends Seeder
 		DB::table('friends')->insert([
 			'id_utente1' => '5',
 			'id_utente2' => '1',
-		]);*/
-		/*DB::table('groups')->insert([
+		]);
+
+		DB::table('groups')->insert([
         	'name' => 'Gruppo_test',
         	'description' => 'finto gruppo di test',
     	]);
@@ -71,14 +72,34 @@ class DatabaseSeeder extends Seeder
         	'body' => 'ciao a tutti',
         	'id_post' => '1',
     	]);
+    	DB::table('comments')->insert([
+        	'body' => 'hello world!',
+        	'id_post' => '2',
+    	]);
+
     	DB::table('posts')->insert([
 			'id_group' => NULL,
 			'body' => 'Qusto è il secondo post',
 			'photo' => '1',
-		]);*/
-		DB::table('comments')->insert([
-        	'body' => 'hello world!',
-        	'id_post' => '2',
+		]);
+		
+    	DB::table('notifies')->insert([
+    		'body' => 'Notifica_1',
+    		'type' => 'Richiesta d\'amicizia',
+    		'from-request' => '2',
+    		'from-comment' => NULL,
+    		'from-post' => NULL,
+    		'from-like' => NULL,
+    		'id_utente' => '1',
+    	]);
+    	DB::table('notifies')->insert([
+    		'body' => 'Notifica_2',
+    		'type' => 'Notifica da un mi piace su un post',
+    		'from-request' => NULL,
+    		'from-comment' => '1',
+    		'from-post' => '1',
+    		'from-like' => NULL,
+    		'id_utente' => '2',
     	]);
     }
 }
