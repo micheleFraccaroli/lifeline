@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
 			'id_utente1' => '5',
 			'id_utente2' => '1',
 		]);*/
-		DB::table('groups')->insert([
+		/*DB::table('groups')->insert([
         	'name' => 'Gruppo_test',
         	'description' => 'finto gruppo di test',
     	]);
@@ -71,6 +71,14 @@ class DatabaseSeeder extends Seeder
         	'body' => 'ciao a tutti',
         	'id_post' => '1',
     	]);
-
+    	DB::table('posts')->insert([
+			'id_group' => NULL,
+			'body' => 'Qusto è il secondo post',
+			'photo' => '1',
+		]);*/
+		DB::table('comments')->insert([
+        	'body' => 'hello world!',
+        	'id_post' => '2',
+    	]);
     }
 }

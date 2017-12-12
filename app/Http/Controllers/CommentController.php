@@ -11,4 +11,9 @@ class CommentController extends Controller
     	$comments = Comment::all();
     	return view('comments', compact('comments'));
     }
+
+    public function showPost($id) {
+    	$comment_post = Comment::get_Post($id);
+    	return view('comment_post',compact('comment_post'));
+    }
 }

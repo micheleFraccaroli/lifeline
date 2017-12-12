@@ -25,3 +25,4 @@ Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 
 //Comments
 Route::get('/comments', 'CommentController@index');
+Route::get('/comments/{id_post}', 'CommentController@showPost');
