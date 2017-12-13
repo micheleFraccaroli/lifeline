@@ -32,7 +32,10 @@ Route::get('/comments/{id_post}', 'CommentController@showPost');
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 
-/Conversations
+//Conversations
 Route::get('/conversations','ConversationController@index');
 Route::get('/conversations/{id}','ConversationController@get_id');
 
+//Notifies
+Route::get('/notifies', 'NotifieController@index');
+Route::get('/notifies/{id}', 'NotifieController@show');
