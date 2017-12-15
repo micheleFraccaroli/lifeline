@@ -55,10 +55,12 @@
                 <select name="sex" id="sex">
                 	<?php 
                 	if($user_up->sex == 'M') {
-                		echo "<option value=\"M\" required autofocus>M</option>";
+                		echo "<option value=\"M\" required autofocus checked>M</option>";
+                		echo "<option value=\"F\" required autofocus>F</option>";
                 	}
                 	else {
-                		echo "<option value=\"F\" required autofocus>F</option>";
+                		echo "<option value=\"F\" required autofocus checked>F</option>";
+                		echo "<option value=\"M\" required autofocus>M</option>";
                 	}
                 	?>
                 </select>
@@ -88,7 +90,7 @@
             <label for="job" class="col-md-4 control-label">Job</label>
 
             <div class="col-md-6">
-                <input id="job" type="text" class="form-control" name="job" value="<?= $user_up->born ?>" required autofocus>
+                <input id="job" type="text" class="form-control" name="job" value="<?= $user_up->job ?>" required autofocus>
 
                 @if ($errors->has('job'))
                     <span class="help-block">
@@ -103,10 +105,20 @@
 
             <div class="col-md-6">
                 <select name="relation" id="relation">
-                    <option value="Single" required autofocus>Single</option>
-                    <option value="Impegnato" required autofocus>Impegnato</option>
-                    <option value="Sposato" required autofocus>Sposato</option>
-                    <option value="Ignoto" required autofocus>Ignoto</option>
+                	<?php 
+                		if($user_up->relation == 'Single') {
+                    		echo "<option value=\"Single\" required autofocus>Single</option>";
+                		}
+                		elseif ($user_up->relation == 'Impegnato') {
+                			echo "<option value=\"Impegnato\" required autofocus>Impegnato</option>";
+                		}
+                		elseif ($user_up->relation == 'Sposato') {
+                			echo "<option value=\"Sposato\" required autofocus>Sposato</option>";
+                		}
+                    	elseif ($user_up->relation == 'Ignoto') {
+                    		echo "<option value=\"Ignoto\" required autofocus>Ignoto</option>";
+                    	}
+                	?>
                   </select>
 
                 @if ($errors->has('relation'))
@@ -116,12 +128,12 @@
                 @endif
             </div>
         </div>
-
+        <!-- password field
         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
             <label for="password" class="col-md-4 control-label">Password</label>
 
             <div class="col-md-6">
-                <input id="password" type="password" class="form-control" name="password" required>
+                <input id="password" type="password" class="form-control" name="password" value="<?= $user_up->password ?>" required>
 
                 @if ($errors->has('password'))
                     <span class="help-block">
@@ -130,7 +142,7 @@
                 @endif
             </div>
         </div>
-
+        
         <div class="form-group">
             <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
 
@@ -138,11 +150,11 @@
                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
             </div>
         </div>
-
+		-->
         <div class="form-group"> 
             <div class="col-md-6 col-md-offset-4">
                 <button type="submit" class="btn btn-primary">
-                    Register
+                    Update
                 </button>
             </div>
         </div>
