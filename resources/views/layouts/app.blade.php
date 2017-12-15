@@ -63,6 +63,9 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+                                    <li>
+                                        <a href="/users/update/{{ Auth::user()->id }}">Profile</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endguest

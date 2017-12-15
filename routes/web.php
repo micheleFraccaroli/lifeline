@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 //Users
 Route::get('/users', 'UserController@index');
+Route::get('/users/update/{id}', 'UserController@update');
 Route::get('/users/{id}', 'UserController@show');
 
 
@@ -43,3 +44,5 @@ Route::get('/notifies/{id}', 'NotifieController@show');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
