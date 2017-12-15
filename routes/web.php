@@ -39,6 +39,7 @@ Route::get('/conversations/{id}','ConversationController@get_id');
 //Notifies
 Route::get('/notifies', 'NotifieController@index');
 Route::get('/notifies/{id}', 'NotifieController@show');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
