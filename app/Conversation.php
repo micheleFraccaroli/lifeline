@@ -22,6 +22,4 @@ class Conversation extends Model
 
 /*	Commenti
 
-	$conv_private contiene l'id della conversazione a cui sta partecipando l'utente loggato e l'utente cliccato. Siccome get() ritorna una collezione, per poterla utilizzare la trasformo in array con toArray(). Dato che il risultato è unico (un utente può partecipare ad una sola conversazione privata con un altro utente), uso la notazione vettoriale diretta 'array[0]->campo'. Nel caso sia necessario ciclare il risultato della query, basta usare il costrutto foreach, ad esempio 'foreach($conv_private as $cp){}', in questo modo va usata la variabile '$cp'.
-
-*/
+	$conv_private contiene l'id della conversazione a cui sta partecipando l'utente loggato e l'utente cliccato. Siccome get() ritorna una collezione, per poterla utilizzare la trasformo in array con toArray(). Dato che il risultato è unico (un utente può partecipare ad una sola conversazione privata con un altro utente), uso la notazione vettoriale diretta 'array[0]->campo'. Nel caso sia necessario ciclare il risultato della query, basta usare il costrutto foreach, ad esempio 'foreach($conv_private as $cp){}', in questo modo va usata la variabile '$cp'.*/

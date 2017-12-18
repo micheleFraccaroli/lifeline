@@ -1,0 +1,42 @@
+/* navbar */
+.navbar {
+    background-color: #313131;
+}
+ul.nav a:hover {
+	background-color: #313131;
+	text-shadow: 0px 0px 4px #ffffff;
+}
+li {
+	background-color: #313131;
+	font-family: "Raleway",sans-serif;
+	font-weight: lighter;
+	font-size: 30px;
+}
+
+h1 {
+	font-family: "Raleway",sans-serif;
+}
+
+li a {
+	color: #ffffff;
+}
+
+li a:hover {
+	
+	color: #ffffff;
+	background-color: #313131
+}
+
+a {
+	color: #000000;
+}
+
+.container
+{
+	margin-left: 0;
+}
+
+.grass
+{
+	background-color: #000000;
+}

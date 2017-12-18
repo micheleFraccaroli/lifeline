@@ -21,3 +21,7 @@ Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::get('/conversations','ConversationController@index');
 Route::get('/conversations/{id}','ConversationController@get_id');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

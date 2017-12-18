@@ -1,1 +1,1 @@
-<h1>TITLE BAR ESTERNA</h1>
+<h1>Laravel</h1>
