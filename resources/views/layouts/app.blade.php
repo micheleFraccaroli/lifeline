@@ -12,7 +12,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
     <link rel="stylesheet" href="css/Alveare.css">
+
 </head>
 <body>
     <div id="app">
@@ -45,7 +47,11 @@
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="/register">Rgister</a></li>
+
+                            <li><a href="/register">Register</a></li>
+
+                            <li><a href="{{ route('register') }}">Register</a></li>
+
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -64,6 +70,11 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
+                                    <li>
+                                        <a href="/users/update/{{ Auth::user()->id }}">Profile</a>
+                                    </li>
+
                                 </ul>
                             </li>
                         @endguest

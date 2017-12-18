@@ -14,6 +14,13 @@ class UserController extends Controller
 
     public function show($id) {
     	$user = User::find($id);
-    	return view('user', compact('user'));
+    	return view('user.user', compact('user'));
+    }
+
+    public function update($id) {
+    	$user_up = User::find($id);
+        //dd($user->name);
+
+        return view('user.index', compact('user_up'));
     }
 }
