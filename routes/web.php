@@ -20,8 +20,12 @@ Route::get('/users', 'UserController@index');
 Route::get('/users/{id}', 'UserController@show');
 
 //Groups
-Route::get('/groups','GroupController@index');
-Route::get('/groups/{id}','GroupController@group_details');
+Route::get('/groups/index','GroupController@index');
+Route::get('/groups/index/{id}','GroupController@show');
+Route::get('/groups/create','GroupController@create');
+Route::post('/groups','GroupController@store');
+Route::get('/groups/{id}/edit','GroupController@edit');
+Route::post('/groups/{id}','GroupController@update');
 
 //Friends
 Route::get('/friends', 'FriendController@index');

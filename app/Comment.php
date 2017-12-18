@@ -12,4 +12,14 @@ class Comment extends Model
     	//dd($post);
     	return $post;
     }
+
+    //ritorna tutti i commenti relativi ad un post presente in un gruppo
+
+    public static function show_comments_post($id_post){
+
+    	$Comments_post = DB::table('comments')->select('body')->where('id_post',$id_post)->get();
+    	
+    	return $Comment_post;
+    }
+
 }
