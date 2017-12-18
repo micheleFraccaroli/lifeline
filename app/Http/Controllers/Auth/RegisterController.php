@@ -62,7 +62,7 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-    {
+    {   
         return User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
@@ -71,8 +71,10 @@ class RegisterController extends Controller
             'born' => $data['born'],
             'job' => $data['job'],
             'relation' => $data['relation'],
-            'image' => $data['image'],
+            'image' => '0',
             'password' => bcrypt($data['password']),
         ]);
+
+        return redirect("/users/id");
     }
 }
