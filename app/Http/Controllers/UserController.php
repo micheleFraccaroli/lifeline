@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 use App\User;
 
 class UserController extends Controller
@@ -22,7 +23,7 @@ class UserController extends Controller
         return view('user.edit', compact('user_up'));
     }
 
-    public function update($id) {
+    public function update($id, Request $request) {
         $user_update = User::find($id);
 
         $this->validate(request(), [
@@ -42,8 +43,19 @@ class UserController extends Controller
         $user_update->born = request('born');
         $user_update->job = request('job');
         $user_update->relation = request('relation');
-        if ($user_update->image != null) {
+
+        $path = $request->file('user_pic')->store('/storage');
+
+        //dd($path);
+        $optimizerChain = OptimizerChainFactory::create();
+        $optimizerChain->optimize($path);
+        
+
+        if ($user_update->image = request('user_pic_value') != null) {
             $user_update->image = request('user_pic_value');
+        }
+        else {
+            // ...
         }
 
         //$_FILES['user_pic']['tmp_name'];
