@@ -28,7 +28,7 @@ class UserController extends Controller
         $this->validate(request(), [
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'sex' => 'required|string|max:1',
             'born' => 'required|string|max:10',
             'job' => 'required|string|max:255',
@@ -42,23 +42,16 @@ class UserController extends Controller
         $user_update->born = request('born');
         $user_update->job = request('job');
         $user_update->relation = request('relation');
+        if ($user_update->image != null) {
+            $user_update->image = request('user_pic_value');
+        }
+
+        //$_FILES['user_pic']['tmp_name'];
+
+        //$user_update->image = request('user_pic_value');
 
         $user_update->save();
 
-        return redirect('/users/user_update->id');
-    }
-
-    public function pic($id) {
-        $image = request('image')->getClientOriginalName();
-        $filename = time().$image;
-
-        $user_pic = User::find($id);
-        $user_pic->image = $filename;
-
-        dd($filename);
-
-        $user_pic->save();
-
-        return redirect('/user/user_pic->id');
+        return redirect()->action('UserController@show', ['id' => $user_update->id]);
     }
 }

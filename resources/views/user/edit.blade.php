@@ -2,33 +2,9 @@
 
 @section('content')
 
-
-<div class="panel-body">
-    <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-        <div class="col-md-6">
-            <?php if($user_up->image == '0'){?>
-                <img src="{{URL::asset('/default-profile-image.png')}}" alt="profile pictures" height="200" width="200">
-            <?php }else{ ?>
-                <img src="{{ asset('storage/Auth::user()->image') }}" height="200" width="200">
-            <?php } ?>
-        </div>
-    </div>
-</div>
-<div class="panel-body">
-    <form action="/users/pic/{{ Auth::user()->id }}" method="post"  enctype="multipart/form-data">
-
-        {{csrf_field()}}
-
-        <div class="form-group">
-            <input type="file" class="form-group" name="image">
-        </div>
-        <button type="submit" class="btn btn-primary">Add</button>
-    </form>
-</div>
-
 <div class="panel-body">
 
-    <form class="form-horizontal" method="POST" action="/users/{{ Auth::user()->id }}">
+    <form class="form-horizontal" method="POST" action="/users/{{ Auth::user()->id }}" enctype="multipart/form-data">
         {{ csrf_field() }}
 
         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -152,6 +128,18 @@
                     </span>
                 @endif
             </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Immagine gruppo">Modifica immagine profilo</label>
+            <br>
+            <input type="file" id="user_pic" name="user_pic"  accept="image/jpeg"/>
+        </div>
+
+        <div class="form-group">
+            <img id="show_users_pic" class = "img-responsive img-circle" src="<?php echo $user_up->image ?>" height="200" width="200"/>
+            <span class="custom-file-control"></span>
+            <input type="hidden" name="user_pic_value">
         </div>
 
         <div class="form-group"> 

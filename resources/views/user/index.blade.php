@@ -2,45 +2,31 @@
 @section('content')
 
 	<div class="panel-body">
-		<ul>
-			<li>
-				<h3>name: </h3> {{ Auth::user()->name }}
-			</li>
-			<li>
-				<h3>surname: </h3> {{ Auth::user()->surname }}
-			</li>
-			<li>
-				<h3>email: </h3> {{ Auth::user()->email }}
-			</li>
-			<li>
-				<h3>sex: </h3> {{ Auth::user()->sex }}
-			</li>
-			<li>
-				<h3>born: </h3> {{ Auth::user()->born }}
-			</li>
-			<li>
-				<h3>job: </h3> {{ Auth::user()->job }}
-			</li>
-			<li>
-				<h3>relation: </h3> {{ Auth::user()->relation }}
-			</li>
-			<li>
-				<div class="panel-body">
-				    <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-				        <div class="col-md-6">
-				            <?php if(Auth::user()->image == '0'){?>
-				                <img src="{{URL::asset('/default-profile-image.png')}}" alt="profile pictures" height="200" width="200">
-				            <?php }else{ ?>
-				               <img src="data:image/jpg;base64, <?= Auth::user()->image ?>">
-				            <?php } ?>
-				        </div>
-				    </div>
+		<div class ="col-sm-6 col-md-offset-3">
+		
+			{{ Auth::user()->name }}	<br>
+			{{ Auth::user()->surname }} <br>
+			{{ Auth::user()->email }}	<br>
+			{{ Auth::user()->sex }}		<br>
+			{{ Auth::user()->born }}	<br>
+			{{ Auth::user()->job }}		<br>
+			{{ Auth::user()->relation }}<br>
+
+			<div class="col-sm-9">
+			    <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+			        <div class="col-md-6">
+			            <?php if(Auth::user()->image == '0'){?>
+			                <img src="{{URL::asset('/default-profile-image.png')}}" alt="profile pictures" height="200" width="200">
+			            <?php } else { 
+			            	header("Content-type: image/jpeg");
+			                echo '<img src="data:image/jpeg;base64,'.base64_encode( Auth::user()->image ).'"/>';
+			            } ?>
+			        </div>
 				</div>
-			</li>
-		</ul>
-
-		<a href="/users/update/{{ Auth::user()->id }}">Update profile</a>
-
+			</div>
+				
+			<a href="/users/update/{{ Auth::user()->id }}">Update profile</a>
+		</div>
 	</div>
 
 @endsection
