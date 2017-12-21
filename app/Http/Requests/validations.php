@@ -28,24 +28,17 @@ class validations extends FormRequest
     public function rules()
     {
 
-        $uri = $this->is();
+        $uri = $this->path(); /*es: $uri = groups/create */
 
-        switch($uri){
+        $first_segment = str_before($uri,'/'); /* $first_segment = groups */
+
+        switch($first_segment){
 
             case 'groups':
             {
                 return [
-                    'name_group' => 'bail|required|max:50',
-                    'description_group' => 'bail|required|max:250',
-                ];
-            }
-
-            case 'groups/*';
-            {
-
-                return [
-                    'name_group' => 'bail|required|max:50',
-                    'description_group' => 'bail|required|max:250',
+                    'name_group' => 'bail|required|min:10|max:50',
+                    'description_group' => 'bail|required|min:15|max:250',
                 ];
             }
 
@@ -60,15 +53,20 @@ class validations extends FormRequest
     {
 
         $uri = $this->path();
-        $segment = $uri->segment(1);
 
-        switch($segment){
+        $first_segment = str_before($uri,'/');
+
+        switch($first_segment){
 
             case 'groups':
             {
                 return [
-                    'name_group.required' => 'Il nome del gruppo è obbligatorio.',
-                    'description_group.required' => 'La descrizione è obbligatoria.',
+                    'name_group.required' => 'Il campo Nome Gruppo è obbligatorio.',
+                    'name_group.max' => 'Il campo Nome Gruppo può contenere al massimo 50 caratteri.',
+                    'name_group.min' => 'Il campo Nome Gruppo deve contenere minimo 10 caratteri.',
+                    'description_group.required' => 'Il campo Descrizione è obbligatorio.',
+                    'description_group.max' => 'Il campo Descrizione può contenere al massimo 250 caratteri.',
+                    'description_group.min' => 'Il campo Descrizione deve contenere minimo 20 caratteri.',
                 ];
             }
 

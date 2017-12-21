@@ -12,21 +12,45 @@ use App\Comment;
 class GroupController extends Controller
 {
 		/*mostra tutti i gruppi a cui è iscritto un utente*/
-    	public function index(){
+		/* PS: dare una controllata a questa funzione */
+    	public function index(Request $request){
 
-		$gruppi = Group::all();
+    		$gruppi = Group::all();
 
-		return view('groups.index', compact('gruppi'));
+    		if ($request->ajax()) {
+
+    			$response = array(
+            		'status' => 'success',
+            		'msg' => 'Setting created successfully',
+        		);
+ 
+        		return Response()->json($response);
+   
+    		}else{
+
+    			return view('groups.index', compact('gruppi'));
+
+    		}
 
 		}
+
+		
+
+		public function test(Request $request){
+
+    		return response()->json(['response' => 'This is get method']);
+		}
+
+
+
 
 		/*mostra tutti i posts presenti all'interno di un gruppo*/
 		public function show($id){
 
-		$gruppo = Group::find($id);
-		$posts_group = Post::all_posts_group($id);
+			$gruppo = Group::find($id);
+			$posts_group = Post::all_posts_group($id);
 
-		return view('groups.show', compact('gruppo','posts_group'));
+			return view('groups.show', compact('gruppo','posts_group'));
 
 		}
 
@@ -46,6 +70,7 @@ class GroupController extends Controller
 
 			$gruppo->name = request('name_group');
 			$gruppo->description = request('description_group');
+			$gruppo->image = request('group_pic_value');
 			$gruppo->save();
 
 			return redirect('groups/index');
@@ -69,6 +94,7 @@ class GroupController extends Controller
 
 			$gruppo->name = request('name_group');
 			$gruppo->description = request('description_group');
+			$gruppo->image = request('group_pic_value');
 			$gruppo->save();
 
 			return redirect('groups/index');
