@@ -1,0 +1,35 @@
+@extends('layouts.app')
+@section('content')
+@include('layouts.error')
+	<div class = "row">
+		<div class ="col-sm-6 col-md-offset-3">
+			<form method="POST" action="/groups">
+
+				{{ csrf_field() }}
+
+				<div class="form-group">
+					<label for="Nome gruppo">Nome Gruppo *</label>
+					<input type="text" class="form-control" placeholder="Inserisci il nome del gruppo..." name = "name_group">
+				</div>
+				<div class="form-group">
+					<label for="Descrizio gruppo">Descrizione *</label>
+					<textarea class="form-control" name="description_group" placeholder="Inserisci una breve descrizione del gruppo..." rows="3"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="Immagine gruppo">Modifica immagine gruppo</label>
+					<br>
+					<input type="file" id="group_pic"/>
+				</div>
+				<div class="form-group">
+					<img id="show_group_pic" class = "img-responsive img-circle" src="#" height="200" width="200"/>
+  					<span class="custom-file-control"></span>
+  					<input type="hidden" name="group_pic_value" value="">
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-lg btn-block">Crea Gruppo</button>
+					<button type="button" class="btn btn-danger btn-lg btn-block">Annulla</button>
+				</div>
+			</form>
+		</div>
+	</div>
+@endsection

@@ -55,11 +55,22 @@ class DatabaseSeeder extends Seeder
         	'description' => 'finto gruppo di test',
     	]);
 
+        DB::table('groups')->insert([
+            'name' => 'Secondo Gruppo',
+            'description' => 'Secondo gruppo utilizzato per i test',
+        ]);
+
 		DB::table('posts')->insert([
 			'id_group' => '1',
 			'body' => 'Qusto è il primo post',
 			'photo' => '0',
 		]);
+
+        DB::table('posts')->insert([
+            'id_group' => '2',
+            'body' => 'Questo è il primo post per il secondo gruppo',
+            'photo' => '0',
+        ]);
 
         DB::table('comments')->insert([
         	'body' => 'per me è no',

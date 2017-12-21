@@ -18,6 +18,14 @@ Route::get('/users/{id}', 'UserController@show');
 Route::post('/users/{id}', 'UserController@update');
 Route::post('/users/pic/{id}', 'UserController@pic');
 
+//Groups
+Route::get('/groups/index','GroupController@index');
+Route::get('/groups/index/{id}','GroupController@show');
+Route::get('/groups/create','GroupController@create');
+Route::post('/groups','GroupController@store');
+Route::get('/groups/{id}/edit','GroupController@edit');
+Route::post('/groups/{id}','GroupController@update');
+Route::post('/groups/index','GroupController@test');
 
 //Friends
 Route::get('/friends', 'FriendController@index');
@@ -33,6 +41,7 @@ Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 
 //Conversations
 Route::get('/conversations','ConversationController@index');
+
 Route::get('/conversations/{id}','ConversationController@get_id');
 
 //Notifies
@@ -42,5 +51,3 @@ Route::get('/notifies/{id}', 'NotifieController@show');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-
