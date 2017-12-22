@@ -13,6 +13,10 @@ class UserController extends Controller
     	return view('users', compact('users'));
     }
 
+    public function test_ajax() {
+        
+    }
+
     public function show($id) {
     	$user = User::find($id);
     	return view('user.index', compact('user'));
@@ -25,6 +29,7 @@ class UserController extends Controller
 
     public function update($id, Request $request) {
         $user_update = User::find($id);
+        //dd($user_update->image);
 
         $this->validate(request(), [
             'name' => 'required|string|max:255',
@@ -44,24 +49,9 @@ class UserController extends Controller
         $user_update->job = request('job');
         $user_update->relation = request('relation');
 
-        $path = $request->file('user_pic')->store('/storage');
-
-        //dd($path);
-        $optimizerChain = OptimizerChainFactory::create();
-        $optimizerChain->optimize($path);
-        
-
-        if ($user_update->image = request('user_pic_value') != null) {
+        if (request('user_pic_value') != null) {
             $user_update->image = request('user_pic_value');
         }
-        else {
-            // ...
-        }
-
-        //$_FILES['user_pic']['tmp_name'];
-
-        //$user_update->image = request('user_pic_value');
-
         $user_update->save();
 
         return redirect()->action('UserController@show', ['id' => $user_update->id]);

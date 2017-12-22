@@ -133,7 +133,7 @@
         <div class="form-group">
             <label for="Immagine gruppo">Modifica immagine profilo</label>
             <br>
-            <input type="file" id="user_pic" name="user_pic"  accept="image/jpeg"/>
+            <input type="file" id="user_pic" name="user_pic" accept="image/*"/>
         </div>
 
         <div class="form-group">

@@ -13,6 +13,7 @@
 
 //Users
 Route::get('/users', 'UserController@index');
+Route::post('/users/conversation', 'UserController@test_ajax');
 Route::get('/users/update/{id}', 'UserController@edit');
 Route::get('/users/{id}', 'UserController@show');
 Route::post('/users/{id}', 'UserController@update');
@@ -41,6 +42,8 @@ Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 
 //Conversations
 Route::get('/conversations','ConversationController@index');
+Route::get('/conversations/create','ConversationController@create');
+Route::post('/conversations/{$id}', 'ConversationController@create');
 
 Route::get('/conversations/{id}','ConversationController@get_id');
 

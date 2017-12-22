@@ -83,6 +83,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function select_id(id) {
+            var identifier = "#conversa" + id;
+
+            $.post('/conversations/create', {
+                id_log: $('#id_utente_log').val(),
+                id_other: $(identifier).val(),
+                type: $('#tipo').val()
+            },
+            function(status){
+                alert("Status: " + status);
+            });
+        }
+    </script>
+
+    <script>
 
     /* NON TOCCARE CI STO LAVORANDO SOPRA */
         $.ajaxSetup({

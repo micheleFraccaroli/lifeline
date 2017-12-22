@@ -17,10 +17,9 @@
 			        <div class="col-md-6">
 			            <?php if(Auth::user()->image == '0'){?>
 			                <img src="{{URL::asset('/default-profile-image.png')}}" alt="profile pictures" height="200" width="200">
-			            <?php } else { 
-			            	header("Content-type: image/jpeg");
-			                echo '<img src="data:image/jpeg;base64,'.base64_encode( Auth::user()->image ).'"/>';
-			            } ?>
+			            <?php } else { ?>
+			                <img src="<?= Auth::user()->image ?>">
+			            <?php } ?>
 			        </div>
 				</div>
 			</div>
