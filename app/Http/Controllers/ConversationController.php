@@ -24,22 +24,12 @@ class ConversationController extends Controller
     }
 
     protected function create(Request $request) {
-        if($request->ajax();
-
-        $conversation = Conversation::create([
-            'tipo' => $request['type']
-        ]);
-
-        //first your ID
-        $conversations_users_1 = Conversations_user::create([
-            'id_utente' => $request['id_log'],
-            'id_conversazione' => $conversation->id
-        ]);
-        $conversations_users_2 = Conversations_user::create([
-            'id_utente' => $request['id_other'],
-            'id_conversazione' => $conversation->id
-        ]);
-
-        return Response()->json($conversation);
+        if($request->ajax()) {
+            $conv = Conversation::create([
+                'tipo' => $request['type_conversation']
+            ]);
+            return response($conv);
+        }
+        return redirect('/users');
     }
 }

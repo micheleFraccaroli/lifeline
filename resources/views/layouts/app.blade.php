@@ -81,26 +81,27 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+    
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        $('#form_store_conversation').on('submit', function(e) {
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+            var post = $(this).attr('method');
 
-        function select_id(id) {
-            var identifier = "#conversa" + id;
-
-            $.post('/conversations/create', {
-                id_log: $('#id_utente_log').val(),
-                id_other: $(identifier).val(),
-                type: $('#tipo').val()
-            },
-            function(status){
-                alert("Status: " + status);
-            });
-        }
+            $.ajax({
+                type : post,
+                url : url,
+                data : data,
+                dataTy : 'json',
+                success:function(data) {
+                    console.log(data);
+                },
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                },
+            })
+        })
     </script>
 
     <script>

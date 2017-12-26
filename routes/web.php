@@ -42,8 +42,8 @@ Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 
 //Conversations
 Route::get('/conversations','ConversationController@index');
-Route::get('/conversations/create','ConversationController@create');
-Route::post('/conversations/{$id}', 'ConversationController@create');
+Route::post('/conversations/create','ConversationController@create');
+//Route::post('/conversations/{$id}', 'ConversationController@create');
 
 Route::get('/conversations/{id}','ConversationController@get_id');
 

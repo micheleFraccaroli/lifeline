@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Conversation extends Model
 {
+    protected $fillable = [
+        'tipo',
+    ];
+
     public static function get_id($id)
     {
     	//Query per ottenere l'id conversazione associato agli utenti
