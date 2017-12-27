@@ -102,6 +102,10 @@
                 },
             })
         })
+
+        function add_id_other(id) {
+            document.getElementById('id_other').value = id;
+        }
     </script>
 
     <script>

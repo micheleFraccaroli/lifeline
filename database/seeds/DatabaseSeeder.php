@@ -13,19 +13,40 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	$faker = Faker::create();
-    	foreach (range(1,10) as $index) {
-	        DB::table('users')->insert([
-	            'name' => str_random(10),
-	            'surname' => str_random(10),
-	            'email' => str_random(10).'@gmail.com',
-	            'sex' => 'M',
-	            'born' => '2017-12-12',
-	            'job' => str_random(10),
-	            'relation' => str_random(10),
-	            'image' => '0',
-	            'password' => bcrypt('secret')
-	        ]);
-    	}
+    	
+        DB::table('users')->insert([
+            'name' => 'Matteo',
+            'surname' => 'Gemelli',
+            'email' => str_random(10).'@gmail.com',
+            'sex' => 'M',
+            'born' => '2017-12-12',
+            'job' => str_random(10),
+            'relation' => str_random(10),
+            'image' => '0',
+            'password' => bcrypt('secret')
+	    ]);
+        DB::table('users')->insert([
+            'name' => 'Franco',
+            'surname' => 'Rossi',
+            'email' => str_random(10).'@gmail.com',
+            'sex' => 'M',
+            'born' => '2017-12-12',
+            'job' => str_random(10),
+            'relation' => str_random(10),
+            'image' => '0',
+            'password' => bcrypt('secret')
+        ]);
+        DB::table('users')->insert([
+            'name' => 'Gianni',
+            'surname' => 'Falco',
+            'email' => str_random(10).'@gmail.com',
+            'sex' => 'M',
+            'born' => '2017-12-12',
+            'job' => str_random(10),
+            'relation' => str_random(10),
+            'image' => '0',
+            'password' => bcrypt('secret')
+        ]);
 
     	
 		DB::table('friends')->insert([
@@ -36,28 +57,22 @@ class DatabaseSeeder extends Seeder
 			'id_utente1' => '1',
 			'id_utente2' => '3',
 		]);
-		DB::table('friends')->insert([
-			'id_utente1' => '1',
-			'id_utente2' => '4',
-		]);
-		DB::table('friends')->insert([
-			'id_utente1' => '2',
-			'id_utente2' => '4',
-		]);
-		DB::table('friends')->insert([
-			'id_utente1' => '5',
-			'id_utente2' => '1',
-		]);
+        DB::table('friends')->insert([
+            'id_utente1' => '2',
+            'id_utente2' => '3',
+        ]);
 
 
 		DB::table('groups')->insert([
         	'name' => 'Gruppo_test',
         	'description' => 'finto gruppo di test',
+            'image' => '0',
     	]);
 
         DB::table('groups')->insert([
             'name' => 'Secondo Gruppo',
             'description' => 'Secondo gruppo utilizzato per i test',
+            'image' => '0',
         ]);
 
 		DB::table('posts')->insert([

@@ -21,6 +21,11 @@ class Conversation extends Model
 		//Ritorno il corpo e i mittenti dei messaggi associati ad una specifica conversazione
 		return DB::table('messages')->select('body','id_utente')->where('id_conversazione',$conv_private[0]->id_conversazione)->get();
     }
+
+    public static function get_identifier() {
+    	return DB::table('conversations')->select('id')
+    				->orderBy('id','latest')->limit(1)->value('id');
+    }
 }
 
 
