@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Conversation;
 use Illuminate\Support\Facades\DB;
+use App\Conversation;
+use App\Conversations_user;
 
 class ConversationController extends Controller
 {
@@ -20,5 +21,32 @@ class ConversationController extends Controller
     	$messages=$conv->get_id($id);
     	//$messages=Conversation::get_id($id);
     	return view('conversation',compact('messages'));
+    }
+
+    protected function create(Request $request) {
+        $c = new Conversation;
+
+        if($request->ajax()) {
+            $conv = Conversation::create([
+                'tipo' => $request['type_conversation']
+            ]);
+            
+            $id_conv = $c->get_identifier();   
+
+            $conv_usr_my = new Conversations_user([
+                'id_utente' => $request['user_log'],
+                'id_conversazione' => $id_conv
+            ]);
+
+            $conv_usr_other = new Conversations_user([
+                'id_utente' => $request['id_other'],
+                'id_conversazione' => $id_conv
+            ]);
+
+            $conv_usr_my->save();
+            $conv_usr_other->save();
+            return response($id_conv);
+        }
+        return redirect('/users');
     }
 }

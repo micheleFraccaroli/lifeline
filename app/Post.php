@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
+	protected $fillable = [
+        'id_user', 'body', 'photo',
+    ];
 
 	//ritorna tutti i posts appertenenti ad un gruppo
 
@@ -18,4 +21,8 @@ class Post extends Model
 
     }
 
+    public static function getPosts($id_other, $my_id) {
+    	$res = DB::table('posts')->select('id', 'body', 'id_user')->where('id_user', $id_other)->orWhere('id_user', $my_id)->orderBy('updated_at', 'desc')->get();
+    	return $res;
+    }
 }

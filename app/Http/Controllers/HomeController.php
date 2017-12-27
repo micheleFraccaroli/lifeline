@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\validations;
+use App\Friend;
+use App\Post;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -23,6 +28,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
+        $frn = new Friend;
+        $friends = $frn->getFrineds(Auth::user()->id);
+        $pst = new Post;
+        foreach ($friends as $f) {
+            $posts = $pst->getPosts($f, Auth::user()->id);    
+        }
+        return view('home', compact('posts'));
+    } 
 }
