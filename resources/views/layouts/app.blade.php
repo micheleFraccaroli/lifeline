@@ -96,17 +96,19 @@
                 dataTy : 'json',
                 success:function(data) {
                     console.log(data.body_post);
-                    var post = document.createElement('div');
+                    var post_div = document.createElement('div');
                     var hr = document.createElement('hr');
-                    post.className = 'panel-body';
+                    post_div.className = 'panel-body';
                     if(data.photo == null) {
-                        post.appendChild(document.createTextNode(data.body_post));
+                        post_div.appendChild(hr);
+                        post_div.appendChild(document.createTextNode(data.body));
                     }
                     else {
                         //...ci guardarò!
                     }
-                    post.appendChild(hr);
-                    document.getElementById('post_page').appendChild(post);
+                    post_div.appendChild(hr);
+                    document.getElementById('post_page').appendChild(post_div);
+                    document.getElementById('post_form').reset();
                 },
                 error: function(xhr){
                     alert("An error occured: " + xhr.status + " " + xhr.statusText);
