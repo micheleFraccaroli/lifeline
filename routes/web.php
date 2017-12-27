@@ -27,7 +27,6 @@ Route::get('/groups/create','GroupController@create');
 Route::post('/groups','GroupController@store');
 Route::get('/groups/{id}/edit','GroupController@edit');
 Route::post('/groups/{id}','GroupController@update');
-Route::post('/groups/index','GroupController@test');
 
 //Friends
 Route::get('/friends', 'FriendController@index');

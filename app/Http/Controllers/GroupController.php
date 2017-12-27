@@ -11,38 +11,28 @@ use App\Comment;
 
 class GroupController extends Controller
 {
-		/*mostra tutti i gruppi a cui è iscritto un utente*/
-		/* PS: dare una controllata a questa funzione */
+		/*mostra tutti i gruppi a cui un utente non è ancora iscritto*/
     	public function index(Request $request){
-
-    		$gruppi = Group::all();
 
     		if ($request->ajax()) {
 
-    			$response = array(
-            		'status' => 'success',
-            		'msg' => 'Setting created successfully',
-        		);
- 
-        		return Response()->json($response);
+    			$max_id_index = $request->input('id');
+
+    			$gruppi = DB::table('groups')->where('id','>',$max_id_index)->orderBy('id','desc')->get();
+
+        		return Response()->json($gruppi);
    
     		}else{
 
-    			return view('groups.index', compact('gruppi'));
+    			$gruppi = Group::where('id','>',0)->orderBy('id','desc')->get();
+
+    			$max_id_db = DB::table('groups')->max('id');
+    				
+    			return view('groups.index', compact('gruppi','max_id_db'));
 
     		}
 
 		}
-
-		
-
-		public function test(Request $request){
-
-    		return response()->json(['response' => 'This is get method']);
-		}
-
-
-
 
 		/*mostra tutti i posts presenti all'interno di un gruppo*/
 		public function show($id){

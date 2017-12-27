@@ -23,7 +23,7 @@
 				<div class="form-group">
 					<img id="show_group_pic" class = "img-responsive img-circle" src="<?php echo $gruppo->image ?>" height="200" width="200"/>
   					<span class="custom-file-control"></span>
-  					<input type="hidden" name="group_pic_value" value="">
+  					<input type="hidden" name="group_pic_value" value="<?php echo $gruppo->image ?>">
 				</div>
 				<div class="form-group">
 				<button type="submit" class="btn btn-primary btn-lg btn-block">Salva Modifiche</button>
