@@ -142,7 +142,6 @@
             document.getElementById('id_other').value = id;
         }
     </script>
->>>>>>> 84dc8807af38c913fa37327abb94782b160c0ea4
 
     <script>
 
