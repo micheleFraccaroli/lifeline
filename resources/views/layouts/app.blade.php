@@ -81,6 +81,39 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <script>
+        $('#post_form').on('submit', function(e) {
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+            var post = $(this).attr('method');
+            
+            $.ajax({
+                type : post,
+                url : url,
+                data : data,
+                dataTy : 'json',
+                success:function(data) {
+                    console.log(data.body_post);
+                    var post = document.createElement('div');
+                    var hr = document.createElement('hr');
+                    post.className = 'panel-body';
+                    if(data.photo == null) {
+                        post.appendChild(document.createTextNode(data.body_post));
+                    }
+                    else {
+                        //...ci guardarò!
+                    }
+                    post.appendChild(hr);
+                    document.getElementById('post_page').appendChild(post);
+                },
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                },
+            })
+        })
+    </script>
     
     <script>
         $('#form_store_conversation').on('submit', function(e) {

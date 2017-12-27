@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
+	protected $fillable = [
+        'id_user', 'body', 'photo',
+    ];
 
 	//ritorna tutti i posts appertenenti ad un gruppo
 

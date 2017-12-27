@@ -75,40 +75,51 @@ class DatabaseSeeder extends Seeder
             'image' => '0',
         ]);
 
+
 		DB::table('posts')->insert([
 			'id_group' => '1',
+            'id_user' => '2',
 			'body' => 'Qusto è il primo post',
 			'photo' => '0',
 		]);
 
         DB::table('posts')->insert([
+            'id_group' => NULL,
+            'id_user' => '1',
+            'body' => 'Qusto è il secondo post',
+            'photo' => '1',
+        ]);
+
+        DB::table('posts')->insert([
             'id_group' => '2',
+            'id_user' => '1',
             'body' => 'Questo è il primo post per il secondo gruppo',
             'photo' => '0',
         ]);
 
+
         DB::table('comments')->insert([
         	'body' => 'per me è no',
         	'id_post' => '1',
+            'id_user' => '1',
     	]);
     	DB::table('comments')->insert([
         	'body' => 'blablabla',
-        	'id_post' => '1',
+        	'id_post' => '2',
+            'id_user' => '1',
     	]);
     	DB::table('comments')->insert([
         	'body' => 'ciao a tutti',
-        	'id_post' => '1',
+        	'id_post' => '2',
+            'id_user' => '1',
     	]);
     	DB::table('comments')->insert([
         	'body' => 'hello world!',
-        	'id_post' => '2',
+        	'id_post' => '3',
+            'id_user' => '1',
     	]);
 
-    	DB::table('posts')->insert([
-			'id_group' => NULL,
-			'body' => 'Qusto è il secondo post',
-			'photo' => '1',
-		]);
+    	
 		
     	DB::table('notifies')->insert([
     		'body' => 'Notifica_1',
@@ -128,6 +139,7 @@ class DatabaseSeeder extends Seeder
     		'from_like' => NULL,
     		'id_utente' => '2',
     	]);
+        
 
     	foreach (range(1,2) as $index) {
 	        DB::table('conversations')->insert([

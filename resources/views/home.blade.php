@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+            <div class="panel panel-default" id="post_page">
+                <div class="panel-heading">Bacheca</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -14,20 +14,21 @@
                         </div>
                     @endif
 
-                    You are logged in!
                     <div class="panel-body">
-                        <h1>This is your data:</h1><br>
-                        {{ Auth::user()->name }}<br>
-                        {{ Auth::user()->surname }}<br>
-                        {{ Auth::user()->email }}<br>
-                        {{ Auth::user()->sex }}<br>
-                        {{ Auth::user()->born }}<br>
-                        {{ Auth::user()->job }}<br>
-                        {{ Auth::user()->relation }}<br>
+                        Write your post!<hr>
+                        <form class="form-horizontal" method="POST" action="{{ URL::to('/home/post') }}" enctype=multipart/form-data id="post_form">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="your_id" value="{{Auth::user()->id}}">
+                            <input type="text" name="body_post">
+                            <input type="file" name="photo">
+                            <input type="submit" value="pubblica">
+                        </form>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
     </div>
 </div>
+
 @endsection
