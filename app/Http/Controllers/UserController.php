@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
+use Spatie\ImageOptimizer\OptimizerChainFactory; //<- penso non serva
 use App\User;
 
 class UserController extends Controller
@@ -11,10 +11,6 @@ class UserController extends Controller
     public function index() {
     	$users = User::all();
     	return view('users', compact('users'));
-    }
-
-    public function test_ajax() {
-        
     }
 
     public function show($id) {
@@ -29,7 +25,6 @@ class UserController extends Controller
 
     public function update($id, Request $request) {
         $user_update = User::find($id);
-        //dd($user_update->image);
 
         $this->validate(request(), [
             'name' => 'required|string|max:255',
@@ -49,8 +44,10 @@ class UserController extends Controller
         $user_update->job = request('job');
         $user_update->relation = request('relation');
 
-        if (request('user_pic_value') != null) {
-            $user_update->image = request('user_pic_value');
+        if (request('user_pic') != null) {
+            $name = $user_update->id . ".jpg";
+            $path = $request->file('user_pic')->storeAs('storage/user_profile', $name); 
+            $user_update->image = $path;
         }
         $user_update->save();
 

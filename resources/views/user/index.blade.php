@@ -18,7 +18,7 @@
 			            <?php if(Auth::user()->image == '0'){?>
 			                <img src="{{URL::asset('/default-profile-image.png')}}" alt="profile pictures" height="200" width="200">
 			            <?php } else { ?>
-			                <img src="<?= Auth::user()->image ?>">
+			            	<img src="{{asset(Auth::user()->image)}}" height="200" width="200">
 			            <?php } ?>
 			        </div>
 				</div>

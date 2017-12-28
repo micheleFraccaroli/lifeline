@@ -54,13 +54,13 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="/logout"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="/logout" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
@@ -88,7 +88,7 @@
             var data = $(this).serialize();
             var url = $(this).attr('action');
             var post = $(this).attr('method');
-            
+
             $.ajax({
                 type : post,
                 url : url,
@@ -99,6 +99,7 @@
                     var post_div = document.createElement('div');
                     var hr = document.createElement('hr');
                     post_div.className = 'panel-body';
+                    alert(data.photo);
                     if(data.photo == null) {
                         post_div.appendChild(hr);
                         post_div.appendChild(document.createTextNode(data.body));
@@ -106,7 +107,6 @@
                     else {
                         //...ci guardarò!
                     }
-                    post_div.appendChild(hr);
                     document.getElementById('post_page').appendChild(post_div);
                     document.getElementById('post_form').reset();
                 },

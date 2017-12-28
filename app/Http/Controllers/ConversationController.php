@@ -25,27 +25,36 @@ class ConversationController extends Controller
 
     protected function create(Request $request) {
         $c = new Conversation;
+        $cu = new Conversations_user;
 
         if($request->ajax()) {
-            $conv = Conversation::create([
-                'tipo' => $request['type_conversation']
-            ]);
+            $exist = $cu->find_conversation($request['user_log'], $request['id_other']);
+
+            if(empty($exist[0]->id_conversazione)) {
+                $conv = Conversation::create([
+                    'tipo' => $request['type_conversation']
+                ]);
+                
+                $id_conv = $c->get_identifier();   
+
+                $conv_usr_my = new Conversations_user([
+                    'id_utente' => $request['user_log'],
+                    'id_conversazione' => $id_conv
+                ]);
+
+                $conv_usr_other = new Conversations_user([
+                    'id_utente' => $request['id_other'],
+                    'id_conversazione' => $id_conv
+                ]);
+
+                $conv_usr_my->save();
+                $conv_usr_other->save();
+                return response($id_conv);    
+            }
+            else {
+                return response($exist[0]->id_conversazione);
+            }
             
-            $id_conv = $c->get_identifier();   
-
-            $conv_usr_my = new Conversations_user([
-                'id_utente' => $request['user_log'],
-                'id_conversazione' => $id_conv
-            ]);
-
-            $conv_usr_other = new Conversations_user([
-                'id_utente' => $request['id_other'],
-                'id_conversazione' => $id_conv
-            ]);
-
-            $conv_usr_my->save();
-            $conv_usr_other->save();
-            return response($id_conv);
         }
         return redirect('/users');
     }

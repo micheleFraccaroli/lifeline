@@ -23,8 +23,7 @@ class Conversation extends Model
     }
 
     public static function get_identifier() {
-    	return DB::table('conversations')->select('id')
-    				->orderBy('id','latest')->limit(1)->value('id');
+    	return DB::table('conversations')->select('id')->orderBy('id','latest')->limit(1)->value('id');
     }
 }
 

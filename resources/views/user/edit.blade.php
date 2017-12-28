@@ -137,7 +137,7 @@
         </div>
 
         <div class="form-group">
-            <img id="show_users_pic" class = "img-responsive img-circle" src="<?php echo $user_up->image ?>" height="200" width="200"/>
+            <img id="show_users_pic" class = "img-responsive img-circle" src="{{asset($user_up->image)}}" height="200" width="200"/>
             <span class="custom-file-control"></span>
             <input type="hidden" name="user_pic_value">
         </div>

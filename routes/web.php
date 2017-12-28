@@ -17,6 +17,7 @@ Route::post('/users/conversation', 'UserController@test_ajax');
 Route::get('/users/update/{id}', 'UserController@edit');
 Route::get('/users/{id}', 'UserController@show');
 Route::post('/users/{id}', 'UserController@update');
+Route::get('/logout', 'LoginController@logout');
 
 //Groups
 Route::get('/groups/index','GroupController@index');

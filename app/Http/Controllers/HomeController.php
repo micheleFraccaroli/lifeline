@@ -30,10 +30,12 @@ class HomeController extends Controller
     {
         $frn = new Friend;
         $friends = $frn->getFrineds(Auth::user()->id);
+        //dd($friends);
         $pst = new Post;
         foreach ($friends as $f) {
             $posts = $pst->getPosts($f, Auth::user()->id);    
         }
+        //dd($posts);
         return view('home', compact('posts'));
     } 
 }
