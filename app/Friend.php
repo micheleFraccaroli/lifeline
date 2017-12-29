@@ -8,7 +8,7 @@ use App\Http\Requests\validations;
 
 class Friend extends Model
 {
-    public static function getFrineds($id) {
+    public static function getFriends($id) {
     	$a = array();
     	$b = array();
 

@@ -14,6 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
+</head>
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
@@ -32,12 +33,22 @@
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+                    
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
+                        <form class="navbar-form" role="search" action="/search" method="POST">
+                            {{ csrf_field() }}
+                            <div class="input-group add-on">
+                                <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                      </form>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -47,6 +58,9 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                            <li class="dropdown">
+                                <a href="/contacts">Contatti</a>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -99,7 +113,6 @@
                     var post_div = document.createElement('div');
                     var hr = document.createElement('hr');
                     post_div.className = 'panel-body';
-                    alert(data.photo);
                     if(data.photo == null) {
                         post_div.appendChild(hr);
                         post_div.appendChild(document.createTextNode(data.body));

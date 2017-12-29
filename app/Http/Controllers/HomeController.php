@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\validations;
 use App\Friend;
 use App\Post;
+use App\User;
 use Auth;
 
 class HomeController extends Controller
@@ -28,14 +29,20 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = User::find(Auth::user()->id);
+        $tot = array(Auth::user()->id);
+
         $frn = new Friend;
-        $friends = $frn->getFrineds(Auth::user()->id);
-        //dd($friends);
+        $friends = $frn->getFriends(Auth::user()->id);
+        $tot_friend = array_merge($tot, $friends);
+        
         $pst = new Post;
-        foreach ($friends as $f) {
-            $posts = $pst->getPosts($f, Auth::user()->id);    
+        $totale = collect();
+        foreach ($tot_friend as $t) {
+            $posts = $pst->getPosts($t);
+            $totale = $totale->merge($posts);
         }
-        //dd($posts);
-        return view('home', compact('posts'));
+        
+        return view('home', compact('totale'));
     } 
 }

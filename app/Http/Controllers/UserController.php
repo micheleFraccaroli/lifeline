@@ -5,17 +5,43 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\ImageOptimizer\OptimizerChainFactory; //<- penso non serva
 use App\User;
+use Auth;
 
 class UserController extends Controller
 {
     public function index() {
-    	$users = User::all();
-    	return view('users', compact('users'));
+    	$users = User::all()->except(Auth::id());
+    	return view('contacts', compact('users'));
     }
 
-    public function show($id) {
-    	$user = User::find($id);
-    	return view('user.index', compact('user'));
+     public function show($id) {
+        $user = User::find($id);
+        return view('user.index', compact('user'));
+    }
+
+    public function search(Request $request) {
+        $search = explode(" ", request('srch-term'));
+        if(count($search) == 2) {
+            $user = User::where('name', 'LIKE', '%'.$search[0].'%')->where('surname', 'LIKE', '%'.$search[1].'%')->get();
+            if(count($user) == 0) {
+                 $user = User::where('name', 'LIKE', '%'.$search[1].'%')->where('surname', 'LIKE', '%'.$search[0].'%')->get();
+                 if(count($user) == 0) {
+                    return redirect('/home');
+                 }
+            }
+            return redirect()->action('UserController@show', ['id' => $user[0]->id]);
+        }
+        elseif (count($search) == 1) {
+            $user = User::where('name', 'LIKE', '%'.$search[0].'%')->get();
+            if(count($user) == 0) {
+                $user = User::where('surname', 'LIKE', '%'.$search[0].'%')->get();
+                if(count($user) == 0) {
+                    return redirect('/home');
+                 }
+             }
+            return view('users', compact('user'));
+        }
+        
     }
 
     public function edit($id) {
@@ -46,8 +72,9 @@ class UserController extends Controller
 
         if (request('user_pic') != null) {
             $name = $user_update->id . ".jpg";
-            $path = $request->file('user_pic')->storeAs('storage/user_profile', $name); 
-            $user_update->image = $path;
+            $path_public = $request->file('user_pic')->storeAs('public/user_profile', $name); 
+            $path_real = "/storage/user_profile/" . $name;
+            $user_update->image = $path_real;
         }
         $user_update->save();
 

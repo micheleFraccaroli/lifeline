@@ -12,7 +12,8 @@
 */
 
 //Users
-Route::get('/users', 'UserController@index');
+Route::get('/contacts', 'UserController@index');
+Route::post('/search', 'UserController@search');
 Route::post('/users/conversation', 'UserController@test_ajax');
 Route::get('/users/update/{id}', 'UserController@edit');
 Route::get('/users/{id}', 'UserController@show');

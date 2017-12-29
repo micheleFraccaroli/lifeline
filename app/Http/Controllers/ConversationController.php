@@ -9,10 +9,10 @@ use App\Conversations_user;
 
 class ConversationController extends Controller
 {
-    public function index()
-    {
-		$conversation=DB::table('users')->pluck('id');
-		return view('conversations',compact('conversation'));
+    public function index($id) {
+        $u = new User;
+        $users = $u->get_contact($id);
+        return view('conversation', compact('users'));
     }
 
     public function get_id($id)

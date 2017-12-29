@@ -21,8 +21,10 @@ class Post extends Model
 
     }
 
-    public static function getPosts($id_other, $my_id) {
-    	$res = DB::table('posts')->select('id', 'body', 'id_user')->where('id_user', $id_other)->orWhere('id_user', $my_id)->orderBy('updated_at', 'desc')->get();
+    public static function getPosts($id) {
+    	$res = DB::table('posts')
+            ->join('users', 'posts.id_user', '=', 'users.id')
+            ->select('posts.id', 'posts.body', 'users.id', 'users.name', 'users.surname')->where('posts.id_user', $id)->orderBy('posts.updated_at', 'desc')->get();
     	return $res;
     }
 }

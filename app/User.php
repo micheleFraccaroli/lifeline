@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -26,4 +28,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function get_contact($id) {
+        return DB::table('users')->select('id', 'name', 'surname')->where('id', '<>', $id)->get();
+    }
 }

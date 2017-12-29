@@ -3,7 +3,20 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <?php if(Auth::user()->image == '0'){?>
+                    <a href="/users/{{ Auth::user()->id }}"><img src="{{URL::asset('/default-profile-image.png')}}" width="163" height="200"></a>
+                <?php } else { ?>
+                    <a href="/users/{{ Auth::user()->id }}"><img src="{{asset(Auth::user()->image)}}" height="200" width="163"></a>
+                <?php } ?>
+                <hr>
+                {{ Auth::user()->name }}    
+                {{ Auth::user()->surname }} <br>
+            </div>
+        </div>
+
+        <div class="col-md-8">
             <div class="panel panel-default" id="post_page">
                 <div class="panel-heading">Bacheca</div>
 
@@ -35,13 +48,15 @@
             </div>
         </div>
     </div>
-    <?php if(!empty($posts)) { ?>
+    <?php if(!empty($totale)) { ?>
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
                 <div class="panel panel-default">  
-                    <?php foreach ($posts as $p) { ?>
+                    <?php foreach ($totale as $p) { ?>
                             <div class="panel-body">
-                                {{$p->body}}<br>
+                                {{$p->body}} - <strong>{{$p->name}} {{$p->surname}}</strong><br>
                                 <?php if(!empty($p->photo)) { ?>
                                     <img id="show_group_pic" class = "img-responsive img-circle" src="{{$p->photo}}" height="200" width="200"/>
                                     <span class="custom-file-control"></span>
@@ -54,6 +69,10 @@
             </div>
         </div>
     <?php } ?>
+</div>
+
+<div class="container">
+
 </div>
 
 @endsection
