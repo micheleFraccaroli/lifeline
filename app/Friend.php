@@ -13,7 +13,7 @@ class Friend extends Model
     	$b = array();
 
     	$up = DB::table('friends')->select('id_utente2')->where('id_utente1', $id)->get()->toArray();
-    	//dd($up[0]->id_utente2);
+
     	foreach ($up as $u) {
     		array_push($a, $u->id_utente2);
     	}
@@ -24,5 +24,16 @@ class Friend extends Model
 
     	$res = array_merge($a,$b);
     	return $res;
+    }
+
+    public static function checkFriendship($id_logged, $id_other) {
+        $friends = self::getFriends($id_logged);
+
+        foreach ($friends as $f) {
+            if($f == $id_other) {
+                return "find";
+            }
+        }
+        return "not_find";
     }
 }

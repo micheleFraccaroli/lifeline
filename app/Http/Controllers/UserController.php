@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\ImageOptimizer\OptimizerChainFactory; //<- penso non serva
 use App\User;
+use App\Post;
+use App\Friend;
 use Auth;
 
 class UserController extends Controller
@@ -14,8 +16,21 @@ class UserController extends Controller
     	return view('contacts', compact('users'));
     }
 
-     public function show($id) {
-        $user = User::find($id);
+    public function show($id) {
+        $user = collect();
+
+        $usr = User::find($id);
+        $user = $user->merge($usr);
+
+        $frn = new Friend;
+        $friends = $frn->getFriends($id); //<--potrebbe tornare utile
+        $check = $frn->checkFriendship(Auth::id(), $id);
+        $user = $user->merge($check);
+
+        $pst = new Post;
+        $user_posts = $pst->getPosts($id);
+        $user = $user->merge($user_posts);
+
         return view('user.index', compact('user'));
     }
 
