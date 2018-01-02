@@ -125,6 +125,9 @@
             var data = $(this).serialize();
             var url = $(this).attr('action');
             var post = $(this).attr('method');
+            alert(data);
+            alert(url);
+            alert(post);
 
             $.ajax({
                 type : post,
@@ -164,7 +167,7 @@
                         post_div.appendChild(document.createTextNode(data.body));
                     }
                     else {
-                        //...ci guardarò!
+                        //...ci guarderò!
                     }
                     document.getElementById('post_page').appendChild(post_div);
                     document.getElementById('post_form').reset();

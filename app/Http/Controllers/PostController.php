@@ -11,7 +11,8 @@ class PostController extends Controller
     protected function create(Request $request) {
     	if($request->ajax()) {
     		$post = Post::create([
-	    		'id_user' => $request['your_id'],
+                'group_id' => null,
+	    		'user_id' => $request['your_id'],
 	    		'body' => $request['body_post'],
 	    		'photo' => '0'
     		]);
@@ -73,5 +74,4 @@ class PostController extends Controller
         }
 
     }
->>>>>>> develop
 }

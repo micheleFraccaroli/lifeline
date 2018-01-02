@@ -14,12 +14,12 @@ class FriendController extends Controller
     		$friendShip = Friend::create([
     			'id_utente1' => $request['my_id'],
     			'id_utente2' => $request['other_id'],
-    			'type' => 1
+    			'type' => $request['type']
     		]);
 
     		$news = new Notifie([
-    			'body' => 'Hai una richiesta di amicizia',
-    			'type' => 'Richiesta di amicizia',
+    			'body' => 'Hai una ' . $request['news'],
+    			'type' => $request['news'],
     			'from_request' => $request['my_id'],
     			'from_comment' => '0',
     			'from_post' => '0',
@@ -34,8 +34,14 @@ class FriendController extends Controller
 
     protected function friendshipRequest_Delete(Request $request) {
     	if($request->ajax()) {
-    		$del = Friend::where('id_utente1', $request['my_id'])->where('id_utente2', $request['other_id'])->delete();
-    		return response($del);
+    		$del_friendShip = new Friend([
+    			'id_utente1' => $request['my_id'],
+    			'id_utente2' => $request['other_id'],
+    			'type' => $request['type']
+    		]);
+
+    		$del_friendShip->save();
+    		return response($del_friendShip);
     	}
     }
 }
