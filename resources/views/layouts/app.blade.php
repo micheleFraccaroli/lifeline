@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
 
 </head>
 </head>
@@ -94,6 +95,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- per le richieste d'amicizia-->
     <script>
@@ -198,87 +200,6 @@
         function add_id_other(id) {
             document.getElementById('id_other').value = id;
         }
-    </script>
-
-    <script>
-
-    /* NON TOCCARE CI STO LAVORANDO SOPRA */
-
-        $(document).ready(function(){
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-        });
-        
-        $("#aggiorna_gruppi").on('submit',function(e){
-
-            e.preventDefault();
-
-            /*Individuo qual'è l'id più grande attualmente presente nella finestra index*/
-
-            var max_id = $("input[name='max_id_index']").val();
-
-            /*tramite ajax() effettuo una chiamata asincrona al controller */
-
-            $.ajax({
-                type: "GET",
-                url: "/groups/index",
-                data: {id:max_id},
-                datatype: "json",
-                success: function(data){
-
-                    var i = 0;
-
-                    if (data.length!=0){
-
-                        var new_max_id = data[0].id;
-
-                        /*assegno il nuovo id più grande al bottone "aggiorna_gruppi"*/
-
-                        $("input[name='max_id_index']").val(new_max_id);
-
-                        for (i = 0; i < data.length; i++) {
-
-                            var new_group = "<a href=\"/groups/index/"+data[i].id+"\">"+data[i].id+" - "+data[i].name+"</a> <br>";
-                            $('#all_groups').prepend(new_group);
-
-                        }
-                    }
-
-                },
-                    error: function(xhr){
-                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
-                },
-
-            });
-
-        });
-
-        /*La funzione ReadURL viene utilizzata per mostrare l'immagine in anteprima nel form relativo
-        alla creazione del gruppo o per la modifica*/
-        function readURL(input) {
-
-            if (input.files && input.files[0]) {
-            var reader = new FileReader();                 /* vado ad instanziare l'oggetto FileReader */
-
-            reader.onload = function(e) {
-            $("#show_group_pic").attr("src", e.target.result); /* sull' evento onload leggo il contenuto */ 
-            $("input[name*='group_pic_value']").val(e.target.result);
-            }                                                                                               
-
-            reader.readAsDataURL(input.files[0]);  /* ritorna il contenuto del file sotto forma di URL */
-            $("input[name*='group_pic_value']").val(reader.readAsDataURL(input.files[0]));
-            }
-        }
-
-        $("#group_pic").change(function() {
-            readURL(this);
-        });
-
     </script>
 
     <script>

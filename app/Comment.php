@@ -9,17 +9,16 @@ class Comment extends Model
 {
     public static function get_Post($id) {
     	$post = DB::table('posts')->where('id', $id)->pluck('body');
-    	//dd($post);
     	return $post;
     }
 
-    //ritorna tutti i commenti relativi ad un post presente in un gruppo
 
-    public static function show_comments_post($id_post){
 
-    	$Comments_post = DB::table('comments')->select('body')->where('id_post',$id_post)->get();
-    	
-    	return $Comment_post;
+    /*Individuo a quele utente appartiene ha pubblicato un determinato commento*/
+
+    public function user(){
+
+        return $this->belongsTo('App\User');
     }
 
 }

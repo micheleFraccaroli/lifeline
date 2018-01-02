@@ -34,13 +34,17 @@ class GroupController extends Controller
 
 		}
 
-		/*mostra tutti i posts presenti all'interno di un gruppo*/
+		/*mostra tutti i post presenti all'interno di un gruppo*/
+
 		public function show($id){
 
-			$gruppo = Group::find($id);
-			$posts_group = Post::all_posts_group($id);
+			$all_posts = Group::find($id)->posts;
 
-			return view('groups.show', compact('gruppo','posts_group'));
+			foreach ($all_posts as $post) {
+				$user[$post->id] = POST::find($post->id)->user;
+			}
+
+			return view('groups.show', compact('all_posts','user'));
 
 		}
 

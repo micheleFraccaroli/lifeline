@@ -15,19 +15,19 @@ class CreateTablePosts extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_group')->unsigned()->nullable();
-            $table->integer('id_user')->unsigned();
+            $table->integer('group_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned();
             $table->string('body');
             $table->binary('photo');
             $table->timestamps();
         });
 
         Schema::table('posts', function (Blueprint $table) {
-            $table->foreign('id_group')
+            $table->foreign('group_id')
                   ->references('id')->on('groups')
                   ->onUpdate('cascade');
 
-            $table->foreign('id_user')
+            $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onUpdate('cascade');
         });

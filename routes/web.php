@@ -27,6 +27,8 @@ Route::get('/groups/create','GroupController@create');
 Route::post('/groups','GroupController@store');
 Route::get('/groups/{id}/edit','GroupController@edit');
 Route::post('/groups/{id}','GroupController@update');
+Route::get('/posts/{id}','PostController@show_comments');
+Route::post('/posts','PostController@store_post_group');
 
 //Friends
 Route::get('/friends', 'FriendController@index');
@@ -37,6 +39,7 @@ Route::post('/friends/del', 'FriendController@friendshipRequest_Delete');
 //Comments
 Route::get('/comments', 'CommentController@index');
 Route::get('/comments/{id_post}', 'CommentController@showPost');
+Route::post('/comments','CommentController@store');
 
 //Conversations
 Route::get('/conversations','ConversationController@index');
