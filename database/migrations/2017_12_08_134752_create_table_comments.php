@@ -16,17 +16,18 @@ class CreateTableComments extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
             $table->text('body');
-            $table->integer('id_post')->unsigned();
-            $table->integer('id_user')->unsigned();
+            $table->integer('post_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('comments', function (Blueprint $table) {
-            $table->foreign('id_post')
+            $table->foreign('post_id')
                   ->references('id')->on('posts')
-                  ->onUpdate('cascade');
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
 
-            $table->foreign('id_user')
+            $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onUpdate('cascade');
         });

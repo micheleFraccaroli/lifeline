@@ -25,4 +25,20 @@ class Post extends Model
     	$res = DB::table('posts')->select('id', 'body', 'id_user')->where('id_user', $id_other)->orWhere('id_user', $my_id)->orderBy('updated_at', 'desc')->get();
     	return $res;
     }
+
+
+    /***********Geme fatta il 28/12/2017*************/
+
+    /*ricavo l'utente che ha pubblicato un determinato post*/
+
+    public function user(){
+
+        return $this->belongsTo('App\User');
+    }
+
+    public function comments(){
+
+        return $this->hasMany('App\Comment');
+    }
+
 }
