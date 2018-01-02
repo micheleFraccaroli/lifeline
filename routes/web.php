@@ -31,14 +31,12 @@ Route::post('/groups/{id}','GroupController@update');
 //Friends
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+Route::post('/friends/req', 'FriendController@friendshipRequest');
+Route::post('/friends/del', 'FriendController@friendshipRequest_Delete');
 
 //Comments
 Route::get('/comments', 'CommentController@index');
 Route::get('/comments/{id_post}', 'CommentController@showPost');
-
-//Friends
-Route::get('/friends', 'FriendController@index');
-Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 
 //Conversations
 Route::get('/conversations','ConversationController@index');

@@ -52,14 +52,17 @@ class DatabaseSeeder extends Seeder
 		DB::table('friends')->insert([
 			'id_utente1' => '1',
 			'id_utente2' => '2',
+            'type' => '0',
 		]);
     	DB::table('friends')->insert([
 			'id_utente1' => '1',
 			'id_utente2' => '3',
+            'type' => '0',
 		]);
         DB::table('friends')->insert([
             'id_utente1' => '2',
             'id_utente2' => '3',
+            'type' => '0',
         ]);
 
 

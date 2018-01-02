@@ -16,9 +16,27 @@
                 <?php if($user['id'] == Auth::user()->id) { ?>
                 	<a href="/users/update/{{ $user['id'] }}">Update profile</a><br>
             	<?php } ?>
-            	<?php if(strcmp($user[0], "not_find") == 0 && $user['id'] != Auth::user()->id) {?>
-                	<a href="">Richiedi amicizia</a>
-                <?php } ?>
+            	<div id="requester">
+            		<?php if(strcmp($user[0], "not_found") == 0 && $user['id'] != Auth::user()->id) {?>
+                	<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
+                		{{ csrf_field() }}
+                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+                		<button type="submit" class="btn btn-success">
+                    	    Richiedi amicizia
+                        </button>
+                	</form>
+	                <?php } else { ?>
+	            		<form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
+	                		{{ csrf_field() }}
+	                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+	                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+	                		<button type="submit" class="btn btn-danger">
+	                    	    Annulla richiesta
+	                        </button>
+	                	</form>
+	            	<?php } ?>
+            	</div>
             </div>
         </div>
 		<div class="col-md-8">

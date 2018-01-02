@@ -95,7 +95,51 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- per le richieste d'amicizia-->
+    <script>
+        $('#friend_form_req').on('submit', function(e) {
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+            var post = $(this).attr('method');
 
+            $.ajax({
+                type : post,
+                url : url,
+                data : data,
+                dataTy : 'json',
+                success:function(data) {
+                    console.log(data);
+                    $('#requester').load(document.URL + ' #requester');
+                },
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                },
+            })
+        })
+
+        $('#friend_form_del').on('submit', function(e) {
+            e.preventDefault();
+            var data = $(this).serialize();
+            var url = $(this).attr('action');
+            var post = $(this).attr('method');
+
+            $.ajax({
+                type : post,
+                url : url,
+                data : data,
+                dataTy : 'json',
+                success:function(data) {
+                    console.log(data);
+                    location.reload();
+                },
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                },
+            })
+        })
+    </script>
+    <!-- -->
     <script>
         $('#post_form').on('submit', function(e) {
             e.preventDefault();
@@ -109,11 +153,11 @@
                 data : data,
                 dataTy : 'json',
                 success:function(data) {
-                    console.log(data.body_post);
+                    console.log(data);
                     var post_div = document.createElement('div');
                     var hr = document.createElement('hr');
                     post_div.className = 'panel-body';
-                    if(data.photo == null) {
+                    if(data.photo == 0) {
                         post_div.appendChild(hr);
                         post_div.appendChild(document.createTextNode(data.body));
                     }

@@ -8,6 +8,10 @@ use App\Http\Requests\validations;
 
 class Friend extends Model
 {
+    protected $fillable = [
+        'id_utente1', 'id_utente2', 'type',
+    ];
+
     public static function getFriends($id) {
     	$a = array();
     	$b = array();
@@ -31,9 +35,9 @@ class Friend extends Model
 
         foreach ($friends as $f) {
             if($f == $id_other) {
-                return "find";
+                return "found";
             }
         }
-        return "not_find";
+        return "not_found";
     }
 }

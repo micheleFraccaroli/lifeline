@@ -12,7 +12,7 @@ class PostController extends Controller
     		$post = Post::create([
 	    		'id_user' => $request['your_id'],
 	    		'body' => $request['body_post'],
-	    		'photo' => $request['photo']
+	    		'photo' => '0'
     		]);
     		return response($post);
     	}
