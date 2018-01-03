@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\FriendshipRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifie;
 use App\Friend;
+use App\User;
 
 class FriendController extends Controller
 {
     protected function friendshipRequest(Request $request) {
+    	$news = collect();
+
     	if($request->ajax()) {
     		$friendShip = Friend::create([
     			'id_utente1' => $request['my_id'],
@@ -17,31 +24,13 @@ class FriendController extends Controller
     			'type' => $request['type']
     		]);
 
-    		$news = new Notifie([
-    			'body' => 'Hai una ' . $request['news'],
-    			'type' => $request['news'],
-    			'from_request' => $request['my_id'],
-    			'from_comment' => '0',
-    			'from_post' => '0',
-    			'from_like' => '0',
-    			'id_utente' => $request['other_id'],
-    		]);
-    		$news->save();
+    		$user = Friend::getDataNotification($request['my_id'], $request['other_id']);
+    		//$user = User::find($request['my_id']);
+    		$user->setAttribute('my_id', $request['my_id']);
+    		
+    		$user->notify(new FriendshipRequest());
 
     		return response($friendShip);
-    	}
-    }
-
-    protected function friendshipRequest_Delete(Request $request) {
-    	if($request->ajax()) {
-    		$del_friendShip = new Friend([
-    			'id_utente1' => $request['my_id'],
-    			'id_utente2' => $request['other_id'],
-    			'type' => $request['type']
-    		]);
-
-    		$del_friendShip->save();
-    		return response($del_friendShip);
     	}
     }
 }

@@ -29,18 +29,9 @@
 	                    	    Richiedi amicizia
 	                        </button>
 	                	</form>
-		                <?php } else { ?>
-		            		<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
-		                		{{ csrf_field() }}
-		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
-		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
-		                		<input type="hidden" name="news" value="deleting_request">
-		                		<input type="hidden" name="type" value="4">
-		                		<button type="submit" class="btn btn-danger">
-		                    	    Annulla richiesta
-		                        </button>
-		                	</form>
-		            	<?php } ?>
+		                <?php } else {?>
+		                	<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
+	            		<?php } ?>
 	            	<?php } ?>
             	</div>
             </div>

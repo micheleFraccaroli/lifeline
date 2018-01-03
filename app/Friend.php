@@ -16,14 +16,14 @@ class Friend extends Model
     	$a = array();
     	$b = array();
 
-    	$up = DB::table('friends')->select('id_utente2')->where('id_utente1', $id)->get()->toArray();
+    	$up = DB::table('friends')->select('id_utente2 AS id_utente', 'type')->where('id_utente1', $id)->get()->toArray();
 
     	foreach ($up as $u) {
-    		array_push($a, $u->id_utente2);
+    		array_push($a, $u);
     	}
-    	$down = DB::table('friends')->select('id_utente1')->where('id_utente2', $id)->get();
+    	$down = DB::table('friends')->select('id_utente1 AS id_utente', 'type')->where('id_utente2', $id)->get();
     	foreach ($down as $d) {
-    		array_push($b, $d->id_utente1);
+    		array_push($b, $d);
     	}
 
     	$res = array_merge($a,$b);
@@ -34,10 +34,22 @@ class Friend extends Model
         $friends = self::getFriends($id_logged);
 
         foreach ($friends as $f) {
-            if($f == $id_other) {
-                return "found";
+            if($f->id_utente == $id_other) {
+                if($f->type==0 || $f->type==1) {
+                    return "found";
+                }
+                else {
+                    return "not_found";
+                }
             }
         }
         return "not_found";
+    }
+
+    public static function getDataNotification($my_id, $other_id) {
+        $user = User::find($my_id);
+        $user->id = $other_id;
+
+        return $user;
     }
 }

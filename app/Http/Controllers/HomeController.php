@@ -31,10 +31,14 @@ class HomeController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $tot = array(Auth::user()->id);
+        $array_id_usr = array();
 
         $frn = new Friend;
         $friends = $frn->getFriends(Auth::user()->id);
-        $tot_friend = array_merge($tot, $friends);
+        foreach ($friends as $f) {
+            array_push($array_id_usr, $f->id_utente);
+        }
+        $tot_friend = array_merge($tot, $array_id_usr);
         
         $pst = new Post;
         $totale = collect();

@@ -16,7 +16,7 @@
 
 </head>
 </head>
-<body>
+<body id="principal_body">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -60,6 +60,17 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></span> Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
+                                    <ul class="dropdown-menu">
+                                    <li>
+                                        @foreach(Auth::user()->unreadNotifications as $notification)
+                                            @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
+                                            <!-- <a href="#">{{snake_case(class_basename($notification->type))}}</a> -->
+                                        @endforeach
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
                                 <a href="/contacts">Contatti</a>
                             </li>
                             <li class="dropdown">
@@ -96,165 +107,11 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- per le richieste d'amicizia-->
-    <script>
-        $('#friend_form_req').on('submit', function(e) {
-            e.preventDefault();
-            var data = $(this).serialize();
-            var url = $(this).attr('action');
-            var post = $(this).attr('method');
-
-            $.ajax({
-                type : post,
-                url : url,
-                data : data,
-                dataTy : 'json',
-                success:function(data) {
-                    console.log(data);
-                    $('#requester').load(document.URL + ' #requester');
-                },
-                error: function(xhr){
-                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
-                },
-            })
-        })
-
-        $('#friend_form_del').on('submit', function(e) {
-            e.preventDefault();
-            var data = $(this).serialize();
-            var url = $(this).attr('action');
-            var post = $(this).attr('method');
-            alert(data);
-            alert(url);
-            alert(post);
-
-            $.ajax({
-                type : post,
-                url : url,
-                data : data,
-                dataTy : 'json',
-                success:function(data) {
-                    console.log(data);
-                    location.reload();
-                },
-                error: function(xhr){
-                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
-                },
-            })
-        })
-    </script>
-    <!-- -->
-    <script>
-        $('#post_form').on('submit', function(e) {
-            e.preventDefault();
-            var data = $(this).serialize();
-            var url = $(this).attr('action');
-            var post = $(this).attr('method');
-
-            $.ajax({
-                type : post,
-                url : url,
-                data : data,
-                dataTy : 'json',
-                success:function(data) {
-                    console.log(data);
-                    var post_div = document.createElement('div');
-                    var hr = document.createElement('hr');
-                    post_div.className = 'panel-body';
-                    if(data.photo == 0) {
-                        post_div.appendChild(hr);
-                        post_div.appendChild(document.createTextNode(data.body));
-                    }
-                    else {
-                        //...ci guarderò!
-                    }
-                    document.getElementById('post_page').appendChild(post_div);
-                    document.getElementById('post_form').reset();
-                },
-                error: function(xhr){
-                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
-                },
-            })
-        })
-    </script>
-    
-    <script>
-        $('#form_store_conversation').on('submit', function(e) {
-            e.preventDefault();
-            var data = $(this).serialize();
-            var url = $(this).attr('action');
-            var post = $(this).attr('method');
-
-            $.ajax({
-                type : post,
-                url : url,
-                data : data,
-                dataTy : 'json',
-                success:function(data) {
-                    console.log(data);
-                },
-                error: function(xhr){
-                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
-                },
-            })
-        })
-
-        function add_id_other(id) {
-            document.getElementById('id_other').value = id;
-        }
-    </script>
-
-    <script>
-    // Parte Fracca **************************************************************************
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(document).ready(function(){
-            $("#aggiorna_users").click(function(){
-
-                $.ajax({
-                        method: "POST",
-                        url: "/users/index",
-                        data: "",
-                        dataType: "json",
-                        success: function(data){
-                            console.log(data.response);
-                        },
-                        error: function(xhr){
-                            alert("An error occured: " + xhr.status + " " + xhr.statusText);
-                    },
-
-                });
-
-            });
-        });
-
-        /*La funzione ReadURL viene utilizzata per mostrare l'immagine in anteprima nel form relativo
-        alla creazione del gruppo o per la modifica*/
-        function readURL(input) {
-
-            if (input.files && input.files[0]) {
-            var reader = new FileReader();                 /* vado ad instanziare l'oggetto FileReader */
-
-            reader.onload = function(e) {
-                $("#show_users_pic").attr("src", e.target.result); /* sull' evento onload leggo il contenuto */ 
-                $("input[name*='user_pic_value']").val(e.target.result);
-            }                                                                                               
-
-            reader.readAsDataURL(input.files[0]);  /* ritorna il contenuto del file sotto forma di URL */
-                $("input[name*='user_pic_value']").val(reader.readAsDataURL(input.files[0]));
-            }
-        }
-
-        $("#user_pic").change(function() {
-            readURL(this);
-        });
-
-    </script>
+        
 </body>
 </html>
