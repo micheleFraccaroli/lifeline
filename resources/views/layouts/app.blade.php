@@ -59,13 +59,12 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
-                            <li class="dropdown">
+                            <li class="dropdown" id="notification_div">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></span> Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
                                     <ul class="dropdown-menu">
                                     <li>
                                         @foreach(Auth::user()->unreadNotifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
-                                            <!-- <a href="#">{{snake_case(class_basename($notification->type))}}</a> -->
                                         @endforeach
                                     </li>
                                 </ul>

@@ -32,24 +32,32 @@
 		                <?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] != 0) { ?>
 		                	<form action="{{ URL::to('/friends/resp') }}" method="POST" id="friend_form_resp">
 		                		{{ csrf_field() }}
+		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
 		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
 		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
-		                		
-		                		<!-- ************************************************************ -->
-		                		<select>
-		                			<option value="0">Accetta</option>
-		                			<option value="2">Rifiuta</option>
-		                		</select>
-		                		<!-- ************************************************************ -->
-
-		                		<button type="submit" class="btn btn-success">
-		                    	    Rispondi
+		                		<input type="hidden" id="type_request" name="type" value="">
+		                		<button type="submit" class="btn btn-success" onclick="acceptRequest()">
+		                    	    Accetta
+		                        </button>
+		                        <button type="submit" class="btn btn-success" onclick="rejectRequest()">
+		                    	    Rifiuta
 		                        </button>
 		                	</form>
+
 	                	<?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] == 0) { ?>
 	            			<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
 	            		<?php } else { ?>
 	            			<button type="button" class="btn btn-info" disabled="">Amici</button>
+	            			<!-- <form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
+		                		{{ csrf_field() }}
+		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		<input type="hidden" id="type_request" name="type" value="3">
+		                		<button type="submit" class="btn btn-danger">
+		                    	    Elimina amico
+		                        </button>
+		                	</form> -->
 	            		<?php } ?>
 	            	<?php } ?>
             	</div>

@@ -35,9 +35,18 @@ class FriendController extends Controller
     }
 
     protected function friendshipRespond(Request $request) {
-
     	if($request->ajax()) {
-    		
+    		$resp = Friend::where('id_utente1', $request['other_id'])->where('id_utente2', $request['my_id'])->update(['type' => $request['type']]);
+
+    		return response($resp);
     	}
     }
+
+    // protected function Deletefriendship(Request $request) {
+    // 	if($request->ajax()) {
+    // 		$del = Friend::where('id_utente1', $request['my_id'])->where('id_utente2', $request['other_id'])->update(['type' => $request['type']]);
+
+    // 		return response($del);
+    // 	}
+    // }
 }

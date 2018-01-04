@@ -44,3 +44,10 @@ function readURL(input) {
 $("#user_pic").change(function() {
     readURL(this);
 });
+
+
+$(document).ready(function() {
+    setInterval(function() {
+        $('#notification_div').load(location.href + " #notification_div");
+    }, 5000);
+});
