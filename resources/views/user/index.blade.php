@@ -16,24 +16,44 @@
                 <?php if($user['id'] == Auth::user()->id) { ?>
                 	<a href="/users/update/{{ $user['id'] }}">Update profile</a><br>
             	<?php } ?>
+
             	<div id="requester">
             		<?php if($user['id'] != Auth::user()->id) { ?>
 	            		<?php if(strcmp($user[0], "not_found") == 0) {?>
-	                	<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
-	                		{{ csrf_field() }}
-	                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
-	                		<input type="hidden" name="other_id" value="{{$user['id']}}">
-	                		<input type="hidden" name="news" value="friendship_request">
-	                		<input type="hidden" name="type" value="1">
-	                		<button type="submit" class="btn btn-success">
-	                    	    Richiedi amicizia
-	                        </button>
-	                	</form>
-		                <?php } else {?>
-		                	<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
+		                	<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
+		                		{{ csrf_field() }}
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		<input type="hidden" name="type" value="1">
+		                		<button type="submit" class="btn btn-success">
+		                    	    Richiedi amicizia
+		                        </button>
+		                	</form>
+		                <?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] != 0) { ?>
+		                	<form action="{{ URL::to('/friends/resp') }}" method="POST" id="friend_form_resp">
+		                		{{ csrf_field() }}
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		
+		                		<!-- ************************************************************ -->
+		                		<select>
+		                			<option value="0">Accetta</option>
+		                			<option value="2">Rifiuta</option>
+		                		</select>
+		                		<!-- ************************************************************ -->
+
+		                		<button type="submit" class="btn btn-success">
+		                    	    Rispondi
+		                        </button>
+		                	</form>
+	                	<?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] == 0) { ?>
+	            			<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
+	            		<?php } else { ?>
+	            			<button type="button" class="btn btn-info" disabled="">Amici</button>
 	            		<?php } ?>
 	            	<?php } ?>
             	</div>
+
             </div>
         </div>
 		<div class="col-md-8">
@@ -53,7 +73,7 @@
 		    </div>
 		    <div class="col-md-8">
 		        <div class="panel panel-default"> 
-		        	<?php for($i=1; $i<count($user)-11; $i++) { ?>
+		        	<?php for($i=2; $i<count($user)-11; $i++) { ?>
 		        		<div class="panel-body">
 		        			{{$user[$i]->body }} <br>
 		        			<?php if(!empty($user[$i]->photo)) { ?>

@@ -26,6 +26,8 @@ class UserController extends Controller
         $friends = $frn->getFriends($id); //<--potrebbe tornare utile
         $check = $frn->checkFriendship(Auth::id(), $id);
         $user = $user->merge($check);
+        $type = $frn->checkTypeRequest(Auth::id());
+        $user = $user->merge($type);
 
         $pst = new Post;
         $user_posts = $pst->getPosts($id);

@@ -30,13 +30,25 @@ class Friend extends Model
     	return $res;
     }
 
+    public static function checkTypeRequest($id) {
+        $a = collect();
+        $res = DB::table('friends')->select('id_utente1 AS id_utente', 'type')->where('id_utente2', $id)->where('type',1)->get();
+        if(count($res) == 0) {
+            return 0;
+        }
+        return $res[0]->id_utente;
+    }
+
     public static function checkFriendship($id_logged, $id_other) {
         $friends = self::getFriends($id_logged);
 
         foreach ($friends as $f) {
             if($f->id_utente == $id_other) {
-                if($f->type==0 || $f->type==1) {
+                if($f->type==0) {
                     return "found";
+                }
+                elseif ($f->type==1) {
+                    return "requested";
                 }
                 else {
                     return "not_found";

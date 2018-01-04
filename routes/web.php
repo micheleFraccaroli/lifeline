@@ -34,6 +34,7 @@ Route::post('/posts','PostController@store_post_group');
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::post('/friends/req', 'FriendController@friendshipRequest');
+Route::get('/friends/resp', 'FriendController@friendshipRespond');
 
 //Comments
 Route::get('/comments', 'CommentController@index');

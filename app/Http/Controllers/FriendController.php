@@ -33,4 +33,11 @@ class FriendController extends Controller
     		return response($friendShip);
     	}
     }
+
+    protected function friendshipRespond(Request $request) {
+
+    	if($request->ajax()) {
+    		
+    	}
+    }
 }
