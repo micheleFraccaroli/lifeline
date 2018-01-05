@@ -86,27 +86,6 @@ class DatabaseSeeder extends Seeder
             'body' => 'Questo è il primo post per il secondo gruppo',
             'photo' => '0',
         ]);
-
-
-		
-    	DB::table('notifies')->insert([
-    		'body' => 'Notifica_1',
-    		'type' => 'Richiesta d\'amicizia',
-    		'from_request' => '2',
-    		'from_comment' => NULL,
-    		'from_post' => NULL,
-    		'from_like' => NULL,
-    		'id_utente' => '1',
-    	]);
-    	DB::table('notifies')->insert([
-    		'body' => 'Notifica_2',
-    		'type' => 'Notifica da un mi piace su un post',
-    		'from_request' => NULL,
-    		'from_comment' => '1',
-    		'from_post' => '1',
-    		'from_like' => NULL,
-    		'id_utente' => '2',
-    	]);
         
 
     	foreach (range(1,2) as $index) {

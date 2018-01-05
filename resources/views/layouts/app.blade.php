@@ -104,13 +104,14 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        
+    <div id="scripts">
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
+        <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
+        <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
+        <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
+        <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    </div>
 </body>
 </html>

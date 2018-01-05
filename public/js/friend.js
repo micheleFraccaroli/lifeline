@@ -1,5 +1,6 @@
 $('#friend_form_req').on('submit', function(e) {
     e.preventDefault();
+    alert("request ---->");
     var data = $(this).serialize();
     var url = $(this).attr('action');
     var post = $(this).attr('method');
@@ -11,7 +12,7 @@ $('#friend_form_req').on('submit', function(e) {
         dataTy : 'json',
         success:function(data) {
             console.log(data);
-            $('#requester').load(document.URL + ' #requester');
+            $('#requester').load(location.href + " #requester");
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -21,6 +22,7 @@ $('#friend_form_req').on('submit', function(e) {
 
 $('#friend_form_resp').on('submit', function(e) {
     e.preventDefault();
+    alert("<---- response");
     var data = $(this).serialize();
     var url = $(this).attr('action');
     var post = $(this).attr('method');
@@ -32,7 +34,7 @@ $('#friend_form_resp').on('submit', function(e) {
         dataTy : 'json',
         success:function(data) {
             console.log(data);
-            $('#requester').load(document.URL + ' #requester');
+            $('#requester').load(location.href + " #requester");
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);

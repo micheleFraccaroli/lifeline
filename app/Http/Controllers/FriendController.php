@@ -18,11 +18,11 @@ class FriendController extends Controller
     	$news = collect();
 
     	if($request->ajax()) {
-    		$friendShip = Friend::create([
-    			'id_utente1' => $request['my_id'],
-    			'id_utente2' => $request['other_id'],
-    			'type' => $request['type']
-    		]);
+    		$friendShip = Friend::updateOrCreate(
+    			['id_utente1' => $request['my_id'],
+    			'id_utente2' => $request['other_id']],
+    			['type' => $request['type']]
+    		);
 
     		$user = Friend::getDataNotification($request['my_id'], $request['other_id']);
     		//$user = User::find($request['my_id']);
