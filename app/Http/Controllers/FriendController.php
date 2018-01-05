@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Notifie;
+//use App\Notifie;
 use App\Friend;
 use App\User;
 

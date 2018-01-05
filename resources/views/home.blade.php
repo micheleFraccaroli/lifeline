@@ -55,13 +55,21 @@
             <div class="col-md-8">
                 <div class="panel panel-default">  
                     <?php foreach ($totale as $p) { ?>
-                            <div class="panel-body">
+                            <div class="panel-body" id="posts_div">
                                 {{$p->body}} - <strong>{{$p->name}} {{$p->surname}}</strong><br>
                                 <?php if(!empty($p->photo)) { ?>
                                     <img id="show_group_pic" class = "img-responsive img-circle" src="{{$p->photo}}" height="200" width="200"/>
                                     <span class="custom-file-control"></span>
                                     <input type="hidden" name="group_pic_value"> 
                                 <?php } ?>
+                                <form class="form-horizontal" method="POST" action="{{ URL::to('/home/post') }}" enctype="multipart/form-data" id="like_form">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="id_utente" value="{{$p->id}}">
+                                    <input type="hidden" name="id_utente" value="{{Auth::user()->id}}">
+                                    <button type="submit" class="btn btn">
+                                        Mi piace    
+                                    </button>
+                                </form>
                                 <hr>
                             </div>
                     <?php } ?>

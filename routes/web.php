@@ -48,9 +48,8 @@ Route::post('/conversations/create','ConversationController@create');
 
 Route::get('/conversations/{id}','ConversationController@get_id');
 
-//Notifies
-Route::get('/notifies', 'NotifieController@index');
-Route::get('/notifies/{id}', 'NotifieController@show');
+//Likes
+Route::post('/post/like', 'LikeController@createPostLike');
 
 Auth::routes();
 
