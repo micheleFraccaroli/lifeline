@@ -53,5 +53,5 @@ Route::post('/post/like', 'LikeController@createPostLike');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::post('/home/post','PostController@create');

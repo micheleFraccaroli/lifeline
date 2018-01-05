@@ -41,7 +41,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;
-                        <form class="navbar-form" role="search" action="/search" method="POST">
+                        <!-- <form class="navbar-form" role="search" action="/search" method="POST">
                             {{ csrf_field() }}
                             <div class="input-group add-on">
                                 <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
@@ -49,7 +49,7 @@
                                     <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                 </div>
                             </div>
-                      </form>
+                      </form> -->
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -59,6 +59,15 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                        <form class="navbar-form" role="search" action="/search" method="POST">
+                            {{ csrf_field() }}
+                            <div class="input-group add-on">
+                                <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                      </form>
                             <li class="dropdown" id="notification_div">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></span> Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
                                     <ul class="dropdown-menu">
