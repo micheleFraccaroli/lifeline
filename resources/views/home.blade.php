@@ -62,9 +62,9 @@
                                     <span class="custom-file-control"></span>
                                     <input type="hidden" name="group_pic_value"> 
                                 <?php } ?>
-                                <form class="form-horizontal" method="POST" action="{{ URL::to('/home/post') }}" enctype="multipart/form-data" id="like_form">
+                                <form class="form-horizontal" method="POST" action="{{ URL::to('/post/like') }}" enctype="multipart/form-data" id="like_form">
                                     {{ csrf_field() }}
-                                    <input type="hidden" name="id_utente" value="{{$p->id}}">
+                                    <input type="hidden" name="id_post" value="{{$p->id_post}}">
                                     <input type="hidden" name="id_utente" value="{{Auth::user()->id}}">
                                     <button type="submit" class="btn btn">
                                         Mi piace    

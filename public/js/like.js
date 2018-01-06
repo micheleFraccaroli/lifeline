@@ -12,7 +12,7 @@ $('#like_form').on('submit', function(e) {
         dataTy : 'json',
         success:function(data) {
             console.log(data);
-            $('#posts_div').load(location.href + " #posts_div");
+            //$('#posts_div').load(location.href + " #posts_div");
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);
