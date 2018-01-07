@@ -1,4 +1,4 @@
-$('#friend_form_req').on('submit', function(e) {
+$('#requester').on('submit','#friend_form_req' , function(e) {
     e.preventDefault();
     alert("request ---->");
     var data = $(this).serialize();
@@ -20,9 +20,9 @@ $('#friend_form_req').on('submit', function(e) {
     })
 })
 
-$('#friend_form_resp').on('submit', function(e) {
-    e.preventDefault();
+$('#requester').on('submit','#friend_form_resp' , function(e) {
     alert("<---- response");
+    e.preventDefault();
     var data = $(this).serialize();
     var url = $(this).attr('action');
     var post = $(this).attr('method');
