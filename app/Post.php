@@ -24,7 +24,8 @@ class Post extends Model
     public static function getPosts($id) {
     	$res = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
-            ->select('posts.id as id_post', 'posts.body', 'users.id', 'users.name', 'users.surname')->where('posts.user_id', $id)->orderBy('posts.updated_at', 'desc')->get();
+            ->join('likes', 'posts.id', '=', 'likes.id_post')
+            ->select(DB::raw('posts.id as id_post, posts.body, users.id, users.name, users.surname, count(likes.id_post) as tot_likes'))->where('posts.user_id', $id)->groupBy('posts.id')->orderBy('posts.updated_at', 'desc')->get();
     	return $res;
     }
 

@@ -8,6 +8,7 @@ use App\Http\Requests\validations;
 use App\Friend;
 use App\Post;
 use App\User;
+use App\Like;
 use Auth;
 
 class HomeController extends Controller
@@ -41,9 +42,20 @@ class HomeController extends Controller
         $tot_friend = array_merge($tot, $array_id_usr);
         
         $pst = new Post;
+        $lks = new Like;
+
         $totale = collect();
         foreach ($tot_friend as $t) {
             $posts = $pst->getPosts($t);
+            $i=0;
+            foreach($posts as $p) {
+                $users_like = $lks->getUserLike($p->id_post);
+                foreach ($users_like as $ul) {
+                    $ext = "id_like" . $i;
+                    $p->$ext = $ul->id;
+                    $i++;   
+                }
+            }
             $totale = $totale->merge($posts);
         }
         

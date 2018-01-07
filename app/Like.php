@@ -15,4 +15,8 @@ class Like extends Model
     public static function getuserId($id) {
     	return DB::table('users')->select('id','name','surname')->where('id', $id)->get();
     }
+
+    public static function getUserLike($id) {
+    	return DB::table('likes')->join('users', 'likes.id_utente', '=', 'users.id')->select('users.id', 'users.name', 'users.surname')->where('id_post', $id)->get();
+    }
 }
