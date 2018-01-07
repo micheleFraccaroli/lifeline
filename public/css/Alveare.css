@@ -105,6 +105,7 @@ body {													/* Corpo della pagina */
 	z-index: 9;
 	margin: 0;
 	padding: 0;
+	bottom: -40;
 }
 
 #nomi {
@@ -115,6 +116,25 @@ body {													/* Corpo della pagina */
 	right: 0;
 	top: 10;
 	z-index: 10;
+}
+
+.btn {
+	height: 25px !important;
+	padding: 2 !important;
+	margin: 0 !important;
+	display: inline;
+}
+
+.chatt {
+	height: 40px;
+	width: 40px;
+	position: absolute;
+	background-color: #444;
+	bottom: -40;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	display: inline;
 }
 /*
 .navbar {
