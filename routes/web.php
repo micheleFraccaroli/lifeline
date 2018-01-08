@@ -54,6 +54,9 @@ Route::post('/post/dislike', 'LikeController@deletePostLike');
 //Posts
 Route::get('/post/{id}', 'PostController@show');
 
+//Messages
+Route::post('/contacts/create', 'MessageController@create');
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');

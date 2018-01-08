@@ -19,9 +19,31 @@
 
         $('#text').keyup(function(e) {
             var code=e.keyCode;
-            var txt=$('#text').val();
+            var txt = $('#text').val();           
+             //alert(txt);
+            //fai ajax qui per creare i messaggi da salvare nel db
 
-            if(code==13 && !e.shiftKey){$('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+txt+'</span>').appendTo(boxActive);$('#text').val('');}
+
+            if(code==13 && !e.shiftKey){
+                $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
+                var data = "mess=" + txt;
+                var url = location.href + "/create";
+                var method = "post";
+                alert(data);
+                alert(url);
+                alert(method);
+
+                $.ajax({
+                    type : method,
+                    url : url,
+                    data : data,
+                    dataTy : 'json',
+                    success:function(data) {
+                        console.log(data);
+                        alert("Messaggio creato (spero)");
+                    }
+                });
+            }
         });
     });
     function crea(text) {
