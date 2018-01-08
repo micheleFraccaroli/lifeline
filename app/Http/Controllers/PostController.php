@@ -12,6 +12,7 @@ class PostController extends Controller
     protected function create(Request $request) {
     	if($request->ajax()) {
     		$post = Post::create([
+                'group_id' => null,
 	    		'user_id' => $request['your_id'],
 	    		'body' => $request['body_post'],
 	    		'photo' => '0'
@@ -100,6 +101,7 @@ class PostController extends Controller
     }
 
 
+
     public function destroy($id,Request $request)
     {
         if($request->ajax()){
@@ -109,5 +111,15 @@ class PostController extends Controller
             return Response()->json(['success'=>'eliminato']);
 
         }
+    }
+}
+
+    public function show($id) {
+        $post = Post::find($id);
+        $user = Post::find($id)->user;
+        $post->name = $user->name;
+        $post->surname = $user->surname;
+
+        return view('post.post', compact('post'));
     }
 }

@@ -48,27 +48,68 @@
             </div>
         </div>
     </div>
-    <?php if(!empty($totale)) { ?>
-        <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-8">
-                <div class="panel panel-default">  
-                    <?php foreach ($totale as $p) { ?>
-                            <div class="panel-body">
+    <div id="like_div">
+        <?php if(!empty($totale)) { ?>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    <div class="panel panel-default">  
+                        
+                        <?php foreach ($totale as $p) { ?>
+                            <div class="panel-body" id="posts_div">
                                 {{$p->body}} - <strong>{{$p->name}} {{$p->surname}}</strong><br>
                                 <?php if(!empty($p->photo)) { ?>
                                     <img id="show_group_pic" class = "img-responsive img-circle" src="{{$p->photo}}" height="200" width="200"/>
                                     <span class="custom-file-control"></span>
                                     <input type="hidden" name="group_pic_value"> 
                                 <?php } ?>
+
+                                
+                                    <?php if($p->tot_likes != 0) {
+                                        for ($i=0; $i < $p->tot_likes; $i++) { 
+                                            $ext = "id_like" . $i;
+                                            if(isset($p->$ext) && $p->$ext == Auth::user()->id) { ?>
+                                                <form method="POST" action="{{ URL::to('/post/dislike') }}" class="like_form">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="id_post" value="{{$p->id_post}}">
+                                                    <input type="hidden" name="id_utente" value="{{Auth::user()->id}}">
+                                                    <button type="submit" class="btn btn-warning">
+                                                        Ti piace    
+                                                    </button>
+                                                </form>
+                                            <?php break; } else { ?>
+                                            <form method="POST" action="{{ URL::to('/post/like') }}" class="like_form">
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="id_post" value="{{$p->id_post}}">
+                                                <input type="hidden" name="id_utente" value="{{Auth::user()->id}}">
+                                                <button type="submit" class="btn btn">
+                                                    Mi piace    
+                                                </button>
+                                            </form>
+                                            <?php break; } ?>
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <form method="POST" action="{{ URL::to('/post/like') }}" class="like_form">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="id_post" value="{{$p->id_post}}">
+                                            <input type="hidden" name="id_utente" value="{{Auth::user()->id}}">
+                                            <button type="submit" class="btn btn">
+                                                Mi piace    
+                                            </button>
+                                        </form>
+                                    <?php } ?>
+                                    <span class="badge">{{$p->tot_likes}}</span>
+                                
                                 <hr>
                             </div>
-                    <?php } ?>
+                        <?php } ?>
+
+                    </div>
                 </div>
             </div>
-        </div>
-    <?php } ?>
+        <?php } ?>
+    </div>
 </div>
 
 <div class="container">

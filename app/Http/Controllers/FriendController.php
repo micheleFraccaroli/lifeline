@@ -2,39 +2,53 @@
 
 namespace App\Http\Controllers;
 
+use App\Notifications\FriendshipRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Notifie;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Auth;
 use App\Friend;
+use App\User;
 
 class FriendController extends Controller
 {
     protected function friendshipRequest(Request $request) {
-    	if($request->ajax()) {
-    		$friendShip = Friend::create([
-    			'id_utente1' => $request['my_id'],
-    			'id_utente2' => $request['other_id'],
-    			'type' => 1
-    		]);
+    	$news = collect();
 
-    		$news = new Notifie([
-    			'body' => 'Hai una richiesta di amicizia',
-    			'type' => 'Richiesta di amicizia',
-    			'from_request' => $request['my_id'],
-    			'from_comment' => '0',
-    			'from_post' => '0',
-    			'from_like' => '0',
-    			'id_utente' => $request['other_id'],
-    		]);
-    		$news->save();
+    	if($request->ajax()) {
+    		$friendShip = Friend::updateOrCreate(
+    			['id_utente1' => $request['my_id'],
+    			'id_utente2' => $request['other_id']],
+    			['type' => $request['type']]
+    		);
+
+    		//$user = Friend::getDataNotification($request['my_id'], $request['other_id']);
+    		$user = User::find($request['my_id']);
+            $user->id = $request['other_id'];
+    		$user->setAttribute('my_id', $request['my_id']);
+    		
+    		$user->notify(new FriendshipRequest());
 
     		return response($friendShip);
     	}
     }
 
-    protected function friendshipRequest_Delete(Request $request) {
+    protected function friendshipRespond(Request $request) {
     	if($request->ajax()) {
-    		$del = Friend::where('id_utente1', $request['my_id'])->where('id_utente2', $request['other_id'])->delete();
+    		$resp = Friend::where('id_utente1', $request['other_id'])->where('id_utente2', $request['my_id'])->update(['type' => $request['type']]);
+
+    		return response($resp);
+    	}
+    }
+
+    protected function Deletefriendship(Request $request) {
+    	if($request->ajax()) {
+    		$del = Friend::where('id_utente1', $request['my_id'])->where('id_utente2', $request['other_id'])->update(['type' => $request['type']]);
+    		if($del == 0) {
+    			$del = Friend::where('id_utente1', $request['other_id'])->where('id_utente2', $request['my_id'])->update(['type' => $request['type']]);	
+    		}
+
     		return response($del);
     	}
     }

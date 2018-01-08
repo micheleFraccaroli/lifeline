@@ -36,7 +36,8 @@ Route::delete('/posts/{id}','PostController@destroy');
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::post('/friends/req', 'FriendController@friendshipRequest');
-Route::post('/friends/del', 'FriendController@friendshipRequest_Delete');
+Route::post('/friends/resp', 'FriendController@friendshipRespond');
+Route::post('/friends/del', 'FriendController@Deletefriendship');
 
 //Comments
 Route::get('/comments', 'CommentController@index');
@@ -46,14 +47,16 @@ Route::post('/comments','CommentController@store');
 //Conversations
 Route::get('/conversations','ConversationController@index');
 Route::post('/conversations/create','ConversationController@create');
-
 Route::get('/conversations/{id}','ConversationController@get_id');
 
-//Notifies
-Route::get('/notifies', 'NotifieController@index');
-Route::get('/notifies/{id}', 'NotifieController@show');
+//Likes
+Route::post('/post/like', 'LikeController@createPostLike');
+Route::post('/post/dislike', 'LikeController@deletePostLike');
+
+//Posts
+Route::get('/post/{id}', 'PostController@show');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::post('/home/post','PostController@create');
