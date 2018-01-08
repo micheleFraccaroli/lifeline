@@ -1,9 +1,8 @@
-$(".like_form").on('submit', function(e) {
+$("#like_div").on('submit', ".like_form" , function(e) {
     e.preventDefault();
     var data = $(this).serialize();
     var url = $(this).attr('action');
     var post = $(this).attr('method');
-    alert(data);
 
     $.ajax({
         type : post,
@@ -12,7 +11,7 @@ $(".like_form").on('submit', function(e) {
         dataTy : 'json',
         success:function(data) {
             console.log(data);
-            $('.like_form').load(location.href + " .like_form");
+            $('#like_div').load(location.href + " #like_div");
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);

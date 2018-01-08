@@ -48,7 +48,7 @@
 	            			<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
 	            		<?php } else { ?>
 	            			<button type="button" class="btn btn-info" disabled="">Amici</button>
-	            			<!-- <form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
+	            			<form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
 		                		{{ csrf_field() }}
 		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
 		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
@@ -57,7 +57,7 @@
 		                		<button type="submit" class="btn btn-danger">
 		                    	    Elimina amico
 		                        </button>
-		                	</form> -->
+		                	</form> 
 	            		<?php } ?>
 	            	<?php } ?>
             	</div>

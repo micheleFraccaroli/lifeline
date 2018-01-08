@@ -8,6 +8,7 @@ use App\Notifications\LikeNotification;
 use Auth;
 use App\User;
 use App\Like;
+use App\Post;
 
 class LikeController extends Controller
 {
@@ -18,12 +19,21 @@ class LikeController extends Controller
     			'id_commento' => null,
     			'id_utente' => $request['id_utente']
     		]);
-    		/*
-    		$news = Like::getUserId($request['id_utente']);
-    		$news->setAttribute('id_post', $request['id_post']);
+    		
+    		$user = User::find($request['id_utente']);
+    		$news = Post::find($request['id_post'])->user;
+    		$news->name = $user->name;
+    		$news->surname = $user->surname;
+    		$news->id_post = $request['id_post'];
     		$news->notify(new LikeNotification());
-			*/
+			
     		return response($like);
+    	}
+    }
+
+    protected function deletePostLike(Request $request) {
+    	if($request->ajax()) {
+    		return Like::where('id_post', $request['id_post'])->where('id_commento', null)->where('id_utente', $request['id_utente'])->delete();
     	}
     }
 }

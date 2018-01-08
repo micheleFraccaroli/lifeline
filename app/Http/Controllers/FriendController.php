@@ -5,10 +5,9 @@ namespace App\Http\Controllers;
 use App\Notifications\FriendshipRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Auth;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-//use App\Notifie;
+use Auth;
 use App\Friend;
 use App\User;
 
@@ -24,8 +23,9 @@ class FriendController extends Controller
     			['type' => $request['type']]
     		);
 
-    		$user = Friend::getDataNotification($request['my_id'], $request['other_id']);
-    		//$user = User::find($request['my_id']);
+    		//$user = Friend::getDataNotification($request['my_id'], $request['other_id']);
+    		$user = User::find($request['my_id']);
+            $user->id = $request['other_id'];
     		$user->setAttribute('my_id', $request['my_id']);
     		
     		$user->notify(new FriendshipRequest());
@@ -42,11 +42,14 @@ class FriendController extends Controller
     	}
     }
 
-    // protected function Deletefriendship(Request $request) {
-    // 	if($request->ajax()) {
-    // 		$del = Friend::where('id_utente1', $request['my_id'])->where('id_utente2', $request['other_id'])->update(['type' => $request['type']]);
+    protected function Deletefriendship(Request $request) {
+    	if($request->ajax()) {
+    		$del = Friend::where('id_utente1', $request['my_id'])->where('id_utente2', $request['other_id'])->update(['type' => $request['type']]);
+    		if($del == 0) {
+    			$del = Friend::where('id_utente1', $request['other_id'])->where('id_utente2', $request['my_id'])->update(['type' => $request['type']]);	
+    		}
 
-    // 		return response($del);
-    // 	}
-    // }
+    		return response($del);
+    	}
+    }
 }

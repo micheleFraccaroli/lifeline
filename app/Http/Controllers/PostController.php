@@ -74,4 +74,13 @@ class PostController extends Controller
         }
 
     }
+
+    public function show($id) {
+        $post = Post::find($id);
+        $user = Post::find($id)->user;
+        $post->name = $user->name;
+        $post->surname = $user->surname;
+
+        return view('post.post', compact('post'));
+    }
 }

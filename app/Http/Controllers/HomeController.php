@@ -49,10 +49,12 @@ class HomeController extends Controller
             $posts = $pst->getPosts($t);
             $i=0;
             foreach($posts as $p) {
-                $users_like = $lks->getUserLike($p->id_post);
+                //$users_like = $lks->getUserLike($p->id_post);
+                $users_like = $lks->getLikeForPost($p->id_post);
+                $p->tot_likes = count($users_like);
                 foreach ($users_like as $ul) {
                     $ext = "id_like" . $i;
-                    $p->$ext = $ul->id;
+                    $p->$ext = $ul->id_utente;
                     $i++;   
                 }
             }

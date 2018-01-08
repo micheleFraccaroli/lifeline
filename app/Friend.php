@@ -57,11 +57,4 @@ class Friend extends Model
         }
         return "not_found";
     }
-
-    public static function getDataNotification($my_id, $other_id) {
-        $user = User::find($my_id);
-        $user->id = $other_id;
-
-        return $user;
-    }
 }
