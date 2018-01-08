@@ -13,17 +13,17 @@ class CreateTableGroupUser extends Migration
      */
     public function up()
     {
-        Schema::create('groups_users', function (Blueprint $table) {
-            $table->integer('id_gruppo')->unsigned();
-            $table->integer('id_utente')->unsigned();
+        Schema::create('group_user', function (Blueprint $table) {
+            $table->integer('group_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
 
-        Schema::table('groups_users', function (Blueprint $table) {
-            $table->foreign('id_gruppo')
+        Schema::table('group_user', function (Blueprint $table) {
+            $table->foreign('group_id')
                   ->references('id')->on('groups')
                   ->onUpdate('cascade');
-            $table->foreign('id_utente')
+            $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onUpdate('cascade');
         });

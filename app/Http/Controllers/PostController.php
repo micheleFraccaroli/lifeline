@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Comment;
@@ -26,12 +27,31 @@ class PostController extends Controller
 
             $id = $request->input('id');
 
+            $last = $request->input('last');
+
             $user = array();
 
             $comments = Post::find($id)->comments;
 
-            foreach ($comments as $comment) {
-                $user[] = Comment::find($comment->id)->user;
+            if ($last==0) {
+
+                foreach ($comments as $comment) {
+
+                    $user[] = Comment::find($comment->id)->user;
+
+                }
+
+            }else{
+
+
+                $comments = Post::find($id)->comments->where('id','>',$last);
+
+                foreach ($comments as $comment) {
+
+                    $user[] = Comment::find($comment->id)->user;
+
+                }
+
             }
 
             return Response()->json(['comments'=>$comments,'user'=>$user]);
@@ -47,31 +67,47 @@ class PostController extends Controller
 
             $post = new Post;
 
-            $user_id = $request->input('user_id');
             $group_id = $request->input('group_id');
-            $body = $request->input('body');
+            $body = $request->input('body_post_group');
 
-            $post->user_id = $user_id;
+            $post->user_id = Auth::id();
             $post->group_id = $group_id;
             $post->body = $body;
 
-            if ($request->input('photo')!= "") {
+            if ($request->hasFile('post_pic_group')) {
                 
-                //do something...
+                $path = $request->file('post_pic_group')->store('public');
+
+                $url = Storage::url($path);
+
+                $asset = asset($url);
+
+                $post->photo = $url;
 
             }else{
 
-                $post->photo = 0;
+                $asset = "";
             }
 
-            $post->save();
+                $post->save();
 
-            $user = Post::find($user_id)->user;
+                $user = Auth::user();
             
-            return Response()->json(['post'=>$post,'user'=>$user]);
+                return Response()->json(['post'=>$post,'user'=>$user,'asset'=>$asset]);
 
         }
 
     }
->>>>>>> develop
+
+
+    public function destroy($id,Request $request)
+    {
+        if($request->ajax()){
+
+            POST::destroy($id);
+
+            return Response()->json(['success'=>'eliminato']);
+
+        }
+    }
 }

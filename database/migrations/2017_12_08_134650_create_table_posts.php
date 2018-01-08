@@ -18,14 +18,15 @@ class CreateTablePosts extends Migration
             $table->integer('group_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
             $table->string('body');
-            $table->binary('photo');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
 
         Schema::table('posts', function (Blueprint $table) {
             $table->foreign('group_id')
                   ->references('id')->on('groups')
-                  ->onUpdate('cascade');
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
 
             $table->foreign('user_id')
                   ->references('id')->on('users')

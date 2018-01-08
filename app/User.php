@@ -32,4 +32,38 @@ class User extends Authenticatable
     public static function get_contact($id) {
         return DB::table('users')->select('id', 'name', 'surname')->where('id', '<>', $id)->get();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*****Geme 03/01/2018*****/
+    /*Ritorna tutti i gruppi a cui un utente è iscritto*/
+
+    public function groups(){
+
+        return $this->belongsToMany('App\Group');
+    }
 }

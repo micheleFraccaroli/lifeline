@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 use App\Comment;
@@ -40,16 +40,16 @@ class CommentController extends Controller
             
             $comment = new Comment;
 
-            $user_id = $request->input('user_id');
             $post_id = $request->input('post_id');
             $body = $request->input('body');
 
-            $comment->user_id = $user_id;
+            $comment->user_id = Auth::id();
             $comment->post_id = $post_id;
             $comment->body = $body;
             $comment->save();
+            $user = Auth::user();
 
-            return Response()->json($comment);
+            return Response()->json(['comment'=>$comment,'user'=>$user]);
 
         }
     }

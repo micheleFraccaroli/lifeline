@@ -2,12 +2,12 @@
 @section('content')
 <div class = "row">
 	<div class ="col-sm-6 col-md-offset-3">	
-		<form id="new_post_group" action="#">
-			<div class='form-group'>
+		<form id="<?php echo "new_post_group_{$id}" ?>" action="#" enctype="multipart/form-data">
+			<div class="form-group">
 				<div>
-    				<input type='text' class='form-control' id='body_post_group' placeholder='Scrivi qualcosa di nuovo...'>
+    				<input type='text' class='form-control' name='body_post_group' id='body_post_group' placeholder='Scrivi qualcosa di nuovo...'>
 					<br>
-					<input type="file" id="post_pic"/>
+					<input type="file" name="post_pic_group" id="post_pic_group"/>
     			</div>
     			<br><button type='submit' class='btn btn-info btn-block'>Pubblica</button>
     		</div>
@@ -16,34 +16,98 @@
 </div>
 <hr>
 <div class = "row">
-	<div class ="col-sm-6 col-md-offset-3">	
-		<div class="alert alert-info" id="all_groups">
-			<div id="new_post">
 
-			</div>
+	<!-- mostra i gruppi a cui NON sei ancora iscritto -->
+
+	<div class ="col-sm-3">
+		<div class="alert alert-info">
+			<?php echo "<B>Potrebbero interessarti i seguenti gruppi</B><br><br>";?>
+			<?php foreach ($other_groups as $other_group){?>
+				<img class = "img-responsive img-circle" src="<?php echo asset($other_group->image)?>" height="50" width="50"/>
+				<?php echo $other_group->name."<br>";?>
+				<br>
+				<button type='button' class='btn btn-info btn-block btn-sm'>Iscriviti</button><hr>
+			<?php } ?>
+		</div>
+	</div>	
+
+	<!-- mostra i post pubblicati sul gruppo -->
+
+	<div class ="col-sm-6">	
+		<div class="alert alert-info" id="all_groups">
+			<div id="append_new_posts">
 			<?php 
 				foreach ($all_posts as $post){
-					echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha scritto:<br>";
-					echo $post->body."<br><br>";
-					echo  "<button class='btn btn-info' type='button' data-toggle='collapse' data-target='#collapse_{$post->id}' aria-expanded='false' aria-controls='collapse_{$post->id}'>
-    						Mostra commenti
+					echo "<div id='post_{$post->id}'>";
+					if ($post->photo != NULL) {
+						echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha pubblicato una foto:<br>";
+						echo $post->body."<br><br>";
+						echo "<img src='".asset($post->photo)."' height='200' width='200'/><br><br>";
+
+					}else{
+
+						echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha scritto:<br>";
+						echo $post->body."<br><br>";
+
+					}
+
+					echo" <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>";
+					echo " <div class='btn-group mr-2' role='group' aria-label='First group'>";
+
+					echo  "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_{$post->id}'>
+    						Show comments
+  						  </button>";	
+  					echo  "<button class='btn btn-info btn-sm' type='button'>
+    						Like
   						  </button>";
+  					if ($user[$post->id]->id == Auth::id()) { 						
+  					  		
+			?>
+						<button type='button' class='btn btn-info btn-sm' name="delete" id='<?php echo "modal_{$post->id}"; ?>'>
+    						Delete post
+						</button>
+  			<?php 
+  			}
+  					echo "</div></div>";
   			?>
+
   			<?php
-  					echo"<div class='collapse' id='collapse_{$post->id}'>
-  							<div class='card card-body'>
-  								<br>
+  				echo"<div class='collapse' id='collapse_{$post->id}'>
+  						<div id='new_comment_{$post->id}'>
+  						</div>
+  						<div class='card card-body'>
+  							<br>
 								<div class='form-group'>
     								<input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_{$post->id}'>
   								</div>
-  								<form id='Post_group_{$post->id}' action='#'>
-  								<button type='submit' class='btn btn-info btn-block'>Rispondi</button>
+  								<form action='#'>
+  									<button type='submit' class='btn btn-info btn-block btn-sm' name='answer' id='Post_group_{$post->id}'>Rispondi</button>
   								</form>
-  							</div>
-						</div><hr>";
+  						</div>
+					</div>
+				<hr>
+			</div>";
+			}
+			?>
+				@include('layouts.modal_groups')
+			</div>
+		</div>
+	</div>
+
+	<!-- utenti appartenenti al gruppo -->
+
+	<div class ="col-sm-3">
+		<div class="alert alert-info">
+			<?php echo "<B>Utenti iscritti al gruppo</B><br>";?>
+			<?php
+				foreach ($group->users as $user) {
+					echo "<img class = 'img-responsive img-circle' src='' height='50' width='50'/><br>";
+					echo $user->name." ".$user->surname."<br><br>";
+					echo "<button type='button' class='btn btn-info btn-block btn-sm'>Visualizza profilo</button><hr>";
 				}
 			?>
 		</div>
-	</div>
+	</div>	
+
 </div>
 @endsection

@@ -15,4 +15,12 @@ class Group extends Model
 
 	   } 
 
+
+	   /*ritorno tutti gli utenti iscritti al gruppo*/
+
+	   public function users(){
+
+	   		return $this->belongsToMany('App\User');
+	   }
+
 }

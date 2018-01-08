@@ -38,9 +38,11 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
+    /*ricavo tutti i commenti appartenenti ad un determinato post*/
+
     public function comments(){
 
-        return $this->hasMany('App\Comment');
+        return $this->hasMany('App\Comment')->orderBy('created_at','asc');
     }
 
 }

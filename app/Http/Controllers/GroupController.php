@@ -1,17 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\validations;
+use Illuminate\Support\Facades\Storage;
 use App\Group;
 use App\Post;
 use App\Comment;
+use App\User;
 
 class GroupController extends Controller
 {
 		/*mostra tutti i gruppi a cui un utente non è ancora iscritto*/
+
     	public function index(Request $request){
 
     		if ($request->ajax()) {
@@ -34,7 +37,9 @@ class GroupController extends Controller
 
 		}
 
-		/*mostra tutti i post presenti all'interno di un gruppo*/
+		/*mostra tutti i post presenti e utenti iscritti all'interno di un gruppo
+
+		e i gruppi a cui l'utente NON è ancora iscritto*/
 
 		public function show($id){
 
@@ -44,7 +49,13 @@ class GroupController extends Controller
 				$user[$post->id] = POST::find($post->id)->user;
 			}
 
-			return view('groups.show', compact('all_posts','user'));
+			$group = Group::find($id);
+
+			$user_log = User::find(Auth::id());
+
+			$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->get();
+
+			return view('groups.show', compact('all_posts','user','id','group','other_groups'));
 
 		}
 
@@ -56,15 +67,18 @@ class GroupController extends Controller
 		}
 
 		/*inserisce un nuovo gruppo nel db, prima dell'inserimento viene eseguito 
-		un controllo lato server sui campi inseriti in input*/
+		un controllo lato server sui campi inseriti in input: validations $request*/
 
-		public function store(validations $request){
+		public function store(Request $request){
 
 			$gruppo = new Group;
 
+			$path = $request->file('new_group_pic')->store('public');
+			$url = Storage::url($path);
+
 			$gruppo->name = request('name_group');
 			$gruppo->description = request('description_group');
-			$gruppo->image = request('group_pic_value');
+			$gruppo->image = $url;
 			$gruppo->save();
 
 			return redirect('groups/index');
@@ -82,6 +96,7 @@ class GroupController extends Controller
 
 
 		/*Prende in input le modifiche apportate e le salva nel db*/
+
 		public function update(validations $request, $id){
 
 			$gruppo = Group::find($id);

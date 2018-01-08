@@ -77,110 +77,235 @@ $("#group_pic").change(function() {
 
 /*****Crea un nuovo post all'interno d un gruppo*****/
 
-$("#new_post_group").on('submit',function(e){
+$("[id*='new_post_group']").on('submit',function(e){
 
     e.preventDefault();
 
-    var user_id = 1;            /*estrapolo l'id dell'utente attivo attualmente, per comodità adesso uso il mio*/
-    var group_id = 1;
+    var formData = new FormData();
 
-    var body = $('#body_post_group').val(); /*estrapolo il corpo del post*/
+    var id = $(this).attr('id');
 
-    var photo = $('#post_pic').val();
+    var arr = id.split("_");
+
+    var group_id = arr[arr.length-1];
+
+    formData.append('body_post_group', $('#body_post_group').val());
+
+    formData.append('post_pic_group', $('input[type=file]')[0].files[0]);   
+
+    formData.append('group_id', group_id);
 
     $.ajax({
         type: "POST",
         url: "/posts",
-        data: {user_id:user_id,group_id:group_id,body:body,photo:photo},
+        data: formData,
         datatype: "json",
+        contentType: false,
+        processData: false,
         success: function(data){
 
-            console.log(data);
+                var body;
 
-            var post = "<B>"+data.post.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha scritto:<br>"+data.post.body+"<br><br>";
-            $('#new_post').prepend(post);
-        },
-            error: function(xhr){
-            alert("An error occured: " + xhr.status + " " + xhr.statusText);
-        },
+                if (data.asset.length){
+
+                    body =  "<div id='post_"+data.post.id+"'>"+
+
+                    "<B>"+data.post.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha pubblicato una foto:<br>"+data.post.body+"<br><br>"+"<img src='"+data.post.photo+"' height='200' width='200'/><br><br>"+
+
+                    " <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>"+
+                    " <div class='btn-group mr-2' role='group' aria-label='First group'>"+
+
+                    "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_"+data.post.id+"'>"+
+                            "Show comments"+
+                    "</button>"+   
+                    "<button class='btn btn-info btn-sm' type='button'>"+
+                            "Like"+
+                    "</button>"+
+
+                    "<button type='button' class='btn btn-info btn-sm' name='delete' id='modal_"+data.post.id+"'>"+
+                            "Delete post"+
+                    "</button>"+
+                    
+                    "</div></div>"+
+
+                    "<div class='collapse' id='collapse_"+data.post.id+"'>"+
+                        "<div class='card card-body'>"+
+                            "<br>"+
+                                "<div id='new_comment_"+data.post.id+"'>"+
+                                "</div>"+
+                                "<div class='form-group'>"+
+                                   "<input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_"+data.post.id+"'>"+
+                                "</div>"+
+                                "<form action='#'>"+
+                                    "<button type='submit' class='btn btn-info btn-block' name='answer' id='Post_group_"+data.post.id+"'>Rispondi</button>"+
+                                "</form>"+
+                        "</div>"+
+                    "</div>"+
+                    "<hr>"+
+                    "</div>";
+
+                }else{
+
+                    body =  "<div id='post_"+data.post.id+"'>"+
+
+                    "<B>"+data.post.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha scritto:<br>"+data.post.body+"<br><br>"+
+
+                    " <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>"+
+                    " <div class='btn-group mr-2' role='group' aria-label='First group'>"+
+
+                     "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_"+data.post.id+"'>"+
+                            "Show comments"+
+                    "</button>"+  
+                    "<button class='btn btn-info btn-sm' type='button'>"+
+                            "Like"+
+                    "</button>"+
+
+                    "<button type='button' class='btn btn-info btn-sm' name='delete' id='modal_"+data.post.id+"'>"+
+                            "Delete post"+
+                    "</button>"+
+                    
+                    "</div></div>"+
+
+                    "<div class='collapse' id='collapse_"+data.post.id+"'>"+
+                        "<div class='card card-body'>"+
+                            "<br>"+
+                                "<div id='new_comment_"+data.post.id+"'>"+
+                                "</div>"+
+                                "<div class='form-group'>"+
+                                   "<input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_"+data.post.id+"'>"+
+                                "</div>"+
+                                "<form action='#'>"+
+                                    "<button type='submit' class='btn btn-info btn-block' name='answer' id='Post_group_"+data.post.id+"'>Rispondi</button>"+
+                                "</form>"+
+                        "</div>"+
+                    "</div>"+
+                    "<hr>"+
+                    "</div>";
+                }          
+                        
+            $('#post_pic_group').val("");
+            $('#body_post_group').val("");
+
+            $('#append_new_posts').prepend(body);
+
+    },
+        error: function(xhr){
+        alert("An error occured: " + xhr.status + " " + xhr.statusText);
+    },
 
     });
 
 });
 
-/*****mostra i commenti relativi ad un post*****/
+/******Mostra i commenti relativi ad un post******/
 
-$("[id*='collapse_']").on('shown.bs.collapse', function () {
+function show_details(target){
 
-    var id = $(this).attr('id');
+    var last;
 
-    var post_id = id.slice(9); /*estraggo l'id del post*/
+    var id = target;
 
-    $.ajax({
-        type: "GET",
-        url: "/posts/"+post_id,
-        data: {id:post_id},
-        datatype: "json",
-        success: function(data){
+    var arr = id.split("_");
 
-            if (data.user.length!=0){
+    var post_id = arr[arr.length-1];
 
-                for (i = 0; i < data.user.length; i++) {
+    if ($("[data-target='#collapse_"+post_id+"']").text()=="Hide comments") {
 
-                    var comment = "<br><B>"+data.user[i].name+" "+data.user[i].surname+"</B> ha commentato:<br>"+data.comments[i].body+"<br>";
-                    $('#collapse_'+post_id).prepend(comment);
+        $("[data-target='#collapse_"+post_id+"']").text("Show comments");
 
-                }
-            }
+        $("#collapse_"+post_id+"").collapse('hide');
 
-            /*imposto il testo del bottone a Nascondi commenti*/
+    }else{
 
-            $("[data-target='#collapse_"+post_id+"']").text('Nascondi commenti');
+        n_child = $("#new_comment_"+post_id+"").children().length;
 
-        },
-            error: function(xhr){
-            alert("An error occured: " + xhr.status + " " + xhr.statusText);
-        },
+        if (n_child==0) {
 
-    });
-  
-})
+            $.ajax({
+                type: "GET",
+                url: "/posts/"+post_id,
+                data: {id:post_id,last:0},
+                datatype: "json",
+                success: function(data){
 
-/*****Cambia testo del bottone impostandolo a Mostra commenti*****/
+                    if (data.user.length!=0){
 
-$("[id*='collapse_']").on('hidden.bs.collapse', function () {
+                        for (i = 0; i < data.user.length; i++) {
 
-    var id = $(this).attr('id');
+                            var comment = "<div id="+data.comments[i].id+"><br><B>"+data.comments[i].created_at+" "+data.user[i].name+" "+data.user[i].surname+"</B> ha commentato:<br>"+data.comments[i].body+"<br></div>";
+                            $('#new_comment_'+post_id).append(comment);
 
-    var post_id = id.slice(9); /*estraggo l'id del post*/
+                        }
+                    }
 
-    $("[data-target='#collapse_"+post_id+"']").text('Mostra commenti');
+                    $("[data-target='#collapse_"+post_id+"']").text('Hide comments');
 
-})
+                },
+
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                },
+
+            });
+
+        }else{
+
+            last = $("#new_comment_"+post_id+" div:last-child").attr("id");
+
+            $.ajax({
+                type: "GET",
+                url: "/posts/"+post_id,
+                data: {id:post_id,last:last},
+                datatype: "json",
+                success: function(data){
+
+                    if (data.user.length!=0){
+
+                        for (i = 0; i < data.user.length; i++) {
+
+                            var comment = "<div id="+data.comments[i].id+"><br><B>"+data.comments[i].created_at+" "+data.user[i].name+" "+data.user[i].surname+"</B> ha commentato:<br>"+data.comments[i].body+"<br></div>";
+                            $('#new_comment_'+post_id).append(comment);
+
+                        }
+                    }
+
+                    $("[data-target='#collapse_"+post_id+"']").text('Hide comments');
+
+                },
+
+                error: function(xhr){
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                },
+
+            });
+
+        }
+
+        $("#collapse_"+post_id+"").collapse('show');
+    }
+}
 
 /*****Crea un nuovo commento*****/
 
-$("[id*='Post_group_']").on('submit', function (e) {
+function new_comment(target){
 
-    e.preventDefault();
+    var id = target;
 
-    var id = $(this).attr('id');
+    var arr = id.split("_");
 
-    var post_id = id.slice(11); /*estrapolo l'id del post*/
-
-    var user_id = 1;            /*estrapolo l'id dell'utente attivo attualmente*/
+    var post_id = arr[arr.length-1]; /*estrapolo l'id del post*/
 
     var body = $('#body_comment_'+post_id).val(); /*estrapolo il corpo del commento*/
 
     $.ajax({
         type: "POST",
         url: "/comments",
-        data: {post_id:post_id,user_id:1,body:body},
+        data: {post_id:post_id,body:body},
         datatype: "json",
         success: function(data){
 
-            var comment = "<br><B>Matteo Gemelli</B> ha commentato:<br>"+data.body+"<br>";
-            $('#collapse_'+post_id).prepend(comment);
+            var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
+            $('#new_comment_'+post_id).append(comment);
             $('#body_comment_'+post_id).val("");
 
         },
@@ -190,4 +315,80 @@ $("[id*='Post_group_']").on('submit', function (e) {
 
     });
   
-})
+}
+
+
+/*****Elimina il post pubblicato da un utente*****/
+
+function delete_post(target){
+
+    var id = target;
+
+    var arr = id.split("_");
+
+    var post_id = arr[arr.length-1];
+
+    $.ajax({
+        type: "DELETE",
+        url: "/posts/"+post_id,
+        data: {post_id:post_id},
+        datatype: "json",
+        success: function(data){
+
+            $("#post_"+post_id).remove();
+
+        },
+            error: function(xhr){
+            alert("An error occured: " + xhr.status + " " + xhr.statusText);
+        },
+
+    });
+
+}
+
+/****Gestisce le varie richieste dell'utente*****/
+
+$("#append_new_posts").on('click','button',function (e) {
+
+    e.preventDefault();
+
+    var id = $(this).attr('name');
+
+    switch(id){
+
+        case "answer":
+
+            new_comment($(this).attr('id'));
+
+        break;
+
+        case "like":
+
+            /*do something...*/
+
+        break;
+
+        case "delete":
+
+            $("#myModal").modal("show");
+
+            $("[name='modal_delete']").attr('id',$(this).attr('id'));
+
+
+        break;
+
+        case "modal_delete":
+
+            $("#myModal").modal("hide");
+
+            delete_post($(this).attr('id'));
+
+        break;
+
+        default:
+
+            show_details($(this).attr('data-target'));
+
+    }
+
+});

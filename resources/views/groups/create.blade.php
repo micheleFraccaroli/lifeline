@@ -3,7 +3,7 @@
 @include('layouts.error')
 	<div class = "row">
 		<div class ="col-sm-6 col-md-offset-3">
-			<form method="POST" action="/groups">
+			<form method="POST" action="/groups" enctype="multipart/form-data">
 
 				{{ csrf_field() }}
 
@@ -18,12 +18,11 @@
 				<div class="form-group">
 					<label for="Immagine gruppo">Modifica immagine gruppo</label>
 					<br>
-					<input type="file" id="group_pic"/>
+					<input type="file" name="new_group_pic" id="group_pic"/>
 				</div>
 				<div class="form-group">
-					<img id="show_group_pic" class = "img-responsive img-circle" src="#" height="200" width="200"/>
+					<img id="show_group_pic" class ="img-responsive img-circle" src="#" height="200" width="200"/>
   					<span class="custom-file-control"></span>
-  					<input type="hidden" name="group_pic_value" value="">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary btn-lg btn-block">Crea Gruppo</button>

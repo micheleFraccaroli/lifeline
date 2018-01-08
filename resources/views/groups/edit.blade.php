@@ -3,7 +3,7 @@
 @include('layouts.error')
 	<div class = "row">
 		<div class ="col-sm-6 col-md-offset-3">
-			<form method="POST" action=<?php echo "/groups/{$gruppo->id}" ?>>
+			<form method="POST" action=<?php echo "/groups/{$gruppo->id}" ?> enctype="multipart/form-data">
 
 				{{ csrf_field() }}
 
