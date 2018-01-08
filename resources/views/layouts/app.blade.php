@@ -8,18 +8,24 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="shortcut icon" href="{{asset('/favicon_real.png')}}" type="image/x-icon">
-    <title>Lifeline</title>
+    <title>{{ config('app.name') }}</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <link href="{{ asset('css/Alveare.css') }}" rel="stylesheet">
 
-</head>
+    <link rel="shortcut icon" href="{{asset('/favicon_real.png')}}" type="image/x-icon">
+
 </head>
 <body id="principal_body">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -31,33 +37,25 @@
                     </button>
 
                     <!-- Branding Image -->
+
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name') }}
                     </a>
-                    
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
-                        <!-- <form class="navbar-form" role="search" action="/search" method="POST">
-                            {{ csrf_field() }}
-                            <div class="input-group add-on">
-                                <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                                </div>
-                            </div>
-                      </form> -->
+
+                        <li><a href="{{ route('login') }}" class="navigation">Home</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">Sig In</a></li>
+
                         @else
                         <form class="navbar-form" role="search" action="/search" method="POST">
                             {{ csrf_field() }}
@@ -98,9 +96,11 @@
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
+
                                     <li>
                                         <a href="/users/{{ Auth::user()->id }}">Profile</a>
                                     </li>
+
                                 </ul>
                             </li>
                         @endguest
@@ -114,12 +114,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
     <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </body>
 </html>

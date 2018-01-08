@@ -59,4 +59,5 @@ Route::get('/post/{id}', 'PostController@show');
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::post('/home/post','PostController@create');
