@@ -19,6 +19,7 @@ body {													/* Corpo della pagina */
 
 .navbar {
     background-color: #313131;							/* Navbar */
+    z-index: 1000;
 }
 
 .navbar-brand span,
@@ -82,40 +83,27 @@ body {													/* Corpo della pagina */
 	color: #000000;
 }
 
-#overlay {
-	position: fixed;
-	top: 0;
-	left: 0px;
-	/*width: 100%;
-	height: 100%;
-	background-color: #000;
-	filter:alpha(opacity=50);
-	-moz-opacity: 0.5;
-	-khtml-opacity: 0.5;
-	opacity: 1;*/
-	z-index: 10000;*/
-}
-
-#chat {
+.chat {
 	height: 400px;
 	width: 400px;
-	position: absolute;
+	position: fixed;
 	background-color: #444;
-	right: 0;
 	z-index: 9;
 	margin: 0;
 	padding: 0;
-	bottom: -40;
+	border: 0;
 }
 
-#nomi {
+.nomi {
 	height: 100%;
 	width: 300px;
-	position: absolute;
+	position: fixed;
 	background-color: #888;
-	right: 0;
-	top: 10;
 	z-index: 10;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	top: 50;
 }
 
 .btn {
@@ -135,6 +123,59 @@ body {													/* Corpo della pagina */
 	padding: 0;
 	text-align: center;
 	display: inline;
+}
+
+.chat > div:first-child {
+	background-color: #000080;
+	height: 25px;
+	width: 100%;
+}
+
+#buttons {
+	overflow: hidden;
+	height: 25;
+	width: 100%;
+}
+
+.resizeChat {
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 0;
+	left: 350;
+	margin: 0;
+	padding: 0;
+}
+
+.closeChat {
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	top: 0;
+	left: 375;
+	margin: 0;
+	padding: 0;
+}
+
+.glyphicon-resize-small,
+.glyphicon-remove {
+	font-size: 25px;
+	text-align: center;
+	display: block;
+}
+
+#text {
+	width: 100%;
+	resize: none;
+	border: none;
+	line-height: 30px;
+	font-size: 20px;
+	font-family: 'Times New Roman';
+	color: black;
+	overflow: hidden;
+	position: absolute;
+	bottom: 0;
+	background-color: #818181;
 }
 /*
 .navbar {

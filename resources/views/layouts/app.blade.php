@@ -15,8 +15,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/Alveare.css">
+    
+    <link href="{{ asset('css/Alveare.css') }}" rel="stylesheet">
 
 </head>
 <body>
@@ -87,5 +87,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/chat.js') }}"></script>
 </body>
 </html>
