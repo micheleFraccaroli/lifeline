@@ -10,16 +10,19 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     
     <link href="{{ asset('css/Alveare.css') }}" rel="stylesheet">
 
+    <link rel="shortcut icon" href="{{asset('/favicon_real.png')}}" type="image/x-icon">
+
 </head>
-<body>
+<body id="principal_body">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container-fluid">
@@ -34,14 +37,16 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <div class="navbar-brand font">
-                        <span>{{ config('app.name') }}</span>
-                    </div>
+
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name') }}
+                    </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+
                         <li><a href="{{ route('login') }}" class="navigation">Home</a></li>
                     </ul>
 
@@ -52,6 +57,28 @@
                             <li><a href="{{ route('register') }}" class="navigation">Sig In</a></li>
 
                         @else
+                        <form class="navbar-form" role="search" action="/search" method="POST">
+                            {{ csrf_field() }}
+                            <div class="input-group add-on">
+                                <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                </div>
+                            </div>
+                      </form>
+                            <li class="dropdown" id="notification_div">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></span> Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
+                                    <ul class="dropdown-menu">
+                                    <li>
+                                        @foreach(Auth::user()->unreadNotifications as $notification)
+                                            @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
+                                        @endforeach
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="/contacts">Contatti</a>
+                            </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -59,19 +86,19 @@
 
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="/logout"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
 
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="/logout" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
                                     </li>
 
                                     <li>
-                                        <a href="/users/update/{{ Auth::user()->id }}">Profile</a>
+                                        <a href="/users/{{ Auth::user()->id }}">Profile</a>
                                     </li>
 
                                 </ul>
@@ -87,6 +114,12 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/chat.js') }}"></script>
+    <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
+    <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
 </body>
 </html>

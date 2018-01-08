@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->date('born');
             $table->string('job');
             $table->string('relation');
-            //$table->binary('image');
+            $table->binary('image')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

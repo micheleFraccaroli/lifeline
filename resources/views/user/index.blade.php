@@ -1,164 +1,100 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container" id="container">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel panel-default">
+                <?php if($user['image'] == null) { ?>
+                    <a href="/users/{{ $user['id'] }}"><img src="{{URL::asset('/default-profile-image.png')}}" width="163" height="200"></a>
+                <?php } else { ?>
+                    <a href="/users/{{ $user['id'] }}"><img src="{{asset($user['image'])}}" height="200" width="163"></a>
+                <?php } ?>
+                <hr>
+                {{ $user['name'] }}    
+                {{ $user['surname'] }} <br>
+                <?php if($user['id'] == Auth::user()->id) { ?>
+                	<a href="/users/update/{{ $user['id'] }}">Update profile</a><br>
+            	<?php } ?>
 
-<div class="panel-body">
-    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-        {{ csrf_field() }}
+            	<div id="requester">
+            		<?php if($user['id'] != Auth::user()->id) { ?>
+	            		<?php if(strcmp($user[0], "not_found") == 0) {?>
+		                	<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
+		                		{{ csrf_field() }}
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		<input type="hidden" name="type" value="1">
+		                		<button type="submit" class="btn btn-success">
+		                    	    Richiedi amicizia
+		                        </button>
+		                	</form>
+		                <?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] != 0) { ?>
+		                	<form action="{{ URL::to('/friends/resp') }}" method="POST" id="friend_form_resp">
+		                		{{ csrf_field() }}
+		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		<input type="hidden" id="type_request" name="type" value="">
+		                		<button type="submit" class="btn btn-success" onclick="acceptRequest()">
+		                    	    Accetta
+		                        </button>
+		                        <button type="submit" class="btn btn-success" onclick="rejectRequest()">
+		                    	    Rifiuta
+		                        </button>
+		                	</form>
 
-        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-            <label for="name" class="col-md-4 control-label">Name</label>
+	                	<?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] == 0) { ?>
+	            			<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
+	            		<?php } else { ?>
+	            			<button type="button" class="btn btn-info" disabled="">Amici</button>
+	            			<form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
+		                		{{ csrf_field() }}
+		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		<input type="hidden" id="type_request" name="type" value="3">
+		                		<button type="submit" class="btn btn-danger">
+		                    	    Elimina amico
+		                        </button>
+		                	</form> 
+	            		<?php } ?>
+	            	<?php } ?>
+            	</div>
 
-            <div class="col-md-6">
-                <input id="name" type="text" class="form-control" name="name" value="<?= $user_up->name ?>" required autofocus>
-
-                @if ($errors->has('name'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('name') }}</strong>
-                    </span>
-                @endif
             </div>
         </div>
-
-        <div class="form-group{{ $errors->has('surname') ? ' has-error' : '' }}">
-            <label for="surname" class="col-md-4 control-label">Surname</label>
-
-            <div class="col-md-6">
-                <input id="surname" type="text" class="form-control" name="surname" value="<?= $user_up->surname ?>" required>
-
-                @if ($errors->has('surname'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('surname') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-            <div class="col-md-6">
-                <input id="email" type="email" class="form-control" name="email" value="<?= $user_up->email ?>" required>
-
-                @if ($errors->has('email'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group{{ $errors->has('sex') ? ' has-error' : '' }}">
-            <label for="sex" class="col-md-4 control-label">Sex</label>
-
-            <div class="col-md-6">
-                <select name="sex" id="sex">
-                	<?php 
-                	if($user_up->sex == 'M') {
-                		echo "<option value=\"M\" required autofocus checked>M</option>";
-                		echo "<option value=\"F\" required autofocus>F</option>";
-                	}
-                	else {
-                		echo "<option value=\"F\" required autofocus checked>F</option>";
-                		echo "<option value=\"M\" required autofocus>M</option>";
-                	}
-                	?>
-                </select>
-                @if ($errors->has('sex'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('sex') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group{{ $errors->has('born') ? ' has-error' : '' }}">
-            <label for="born" class="col-md-4 control-label">Born</label>
-
-            <div class="col-md-6">
-                <input id="born" type="date" class="form-control" name="born" value="<?= $user_up->born ?>" required autofocus>
-
-                @if ($errors->has('born'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('born') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group{{ $errors->has('job') ? ' has-error' : '' }}">
-            <label for="job" class="col-md-4 control-label">Job</label>
-
-            <div class="col-md-6">
-                <input id="job" type="text" class="form-control" name="job" value="<?= $user_up->job ?>" required autofocus>
-
-                @if ($errors->has('job'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('job') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group{{ $errors->has('relation') ? ' has-error' : '' }}">
-            <label for="relation" class="col-md-4 control-label">Relation</label>
-
-            <div class="col-md-6">
-                <select name="relation" id="relation">
-                	<?php 
-                		if($user_up->relation == 'Single') {
-                    		echo "<option value=\"Single\" required autofocus>Single</option>";
-                		}
-                		elseif ($user_up->relation == 'Impegnato') {
-                			echo "<option value=\"Impegnato\" required autofocus>Impegnato</option>";
-                		}
-                		elseif ($user_up->relation == 'Sposato') {
-                			echo "<option value=\"Sposato\" required autofocus>Sposato</option>";
-                		}
-                    	elseif ($user_up->relation == 'Ignoto') {
-                    		echo "<option value=\"Ignoto\" required autofocus>Ignoto</option>";
-                    	}
-                	?>
-                  </select>
-
-                @if ($errors->has('relation'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('relation') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-        <!-- password field
-        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-            <label for="password" class="col-md-4 control-label">Password</label>
-
-            <div class="col-md-6">
-                <input id="password" type="password" class="form-control" name="password" value="<?= $user_up->password ?>" required>
-
-                @if ($errors->has('password'))
-                    <span class="help-block">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-            <div class="col-md-6">
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-            </div>
-        </div>
-		-->
-        <div class="form-group"> 
-            <div class="col-md-6 col-md-offset-4">
-                <button type="submit" class="btn btn-primary">
-                    Update
-                </button>
-            </div>
-        </div>
-    </form>
+		<div class="col-md-8">
+	        <div class="panel panel-default"> 
+				{{ $user['name'] }}	
+				{{ $user['surname'] }} <br>
+				{{ $user['sex'] }}		<br>
+				{{ $user['born'] }}	<br>
+				{{ $user['job'] }}		<br>
+				{{ $user['relation'] }}<br>
+			</div>
+		</div>
+	</div>
+	<?php if(count($user) > 11) { ?>
+		<div class="row">
+			<div class="col-md-2">
+		    </div>
+		    <div class="col-md-8">
+		        <div class="panel panel-default"> 
+		        	<?php for($i=2; $i<count($user)-11; $i++) { ?>
+		        		<div class="panel-body">
+		        			{{$user[$i]->body }} <br>
+		        			<?php if(!empty($user[$i]->photo)) { ?>
+			                    <img id="show_group_pic" class = "img-responsive img-circle" src="{{$user[$i]->photo}}" height="200" width="200"/>
+			                    <span class="custom-file-control"></span>
+			                    <input type="hidden" name="group_pic_value"> 
+			                <?php } ?>
+			            </div>
+		        	<?php } ?>
+		        </div>
+		    </div>
+		</div>
+	<?php } ?>
 </div>
 
 @endsection
