@@ -12,7 +12,7 @@
 */
 
 //Users
-Route::get('/contacts', 'UserController@index');
+//Route::get('/contacts', 'UserController@index');
 Route::post('/search', 'UserController@search');
 Route::post('/users/conversation', 'UserController@test_ajax');
 Route::get('/users/update/{id}', 'UserController@edit');
@@ -31,6 +31,7 @@ Route::get('/posts/{id}','PostController@show_comments');
 Route::post('/posts','PostController@store_post_group');
 
 //Friends
+Route::get('/contacts', 'FriendController@show');
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::post('/friends/req', 'FriendController@friendshipRequest');
@@ -53,6 +54,10 @@ Route::post('/post/dislike', 'LikeController@deletePostLike');
 
 //Posts
 Route::get('/post/{id}', 'PostController@show');
+
+//Messages
+Route::post('/contacts/create', 'MessageController@create');
+Route::post('/contacts/message/show', 'MessageController@show');
 
 Auth::routes();
 

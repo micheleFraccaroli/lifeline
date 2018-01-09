@@ -13,17 +13,18 @@
 
 <div class="container nomi" id="overlay">
     <div class="row">
-    <div class ="col-sm-6 col-md-offset-3">
-        <form action="{{ URL::to('/conversations/create') }}" method="POST" id="form_store_conversation">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <input type="hidden" name="user_log" id="id_utente_log" value="<?= Auth::user()->id ?>">
-            <input type="hidden" name="type_conversation" id="tipo" value="1">
-            <input type="hidden" name="id_other" id="id_other" value="">
+        <div class ="col-sm-6 col-md-offset-3">
+            <form action="{{ URL::to('/conversations/create') }}" method="POST" id="form_store_conversation">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="user_log" id="id_utente_log" value="<?= Auth::user()->id ?>">
+                <input type="hidden" name="type_conversation" id="tipo" value="1">
+                <input type="hidden" name="id_other" id="id_other" value="">
+                <input type="hidden" name="id_conversation" id="id_conversation" value="">
 
-            <?php foreach($users as $user) { ?>
-                <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}});crea('{{$user->name}}');">{{$user->name}}</button><br>
-            <?php } ?>  
-        </form>
+                <?php foreach($users as $user) { ?>
+                    <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}});crea('{{$user->name}}','{{$user->id}}');">{{$user->name}}</button><br>
+                <?php } ?>  
+            </form>
+        </div>
     </div>
-</div>
 </div>
