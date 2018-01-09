@@ -11,16 +11,7 @@ class Conversations_user extends Model
         'id_utente', 'id_conversazione',
     ];
 
-    public static function find_conversation($id_utente, $id_conversazione) {
-    	$id_conv = DB::table('conversations_users')->select('id_conversazione')->where('id_utente', $id_utente)->get();
-
-    	if($id_conv != null) {
-    		foreach ($id_conv as $id) {
-    			return DB::table('conversations_users')->select('id_utente', 'id_conversazione')->where('id_utente', $id_conversazione)->get();
-    		}
-		}
-		else {
-			return $id_conv;
-		}
+    public static function find_conversation($id_utente, $id_other) {
+        return DB::select("select id_conversazione from conversations_users as cu1 where exists (select 1 from conversations_users cu2 where cu1.id_utente='$id_utente' and cu2.id_utente='$id_other' and cu1.id_conversazione=cu2.id_conversazione)");
     }
 }
