@@ -35,7 +35,7 @@ class ConversationController extends Controller
                     'tipo' => $request['type_conversation']
                 ]);
                 
-                $id_conv = $c->get_identifier();   
+                $id_conv = $c->get_identifier();  
 
                 $conv_usr_my = new Conversations_user([
                     'id_utente' => $request['user_log'],

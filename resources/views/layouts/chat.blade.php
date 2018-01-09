@@ -22,7 +22,17 @@
                 <input type="hidden" name="id_conversation" id="id_conversation" value="">
 
                 <?php foreach($users as $user) { ?>
-                    <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}});crea('{{$user->name}}','{{$user->id}}');">{{$user->name}}</button><br>
+                    <?php 
+                        //$id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user->id);
+                        $tot = array();
+                        foreach($users as $user) {
+                            $id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user->id);    
+                            if(!empty($id_conv)) {                                                             array_push($tot, $id_conv[0]->id_conversazione);
+                            }                                                                                 
+                        }
+                        dd($tot);
+                    ?>
+                    <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}});crea('{{$user->name}}','{{$user->id}}',{{$id_conv[0]->id_conversazione}});">{{$user->name}}</button><br>
                 <?php } ?>  
             </form>
         </div>
