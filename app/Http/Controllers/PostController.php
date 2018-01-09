@@ -32,9 +32,9 @@ class PostController extends Controller
 
             $user = array();
 
-            $comments = Post::find($id)->comments;
-
             if ($last==0) {
+
+                $comments = Post::find($id)->comments;
 
                 foreach ($comments as $comment) {
 
@@ -44,8 +44,7 @@ class PostController extends Controller
 
             }else{
 
-
-                $comments = Post::find($id)->comments->where('id','>',$last);
+                $comments = Post::find($id)->comments()->where('id','>',$last)->get();
 
                 foreach ($comments as $comment) {
 
@@ -54,6 +53,7 @@ class PostController extends Controller
                 }
 
             }
+
 
             return Response()->json(['comments'=>$comments,'user'=>$user]);
 
@@ -112,7 +112,7 @@ class PostController extends Controller
 
         }
     }
-}
+
 
     public function show($id) {
         $post = Post::find($id);

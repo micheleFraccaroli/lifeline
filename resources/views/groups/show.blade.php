@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+
+<!-- pubblica post -->
+
+<?php  if($access){ ?>
+
 <div class = "row">
 	<div class ="col-sm-6 col-md-offset-3">	
 		<form id="<?php echo "new_post_group_{$id}" ?>" action="#" enctype="multipart/form-data">
@@ -15,6 +20,9 @@
   	</div>
 </div>
 <hr>
+
+<?php }else{echo "iscriviti";} ?>
+
 <div class = "row">
 
 	<!-- mostra i gruppi a cui NON sei ancora iscritto -->
@@ -23,23 +31,39 @@
 		<div class="alert alert-info">
 			<?php echo "<B>Potrebbero interessarti i seguenti gruppi</B><br><br>";?>
 			<?php foreach ($other_groups as $other_group){?>
-				<img class = "img-responsive img-circle" src="<?php echo asset($other_group->image)?>" height="50" width="50"/>
-				<?php echo $other_group->name."<br>";?>
-				<br>
-				<button type='button' class='btn btn-info btn-block btn-sm'>Iscriviti</button><hr>
+
+				<form id="<?php echo "other_{$other_group->id}" ?>" action="#">
+
+					<img class = "img-responsive img-circle" src="<?php echo asset($other_group->image)?>" height="50" width="50"/>
+
+					<?php echo $other_group->name."<br>";?>
+
+					<br>
+
+					<button type='submit' class='btn btn-info btn-block btn-sm'>Iscriviti</button>
+
+					<hr>
+
+				</form>
+
 			<?php } ?>
 		</div>
 	</div>	
+
 
 	<!-- mostra i post pubblicati sul gruppo -->
 
 	<div class ="col-sm-6">	
 		<div class="alert alert-info" id="all_groups">
 			<div id="append_new_posts">
+			<?php  if($access){ ?>
 			<?php 
 				foreach ($all_posts as $post){
+
 					echo "<div id='post_{$post->id}'>";
+
 					if ($post->photo != NULL) {
+
 						echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha pubblicato una foto:<br>";
 						echo $post->body."<br><br>";
 						echo "<img src='".asset($post->photo)."' height='200' width='200'/><br><br>";
@@ -57,9 +81,17 @@
 					echo  "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_{$post->id}'>
     						Show comments
   						  </button>";	
-  					echo  "<button class='btn btn-info btn-sm' type='button'>
-    						Like
-  						  </button>";
+
+  					if ($my_like[$post->id]) {
+
+  						echo  "<button class='btn btn-info btn-sm' type='button' id='like_post_{$post->id}' name='dislike'>Ti piace ".$like[$post->id]."'</button>";
+
+  					}else{
+
+  						echo  "<button class='btn btn-info btn-sm' type='button' id='like_post_{$post->id}' name='like'>Like ".$like[$post->id]."'</button>";
+  					}
+
+
   					if ($user[$post->id]->id == Auth::id()) { 						
   					  		
 			?>
@@ -67,7 +99,9 @@
     						Delete post
 						</button>
   			<?php 
-  			}
+
+  					}
+
   					echo "</div></div>";
   			?>
 
@@ -90,6 +124,7 @@
 			}
 			?>
 				@include('layouts.modal_groups')
+			<?php }else{echo "iscriviti per vedere cosa pubblicano gli altri utenti";} ?>
 			</div>
 		</div>
 	</div>
@@ -110,4 +145,5 @@
 	</div>	
 
 </div>
+
 @endsection

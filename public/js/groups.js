@@ -74,6 +74,36 @@ $("#group_pic").change(function() {
     eadURL(this);
 });
 
+/****Iscrizione ad altri gruppi*****/
+
+$("[id*='other_']").on('submit',function(e){
+
+    e.preventDefault();
+
+    var id = $(this).attr('id');
+
+    var arr = id.split("_");
+
+    var group_id = arr[arr.length-1];
+
+    $.ajax({
+
+        type: "POST",
+        url: "/user/new_group",
+        data: {group_id:group_id},
+        datatype: "json",
+        success: function(data){
+
+            $("#other_"+group_id).remove();
+
+        },
+            error: function(xhr){
+            alert("An error occured: " + xhr.status + " " + xhr.statusText);
+        },
+
+    });
+
+});
 
 /*****Crea un nuovo post all'interno d un gruppo*****/
 
@@ -281,6 +311,8 @@ function show_details(target){
 
         }
 
+        $("[data-target='#collapse_"+post_id+"']").text('Hide comments');
+
         $("#collapse_"+post_id+"").collapse('show');
     }
 }
@@ -303,6 +335,10 @@ function new_comment(target){
         data: {post_id:post_id,body:body},
         datatype: "json",
         success: function(data){
+
+            //$("#collapse_"+post_id).collapse('show');
+
+            //$('#new_comment_'+post_id).load(location.href + ' #new_comment_'+post_id);
 
             var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
             $('#new_comment_'+post_id).append(comment);
@@ -334,9 +370,8 @@ function delete_post(target){
         data: {post_id:post_id},
         datatype: "json",
         success: function(data){
-
+            
             $("#post_"+post_id).remove();
-
         },
             error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -345,6 +380,56 @@ function delete_post(target){
     });
 
 }
+
+
+
+
+/*****Gestione dei like*****/
+
+function like_post(target) {
+
+    var id = target;
+
+    var arr = id.split("_");
+
+    var post_id = arr[arr.length-1];
+
+    $.ajax({
+        type : "POST",
+        url : "/post/like",
+        data : {id_post:post_id},
+        dataTy : 'json',
+        success:function(data) {
+            $('#append_new_posts').load(location.href + " #append_new_posts");
+        },
+        error: function(xhr){
+            alert("An error occured: " + xhr.status + " " + xhr.statusText);
+        },
+    })
+}
+
+function delete_like(target) {
+
+    var id = target;
+
+    var arr = id.split("_");
+
+    var post_id = arr[arr.length-1];
+
+    $.ajax({
+        type : "POST",
+        url : "/post/dislike",
+        data : {id_post:post_id},
+        dataTy : 'json',
+        success:function(data) {
+            $('#append_new_posts').load(location.href + " #append_new_posts");
+        },
+        error: function(xhr){
+            alert("An error occured: " + xhr.status + " " + xhr.statusText);
+        },
+    })
+}
+
 
 /****Gestisce le varie richieste dell'utente*****/
 
@@ -364,7 +449,13 @@ $("#append_new_posts").on('click','button',function (e) {
 
         case "like":
 
-            /*do something...*/
+            like_post($(this).attr('id'));
+
+        break;
+
+        case "dislike":
+
+            delete_like($(this).attr('id'));
 
         break;
 

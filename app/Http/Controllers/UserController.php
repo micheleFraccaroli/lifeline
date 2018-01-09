@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\ImageOptimizer\OptimizerChainFactory; //<- penso non serva
 use App\User;
 use App\Post;
 use App\Friend;
 use Auth;
+use App\Group_user;
 
 class UserController extends Controller
 {
@@ -96,5 +98,15 @@ class UserController extends Controller
         $user_update->save();
 
         return redirect()->action('UserController@show', ['id' => $user_update->id]);
+    }
+
+    public function subscribe_new_group(Request $request){
+
+        $group_id = $request->input('group_id');
+
+        DB::table('group_user')->insert(
+            ['group_id' => $group_id, 'user_id' => Auth::id()]
+        );
+
     }
 }

@@ -30,6 +30,7 @@ Route::post('/groups/{id}','GroupController@update');
 Route::get('/posts/{id}','PostController@show_comments');
 Route::post('/posts','PostController@store_post_group');
 Route::delete('/posts/{id}','PostController@destroy');
+Route::post('/user/new_group','UserController@subscribe_new_group');
 
 
 //Friends

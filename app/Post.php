@@ -49,4 +49,12 @@ class Post extends Model
         return $this->hasMany('App\Comment')->orderBy('created_at','asc');
     }
 
+
+    /*mostra i like relativi ad un post*/
+
+    public function likes(){
+
+        return $this->hasMany('App\Like','id_post');
+    }
+
 }

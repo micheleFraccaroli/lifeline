@@ -10,6 +10,7 @@ use App\Group;
 use App\Post;
 use App\Comment;
 use App\User;
+use App\Like;
 
 class GroupController extends Controller
 {
@@ -43,19 +44,50 @@ class GroupController extends Controller
 
 		public function show($id){
 
-			$all_posts = Group::find($id)->posts;
-
-			foreach ($all_posts as $post) {
-				$user[$post->id] = POST::find($post->id)->user;
-			}
-
-			$group = Group::find($id);
+			$appartiene = GROUP::find($id)->users()->where('id',Auth::id())->get();
 
 			$user_log = User::find(Auth::id());
 
 			$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->get();
 
-			return view('groups.show', compact('all_posts','user','id','group','other_groups'));
+			$group = Group::find($id);
+
+
+			$access = 1;
+
+			if($appartiene->count()==0){
+
+				$access = 0;
+
+				return view('groups.show', compact('access','other_groups','group'));
+
+			}else{
+
+				$all_posts = Group::find($id)->posts;
+
+				foreach ($all_posts as $post) {
+
+					$user[$post->id] = POST::find($post->id)->user;
+					$like[$post->id] = POST::find($post->id)->likes->count();
+
+					$result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
+
+					if ($result->count()) {
+					
+						$my_like[$post->id] = 1;
+
+					}else{
+
+						$my_like[$post->id] = 0;
+					}
+
+				}
+
+				$group = Group::find($id);
+
+				return view('groups.show', compact('all_posts','user','like','id','group','other_groups','my_like','access'));
+
+			}
 
 		}
 
