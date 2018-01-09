@@ -7,7 +7,7 @@
     </div>
 
     <div id="buttons"></div>
-
+<div id="fracca"></div>
     <textarea id="text" class="scrollabletextbox" rows="2" name="message"></textarea>
 </div>
 

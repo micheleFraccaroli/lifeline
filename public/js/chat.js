@@ -39,8 +39,8 @@
             containers[text]=container;
 
             element.append(elementChild);
-            $('#buttons').append(element);
-            $('#text').before(container);
+            $('#buttons').append(element);$('#fracca').append(container);
+            //$('#text').before(container);
             element.click(changeContext.bind(null,text));
             
             if(boxActive!=null)boxActive.css("visibility","hidden");

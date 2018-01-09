@@ -48,6 +48,6 @@ $("#user_pic").change(function() {
 
 $(document).ready(function() {
     setInterval(function() {
-        $('#notification_div').load(location.href + " #notification_div");
-    }, 5000);
+        $('#notification_div').load(location.href + " #notification_div>*")}, 5000);
+        
 });
