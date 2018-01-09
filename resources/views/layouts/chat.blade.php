@@ -21,19 +21,18 @@
                 <input type="hidden" name="id_other" id="id_other" value="">
                 <input type="hidden" name="id_conversation" id="id_conversation" value="">
 
-                <?php foreach($users as $user) { ?>
-                    <?php 
-                        //$id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user->id);
-                        $tot = array();
-                        foreach($users as $user) {
-                            $id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user->id);    
-                            if(!empty($id_conv)) {                                                             array_push($tot, $id_conv[0]->id_conversazione);
-                            }                                                                                 
-                        }
-                        dd($tot);
-                    ?>
-                    <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}});crea('{{$user->name}}','{{$user->id}}',{{$id_conv[0]->id_conversazione}});">{{$user->name}}</button><br>
-                <?php } ?>  
+                <?php 
+                $tot = array();
+                $i = 0;
+                foreach($users as $user) {
+                    $id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user->id);
+                    if(!empty($id_conv)) { 
+                        $tot = array_merge($tot, $id_conv); ?>
+                        <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}});crea('{{$user->name}}','{{$user->id}}',{{$tot[$i]->id_conversazione}});">{{$user->name}}</button><br>
+                <?php   $i++;    
+                    }
+                }
+                ?>  
             </form>
         </div>
     </div>
