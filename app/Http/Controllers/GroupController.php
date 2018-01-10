@@ -59,7 +59,7 @@ class GroupController extends Controller
 
 				$access = 0;
 
-				return view('groups.show', compact('access','other_groups','group'));
+				return view('groups.show', compact('access','other_groups','group','id'));
 
 			}else{
 

@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\validations;
+use Auth;
+
 
 class Friend extends Model
 {
@@ -27,6 +29,7 @@ class Friend extends Model
     	}
 
     	$res = array_merge($a,$b);
+
     	return $res;
     }
 

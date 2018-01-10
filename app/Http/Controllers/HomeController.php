@@ -36,7 +36,7 @@ class HomeController extends Controller
 
         $frn = new Friend;
         $friends = $frn->getFriends(Auth::user()->id);
-        foreach ($friends as $f) {
+        /*foreach ($friends as $f) {
             array_push($array_id_usr, $f->id_utente);
         }
         $tot_friend = array_merge($tot, $array_id_usr);
@@ -59,8 +59,35 @@ class HomeController extends Controller
                 }
             }
             $totale = $totale->merge($posts);
+        }*/
+
+        //return view('home', compact('totale'));
+
+        $friends[2]=['id_utente'=>1,'type' => 0];
+
+        $collection = collect($friends);
+
+        $all_posts = DB::table('posts')->whereIn('user_id',$collection->pluck('id_utente'))->where('group_id',NULL)->orderBy('created_at', 'desc')->get();
+
+        foreach ($all_posts as $post) {
+
+            $user[$post->id] = POST::find($post->id)->user;
+            $like[$post->id] = POST::find($post->id)->likes->count();
+
+            $result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
+
+            if ($result->count()) {
+                    
+                $my_like[$post->id] = 1;
+
+            }else{
+
+                $my_like[$post->id] = 0;
+            }
+
         }
+
+        return view('home', compact('all_posts','user','like','my_like'));
         
-        return view('home', compact('totale'));
     } 
 }

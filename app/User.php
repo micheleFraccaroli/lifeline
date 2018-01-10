@@ -33,6 +33,12 @@ class User extends Authenticatable
         return DB::table('users')->select('id', 'name', 'surname')->where('id', '<>', $id)->get();
     }
 
+    public function posts(){
+
+        return $this->hasMany('App\Post')->orderBy('created_at','desc');
+
+    }
+
 
 
 

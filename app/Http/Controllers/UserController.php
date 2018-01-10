@@ -100,13 +100,23 @@ class UserController extends Controller
         return redirect()->action('UserController@show', ['id' => $user_update->id]);
     }
 
-    public function subscribe_new_group(Request $request){
+    public function subscribe_new_group(Request $request,$id){
 
-        $group_id = $request->input('group_id');
+        
+        if ($request->ajax()) {
 
-        DB::table('group_user')->insert(
-            ['group_id' => $group_id, 'user_id' => Auth::id()]
-        );
+            DB::table('group_user')->insert(
+                ['group_id' => $id, 'user_id' => Auth::id()]
+            );
+
+        }else{
+
+            DB::table('group_user')->insert(
+                ['group_id' => $id, 'user_id' => Auth::id()]
+            );
+
+            return redirect('groups/index/'.$id);
+        }
 
     }
 }

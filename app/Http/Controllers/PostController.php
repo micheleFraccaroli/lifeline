@@ -15,7 +15,7 @@ class PostController extends Controller
                 'group_id' => null,
 	    		'user_id' => $request['your_id'],
 	    		'body' => $request['body_post'],
-	    		'photo' => '0'
+	    		'photo' => NULL,
     		]);
     		return response($post);
     	}

@@ -92,7 +92,80 @@
         </div>
     </div>
 
-    <div id="like_div">
+    <div class ="col-sm-6 col-md-offset-3"> 
+        <div class="alert alert-info" id="all_groups">
+            <div id="append_new_posts">
+            <?php 
+                foreach ($all_posts as $post){
+
+                    echo "<div id='post_{$post->id}'>";
+
+                    if ($post->photo != NULL) {
+
+                        echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha pubblicato una foto:<br>";
+                        echo $post->body."<br><br>";
+                        echo "<img src='".asset($post->photo)."' height='200' width='200'/><br><br>";
+
+                    }else{
+
+                        echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha scritto:<br>";
+                        echo $post->body."<br><br>";
+
+                    }
+
+                    echo" <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>";
+                    echo " <div class='btn-group mr-2' role='group' aria-label='First group'>";
+
+                    echo  "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_{$post->id}'>
+                            Show comments
+                          </button>";   
+
+                    if ($my_like[$post->id]) {
+
+                        echo  "<button class='btn btn-info btn-sm' type='button' id='like_post_{$post->id}' name='dislike'>Ti piace ".$like[$post->id]."'</button>";
+
+                    }else{
+
+                        echo  "<button class='btn btn-info btn-sm' type='button' id='like_post_{$post->id}' name='like'>Like ".$like[$post->id]."'</button>";
+                    }
+
+
+                    if ($user[$post->id]->id == Auth::id()) {                       
+                            
+            ?>
+                        <button type='button' class='btn btn-info btn-sm' name="delete" id='<?php echo "modal_{$post->id}"; ?>'>
+                            Delete post
+                        </button>
+            <?php 
+
+                    }
+
+                    echo "</div></div>";
+            ?>
+
+            <?php
+                echo"<div class='collapse' id='collapse_{$post->id}'>
+                        <div id='new_comment_{$post->id}'>
+                        </div>
+                        <div class='card card-body'>
+                            <br>
+                                <div class='form-group'>
+                                    <input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_{$post->id}'>
+                                </div>
+                                <form action='#'>
+                                    <button type='submit' class='btn btn-info btn-block btn-sm' name='answer' id='Post_group_{$post->id}'>Rispondi</button>
+                                </form>
+                        </div>
+                    </div>
+                <hr>
+            </div>";
+            }
+            ?>
+            </div>
+        </div>
+    </div>
+
+   <!-- <div id="like_div">
         <?php if(!empty($totale)) { ?>
             <div class="row">
                 <div class="col-md-2">
@@ -153,7 +226,7 @@
                 </div>
             </div>
         <?php } ?>
-    </div>
+    </div> -->
 </div>
 
 <div class="container">

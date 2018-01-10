@@ -74,7 +74,8 @@ $("#group_pic").change(function() {
     eadURL(this);
 });
 
-/****Iscrizione ad altri gruppi*****/
+
+/****Iscrizione ad altri gruppi presenti nella barra laterale*****/
 
 $("[id*='other_']").on('submit',function(e){
 
@@ -88,8 +89,8 @@ $("[id*='other_']").on('submit',function(e){
 
     $.ajax({
 
-        type: "POST",
-        url: "/user/new_group",
+        type: "GET",
+        url: "/user/new_group/"+group_id,
         data: {group_id:group_id},
         datatype: "json",
         success: function(data){

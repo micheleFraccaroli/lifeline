@@ -21,7 +21,21 @@
 </div>
 <hr>
 
-<?php }else{echo "iscriviti";} ?>
+<!-- Pulsante che consente l'iscrizione al gruppo -->
+
+<?php }else{?>
+
+
+<div class = "row">
+	<div class ="col-sm-6 col-md-offset-3">	
+		<form action="<?php echo "/user/new_group/{$id}"; ?>">
+			<button type='submit' class='btn btn-info btn-block'>Iscriviti</button>
+    	</form>
+  	</div>
+</div>
+<hr>
+
+<?php } ?>
 
 <div class = "row">
 
@@ -53,7 +67,7 @@
 
 	<!-- mostra i post pubblicati sul gruppo -->
 
-	<div class ="col-sm-6">	
+	<div class ="col-sm-6 offset-md-3">	
 		<div class="alert alert-info" id="all_groups">
 			<div id="append_new_posts">
 			<?php  if($access){ ?>
