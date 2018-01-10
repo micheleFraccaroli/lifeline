@@ -5,8 +5,23 @@ var resiChat=false;
 var chatExp=null;
 var lefts;
 var tops;
+var socket;
 
 $(document).ready(function(){
+
+    socket = io('http://localhost:65000');
+    socket.on('new message', function(data){
+        //boxActive.append('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">').text("you: " + txt);
+        console.log(data);
+        socket.emit('identified', {
+            nickname: $('#id_utente_log').val()
+        });
+    });
+
+    socket.on('mess', function(data){
+        console.log("MESSAGGIO ----> " + data);
+        boxActive.append(data);
+    });
 
     lefts=$(window).width()-$('.chat').width()+100;
     $('.chat').css("left",lefts);
@@ -26,7 +41,7 @@ $(document).ready(function(){
             var id_conv = $('#id_conversation').val();
             var id_user = $('#id_utente_log').val();
             var mess = txt;           
-            var url = location.href + "/create";
+            var url = "/message/create";
             var method = "post";
 
             $.ajax({
@@ -36,10 +51,15 @@ $(document).ready(function(){
                 dataTy : 'json',
                 success:function(data) {
                     console.log(data);
+                    socket.emit('chat message', {
+                        body: data.body,
+                        id_utente: data.id_utente
+                    });
                 }
             });
         }
     });
+
 });
 
 function crea(text, id_other,id_conv) {
@@ -81,7 +101,6 @@ function getMessage(id_conv, text, id_other) {
                     $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block;">'+'you: '+data[i].body+'</span>').appendTo(boxActive);
                 }
             }
-            
         }
     });
 }
@@ -104,6 +123,7 @@ function openChat() {
     $('.chat').animate({
             left: lefts-$('.chat').width()-10
     });
+    
 }
 
 function closeChat() {

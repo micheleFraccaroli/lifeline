@@ -122,3 +122,5 @@
 </div>
 
 @endsection
+
+@extends('layouts.chat')

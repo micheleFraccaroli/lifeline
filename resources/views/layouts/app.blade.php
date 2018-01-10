@@ -50,7 +50,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('register') }}" class="navigation">Sig In</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">Sigup</a></li>
 
                         @else
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">

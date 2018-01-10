@@ -13,14 +13,14 @@ use App\User;
 
 class FriendController extends Controller
 {
-    public function show() {
+    public static function show() {
         $users = collect();
         $friends = Friend::getFriends(Auth::id());
         foreach ($friends as $fr) {
             $user = User::find($fr->id_utente);
             $users = $users->push($user);
         }
-        return view('contacts', compact('users'));
+        return view('home', compact('users'));
     }
 
     protected function friendshipRequest(Request $request) {
