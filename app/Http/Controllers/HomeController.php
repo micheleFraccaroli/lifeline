@@ -63,9 +63,9 @@ class HomeController extends Controller
 
         //return view('home', compact('totale'));
 
-        $friends[2]=['id_utente'=>1,'type' => 0];
+        $array = array_prepend($friends, ['id_utente'=>Auth::id(),'type' => 0]);
 
-        $collection = collect($friends);
+        $collection = collect($array);
 
         $all_posts = DB::table('posts')->whereIn('user_id',$collection->pluck('id_utente'))->where('group_id',NULL)->orderBy('created_at', 'desc')->get();
 

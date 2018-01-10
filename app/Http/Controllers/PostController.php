@@ -10,7 +10,7 @@ use App\Comment;
 class PostController extends Controller
 {
     protected function create(Request $request) {
-    	if($request->ajax()) {
+    	/*if($request->ajax()) {
     		$post = Post::create([
                 'group_id' => null,
 	    		'user_id' => $request['your_id'],
@@ -19,7 +19,40 @@ class PostController extends Controller
     		]);
     		return response($post);
     	}
-    	return redirect('/home');
+    	return redirect('/home');*/
+
+        if($request->ajax()){
+
+            $post = new Post;
+
+            $body = $request->input('body_post');
+
+            $post->user_id = Auth::id();
+            $post->group_id = NULL;
+            $post->body = $body;
+
+            if ($request->hasFile('post_pic')) {
+                
+                $path = $request->file('post_pic')->store('public');
+
+                $url = Storage::url($path);
+
+                $asset = asset($url);
+
+                $post->photo = $url;
+
+            }else{
+
+                $asset = "";
+            }
+
+                $post->save();
+
+                $user = Auth::user();
+            
+                //return Response()->json(['post'=>$post,'user'=>$user,'asset'=>$asset]);
+
+        }
     }
 
     public function show_comments(Request $request){

@@ -1,4 +1,6 @@
 
+/****Gestisco il comportamento delle bacheche dell'utente e dei gruppi*****/
+
 $(document).ready(function(){
 
     $.ajaxSetup({
@@ -71,7 +73,11 @@ function readURL(input) {
 }
 
 $("#group_pic").change(function() {
-    eadURL(this);
+    readURL(this);
+});
+
+$("#pic").change(function() {
+    readURL(this);
 });
 
 
@@ -383,8 +389,6 @@ function delete_post(target){
 }
 
 
-
-
 /*****Gestione dei like*****/
 
 function like_post(target) {
@@ -432,15 +436,15 @@ function delete_like(target) {
 }
 
 
-/****Gestisce le varie richieste dell'utente*****/
+/****Gestisce le varie richieste dell'utente nella bacheca di un gruppo*****/
 
 $("#append_new_posts").on('click','button',function (e) {
 
     e.preventDefault();
 
-    var id = $(this).attr('name');
+    var name = $(this).attr('name');
 
-    switch(id){
+    switch(name){
 
         case "answer":
 
@@ -460,16 +464,15 @@ $("#append_new_posts").on('click','button',function (e) {
 
         break;
 
-        case "delete":
+        case "modal_delete":
 
             $("#myModal").modal("show");
 
-            $("[name='modal_delete']").attr('id',$(this).attr('id'));
-
+            $("[name='delete']").attr('id',$(this).attr('id'));
 
         break;
 
-        case "modal_delete":
+        case "delete":
 
             $("#myModal").modal("hide");
 
@@ -477,10 +480,160 @@ $("#append_new_posts").on('click','button',function (e) {
 
         break;
 
+        case "dismiss_modal":
+
+            $("#myModal").modal("hide");
+
+        break;
+
         default:
 
             show_details($(this).attr('data-target'));
 
+    }
+
+});
+
+
+/******************************************BACHECA HOME DELL'UTENTE*************************************/
+
+/*****Crea un nuovo post nella home*****/
+
+$("#new_post").on('submit',function(e){
+
+    e.preventDefault();
+
+    var formData = new FormData();
+
+    formData.append('body_post', $('#body_post').val());
+
+    formData.append('post_pic', $("#pic")[0].files[0]);   
+
+    $.ajax({
+        type: "POST",
+        url: "/home/post",
+        data: formData,
+        datatype: "json",
+        contentType: false,
+        processData: false,
+        success: function(data){
+               
+            $('#bacheca_posts').load(location.href + " #bacheca_posts");
+                 
+            $('#pic').val("");
+            $('#body_post').val("");
+
+    },
+        error: function(xhr){
+        alert("An error occured: " + xhr.status + " " + xhr.statusText);
+    },
+
+    });
+
+});
+
+/*****Like nei post della home*****/
+
+function like_post_home(target) {
+
+    var id = target;
+
+    var arr = id.split("_");
+
+    var post_id = arr[arr.length-1];
+
+    $.ajax({
+        type : "POST",
+        url : "/post/like",
+        data : {id_post:post_id},
+        dataTy : 'json',
+        success:function(data) {
+            $('#bacheca_posts').load(location.href + " #bacheca_posts");
+        },
+        error: function(xhr){
+            alert("An error occured: " + xhr.status + " " + xhr.statusText);
+        },
+    })
+}
+
+/*****Toglie il like ad un post nella home*****/
+
+function delete_like_home(target) {
+
+    var id = target;
+
+    var arr = id.split("_");
+
+    var post_id = arr[arr.length-1];
+
+    $.ajax({
+        type : "POST",
+        url : "/post/dislike",
+        data : {id_post:post_id},
+        dataTy : 'json',
+        success:function(data) {
+            $('#bacheca_posts').load(location.href + " #bacheca_posts");
+        },
+        error: function(xhr){
+            alert("An error occured: " + xhr.status + " " + xhr.statusText);
+        },
+    })
+}
+
+
+/****Gestisce le varie richieste dell'utente nella bacheca dell' utente*****/
+
+$("#bacheca_posts").on('click','button',function (e) {
+
+    e.preventDefault();
+
+    var name = $(this).attr('name');
+
+    switch(name){
+
+        case "answer":
+
+            new_comment($(this).attr('id'));
+
+        break;
+
+        case "like":
+
+            like_post_home($(this).attr('id'));
+
+        break;
+
+        case "dislike":
+
+            delete_like_home($(this).attr('id'));
+
+        break;
+
+        case "modal_delete":
+
+            $("#myModal").modal("show");
+
+            $("[name='delete']").attr('id',$(this).attr('id'));
+
+        break;
+
+        case "delete":
+
+            $("#myModal").modal("hide");
+
+            delete_post($(this).attr('id'));
+
+        break;
+
+        case "dismiss_modal":
+
+            $("#myModal").modal("hide");
+
+        break;
+
+        default:
+
+            show_details($(this).attr('data-target'));
     }
 
 });

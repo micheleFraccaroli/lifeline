@@ -23,7 +23,8 @@ class CreateTableLikes extends Migration
         Schema::table('likes', function (Blueprint $table) {
             $table->foreign('id_post')
                   ->references('id')->on('posts')
-                  ->onUpdate('cascade');
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
             $table->foreign('id_commento')
                   ->references('id')->on('comments')
                   ->onUpdate('cascade');

@@ -109,7 +109,7 @@
   					if ($user[$post->id]->id == Auth::id()) { 						
   					  		
 			?>
-						<button type='button' class='btn btn-info btn-sm' name="delete" id='<?php echo "modal_{$post->id}"; ?>'>
+						<button type='button' class='btn btn-info btn-sm' name="modal_delete" id='<?php echo "modal_{$post->id}"; ?>'>
     						Delete post
 						</button>
   			<?php 
