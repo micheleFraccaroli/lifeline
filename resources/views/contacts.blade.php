@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<!--@extends('layouts.chat')-->
+@extends('layouts.chat')
 @section('content')
 
 

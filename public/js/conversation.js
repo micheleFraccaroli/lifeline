@@ -11,6 +11,7 @@
         dataTy : 'json',
         success:function(data) {
             console.log(data);
+            document.getElementById("id_conversation").value = data;
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);

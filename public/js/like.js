@@ -3,7 +3,7 @@ $("#like_div").on('submit', ".like_form" , function(e) {
     var data = $(this).serialize();
     var url = $(this).attr('action');
     var post = $(this).attr('method');
-
+    
     $.ajax({
         type : post,
         url : url,

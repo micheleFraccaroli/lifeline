@@ -24,7 +24,7 @@
 </head>
 <body id="principal_body">
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
+        <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
 
@@ -57,18 +57,18 @@
                             <li><a href="{{ route('register') }}" class="navigation">Sig In</a></li>
 
                         @else
-                        <form class="navbar-form" role="search" action="/search" method="POST">
-                            {{ csrf_field() }}
-                            <div class="input-group add-on">
-                                <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                            <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
+                                {{ csrf_field() }}
+                                <div class="input-group add-on">
+                                    <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
                                 </div>
-                            </div>
-                      </form>
+                            </form>
                             <li class="dropdown" id="notification_div">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"></span> Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span>
-                                    <ul class="dropdown-menu">
+                                <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
+                                <ul class="dropdown-menu">
                                     <li>
                                         @foreach(Auth::user()->unreadNotifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
@@ -76,7 +76,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li>
                                 <a href="/contacts">Contatti</a>
                             </li>
                             <li class="dropdown">
