@@ -5,8 +5,23 @@ var resiChat=false;
 var chatExp=null;
 var lefts;
 var tops;
+var socket;
 
 $(document).ready(function(){
+
+    socket = io('http://localhost:65000');
+    socket.on('new message', function(data){
+        //boxActive.append('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">').text("you: " + txt);
+        console.log(data);
+        socket.emit('identified', {
+            nickname: $('#id_utente_log').val()
+        });
+    });
+
+    socket.on('mess', function(data){
+        console.log("MESSAGGIO ----> " + data);
+        boxActive.append(data);
+    });
 
     lefts=$(window).width()-$('.chat').width()+100;
     $('.chat').css("left",lefts);
@@ -22,12 +37,11 @@ $(document).ready(function(){
         var txt = $('#text').val();
 
         if(code==13 && !e.shiftKey){
-            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
+            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+'you: '+txt+'</span>').appendTo(boxActive);$('#text').val('');
             var id_conv = $('#id_conversation').val();
             var id_user = $('#id_utente_log').val();
-            var mess = txt;
-            
-            var url = location.href + "/create";
+            var mess = txt;           
+            var url = "/message/create";
             var method = "post";
 
             $.ajax({
@@ -37,17 +51,23 @@ $(document).ready(function(){
                 dataTy : 'json',
                 success:function(data) {
                     console.log(data);
+                    socket.emit('chat message', {
+                        body: data.body,
+                        id_utente: data.id_utente
+                    });
                 }
             });
         }
     });
+
 });
 
-function crea(text, id_other) {
+function crea(text, id_other,id_conv) {
     var element=$('<div></div>').addClass("btn btn-inverted").text(text);
     var elementChild=$('<div></div>').addClass("btn btn-primary").text("x");
     var container=$('<div></div>').addClass("container");
     container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
+    container.attr("id","chat_div");
     containers[text]=container;
 
     element.append(elementChild);
@@ -75,13 +95,12 @@ function getMessage(id_conv, text, id_other) {
             for(i=0; i<data.length; i++) {
                 console.log(data[i]);
                 if(data[i].id_utente == id_other) {
-                    $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+text+': '+data[i].body+'</span>').appendTo(boxActive);
+                    $('<span class="dx" style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+text+': '+data[i].body+'</span>').appendTo(boxActive);
                 }
                 else {
-                    $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+'you: '+data[i].body+'</span>').appendTo(boxActive);
+                    $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block;">'+'you: '+data[i].body+'</span>').appendTo(boxActive);
                 }
             }
-            
         }
     });
 }
@@ -104,6 +123,7 @@ function openChat() {
     $('.chat').animate({
             left: lefts-$('.chat').width()-10
     });
+    
 }
 
 function closeChat() {

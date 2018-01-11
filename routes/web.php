@@ -34,7 +34,7 @@ Route::get('/user/new_group/{id}','UserController@subscribe_new_group');
 
 
 //Friends
-Route::get('/contacts', 'FriendController@show');
+//Route::get('/contacts', 'FriendController@show');
 Route::get('/friends', 'FriendController@index');
 Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::post('/friends/req', 'FriendController@friendshipRequest');
@@ -59,7 +59,7 @@ Route::post('/post/dislike', 'LikeController@deletePostLike');
 Route::get('/post/{id}', 'PostController@show');
 
 //Messages
-Route::post('/contacts/create', 'MessageController@create');
+Route::post('/message/create', 'MessageController@create');
 Route::post('/contacts/message/show', 'MessageController@show');
 
 Auth::routes();

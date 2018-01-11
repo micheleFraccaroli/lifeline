@@ -19,6 +19,10 @@
     })
 })
 
-function add_id_other(id) {
-    document.getElementById('id_other').value = id;
+function add_id_other(id_other, my_id) {
+    document.getElementById('id_other').value = id_other;
+    socket.emit('receiver', {
+        nick_receiver: id_other,
+        my_identifier: my_id
+    });
 }
