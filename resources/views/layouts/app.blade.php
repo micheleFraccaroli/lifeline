@@ -56,7 +56,7 @@
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group add-on">
-                                    <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
+                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                     </div>
@@ -104,7 +104,6 @@
                 </div>
             </div>
         </nav>
-
         @yield('content')
     </div>
 

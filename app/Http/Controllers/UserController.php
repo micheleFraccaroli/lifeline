@@ -45,7 +45,7 @@ class UserController extends Controller
             if(count($user) == 0) {
                  $user = User::where('name', 'LIKE', '%'.$search[1].'%')->where('surname', 'LIKE', '%'.$search[0].'%')->get();
                  if(count($user) == 0) {
-                    return redirect('/home');
+                    return redirect('/');
                  }
             }
             return redirect()->action('UserController@show', ['id' => $user[0]->id]);
@@ -59,6 +59,9 @@ class UserController extends Controller
                  }
              }
             return view('users', compact('user'));
+        }
+        else {
+            
         }
         
     }

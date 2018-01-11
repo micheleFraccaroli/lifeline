@@ -25,4 +25,5 @@ function add_id_other(id_other, my_id) {
         nick_receiver: id_other,
         my_identifier: my_id
     });
+    console.log("id_other--> " + id_other + " ||| my_id--> " + my_id);
 }
