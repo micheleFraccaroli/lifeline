@@ -10,17 +10,7 @@ use App\Comment;
 class PostController extends Controller
 {
     protected function create(Request $request) {
-    	/*if($request->ajax()) {
-    		$post = Post::create([
-                'group_id' => null,
-	    		'user_id' => $request['your_id'],
-	    		'body' => $request['body_post'],
-	    		'photo' => NULL,
-    		]);
-    		return response($post);
-    	}
-    	return redirect('/home');*/
-
+    	
         if($request->ajax()){
 
             $post = new Post;
@@ -29,9 +19,13 @@ class PostController extends Controller
 
             $post->user_id = Auth::id();
             $post->group_id = NULL;
-            $post->body = $body;
 
-            if ($request->hasFile('post_pic')) {
+            if ($request->hasFile('pic_post')) {
+
+                $request->validate([
+                    'body_post' => 'bail|max:255',
+                    'pic_post' => 'bail|image',
+                ]);
                 
                 $path = $request->file('post_pic')->store('public');
 
@@ -41,7 +35,15 @@ class PostController extends Controller
 
                 $post->photo = $url;
 
+                $post->body = $body;
+
             }else{
+
+                $request->validate([
+                    'body_post' => 'bail|required|max:255',
+                ]);
+
+                $post->body = $body;
 
                 $asset = "";
             }
@@ -50,8 +52,6 @@ class PostController extends Controller
 
                 $user = Auth::user();
             
-                //return Response()->json(['post'=>$post,'user'=>$user,'asset'=>$asset]);
-
         }
     }
 

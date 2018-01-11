@@ -26,7 +26,7 @@ $(document).ready(function(){
 
 /*La funzione ReadURL viene utilizzata per mostrare l'immagine in anteprima nel form relativo
 alla creazione del gruppo o per la modifica*/
-function readURL(input) {
+function eadURL(input) {
 
     if (input.files && input.files[0]) {
     var reader = new FileReader();                 /* vado ad instanziare l'oggetto FileReader */
@@ -42,7 +42,7 @@ function readURL(input) {
 }
 
 $("#user_pic").change(function() {
-    readURL(this);
+    eadURL(this);
 });
 
 

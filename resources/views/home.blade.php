@@ -38,19 +38,20 @@
                         @endif
 
                         <div class="panel-body">
-                            Write your post!<hr>
+
+                            @include('layouts.errorajax')
+                           
                             <form class="form-horizontal" method="POST" action="{{ URL::to('/home/post') }}" enctype="multipart/form-data" id="new_post">
 
                                 {{ csrf_field() }}
 
-                                <input type="text" id="body_post">
+                                <textarea class="form-control" id="body_post" placeholder="hey. What's up?" rows="1"></textarea>
                                 <br>
                                 <label for="Immagine gruppo">Aggiungi immagine al post</label>
                                 <br>
-                                <input type="file" id="pic" accept="image/*"/>
-                                <div class="form-group">
-                                    <img id="show_group_pic" class ="img-responsive img-circle" src="#" height="200" width="200"/>
-                                    <span class="custom-file-control"></span>
+                                <input type="file" id="pic_post" />
+                                <div id = "pic_space">
+                                    
                                 </div>
                                 <button type="submit" class="btn btn-primary">
                                     Pubblica

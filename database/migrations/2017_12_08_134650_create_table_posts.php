@@ -17,7 +17,7 @@ class CreateTablePosts extends Migration
             $table->increments('id');
             $table->integer('group_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
-            $table->string('body');
+            $table->string('body')->nullable();
             $table->string('photo')->nullable();
             $table->timestamps();
         });

@@ -55,15 +55,14 @@ $("#aggiorna_gruppi").on('submit',function(e){
 
 });
 
-/*La funzione ReadURL viene utilizzata per mostrare l'immagine in anteprima nel form relativo
-alla creazione del gruppo o per la modifica*/
-function readURL(input) {
+/*Anteprima immagine che verrà caricata in un gruppo*/
+function profile_group(input) {
 
     if (input.files && input.files[0]) {
-        var reader = new FileReader();                 /* vado ad instanziare l'oggetto FileReader */
+        var reader = new FileReader();
 
         reader.onload = function(e) {
-            $("#show_group_pic").attr("src", e.target.result); /* sull' evento onload leggo il contenuto */ 
+            $("#show_group_pic").attr("src", e.target.result); /*carico in src il contenuto della pic*/
             $("input[name*='group_pic_value']").val(e.target.result);
         }                                                                                               
 
@@ -72,12 +71,30 @@ function readURL(input) {
     }
 }
 
+/*Anteprima immagine che verrà caricata in un post di una bacheca di un gruppo o nella principale*/
+function pic_post(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        var img = "<img id='pic_src' src='#' height='200' width='200'/><span class='custom-file-control'></span>";
+
+        $('#pic_space').append(img);
+
+        reader.onload = function(e) {
+            $("#pic_src").attr("src", e.target.result); 
+        }                                                                                               
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $("#group_pic").change(function() {
-    readURL(this);
+    profile_group(this);
 });
 
-$("#pic").change(function() {
-    readURL(this);
+$("#pic_post").change(function() {
+    pic_post(this);
 });
 
 
@@ -507,7 +524,7 @@ $("#new_post").on('submit',function(e){
 
     formData.append('body_post', $('#body_post').val());
 
-    formData.append('post_pic', $("#pic")[0].files[0]);   
+    formData.append('pic_post', $("#pic_post")[0].files[0]);   
 
     $.ajax({
         type: "POST",
@@ -520,13 +537,29 @@ $("#new_post").on('submit',function(e){
                
             $('#bacheca_posts').load(location.href + " #bacheca_posts");
                  
-            $('#pic').val("");
+            $("#pic_src").remove();
+            $('#pic_post').val("");
             $('#body_post').val("");
 
-    },
-        error: function(xhr){
-        alert("An error occured: " + xhr.status + " " + xhr.statusText);
-    },
+        },
+
+        error: function(data){
+
+            var errors = data.responseJSON;
+
+            console.log(errors.errors);
+
+            if ($("#errors_ajax").children()){
+
+                $("#errors_ajax").children().remove();
+            };
+
+            for(var key in errors.errors){
+
+                $("#errors_ajax").append("<div class='alert alert-danger'>"+errors.errors[key]+"</div>");
+            }
+            
+        },
 
     });
 
