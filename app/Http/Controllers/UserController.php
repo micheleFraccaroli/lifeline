@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\ImageOptimizer\OptimizerChainFactory; //<- penso non serva
+use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Post;
 use App\Friend;
@@ -39,31 +40,35 @@ class UserController extends Controller
     }
 
     public function search(Request $request) {
+        if(count(request('srch-term')) == 0) {
+            $user = "";
+            return view('users', compact('user'));
+        }
         $search = explode(" ", request('srch-term'));
         if(count($search) == 2) {
             $user = User::where('name', 'LIKE', '%'.$search[0].'%')->where('surname', 'LIKE', '%'.$search[1].'%')->get();
             if(count($user) == 0) {
-                 $user = User::where('name', 'LIKE', '%'.$search[1].'%')->where('surname', 'LIKE', '%'.$search[0].'%')->get();
-                 if(count($user) == 0) {
-                    return redirect('/');
-                 }
+                $user = User::where('name', 'LIKE', '%'.$search[1].'%')->where('surname', 'LIKE', '%'.$search[0].'%')->get();
+                if(count($user) == 0) {
+                    //exit();
+                }
             }
-            return redirect()->action('UserController@show', ['id' => $user[0]->id]);
+            //return redirect()->action('UserController@show', ['id' => $user[0]->id]);
+            return view('users', compact('user'));
         }
         elseif (count($search) == 1) {
             $user = User::where('name', 'LIKE', '%'.$search[0].'%')->get();
             if(count($user) == 0) {
                 $user = User::where('surname', 'LIKE', '%'.$search[0].'%')->get();
                 if(count($user) == 0) {
-                    return redirect('/');
-                 }
-             }
+                    //exit();
+                }
+            }
             return view('users', compact('user'));
         }
         else {
-            
+            return "void_search";
         }
-        
     }
 
     public function edit($id) {
