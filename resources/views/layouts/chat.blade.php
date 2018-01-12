@@ -2,15 +2,12 @@
 use App\Http\Controllers\FriendController; 
 ?>
 <div class="container chat" id="overlay">
-    
     <div>
-        <div class="resizeChat" onclick="resizeChat()"><span class="glyphicon glyphicon-resize-small"></span></div>
-
-        <div class="closeChat" onclick="closeChat();"><span class="glyphicon glyphicon-remove"></span></div>
+        <span onclick="resizeChat()" class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
+        <span onclick="closeChat()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
 
     <div id="buttons"></div>
-<div id="fracca"></div>
     <textarea id="text" class="scrollabletextbox" rows="2" name="message"></textarea>
 </div>
 

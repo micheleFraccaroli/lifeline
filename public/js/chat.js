@@ -6,6 +6,8 @@ var chatExp=null;
 var lefts;
 var tops;
 var socket;
+var chatResizeDim;
+var chatInitDim;
 
 $(document).ready(function(){
 
@@ -23,20 +25,30 @@ $(document).ready(function(){
         boxActive.append(data);
     });
 
-    lefts=$(window).width()-$('.chat').width()+100;
+    lefts=$(window).width()-$('.nomi').width();  //left del container nomi
+    $('.nomi').css("left",lefts);
     $('.chat').css("left",lefts);
+
+    $('.chat').css("height",$('.chat').css("width")); //l'altezza della chat corrisponde alla sua lunghezza (default 10% della pagina)
+
+    chatInitDim=$('.chat').width();          //Dimensione iniziale
+    chatResizeDim=$('.chat').width()/100*90; //Dimensione di ridimensionamento
+
+    $('.chat > div > span').css("font-size",($('.chat').width()/100*6.25)+'px'); //Font-size delle icone chat
 
     tops=window.innerHeight-$('.chat').height();
     $('.chat').css("top",tops);
-
-    var nomiLeft=$(window).width()-$('.nomi').width();
-    $('.nomi').css("left",nomiLeft);
+    
+    $('#buttons').css("top",($('.chat > div').position().top+($('.chat').width()/100*6.25)));
+    
+    $('#text').css("line-height",($('.chat').width()/100*7.5)+'px');
+    $('#text').css("font-size",($('.chat').width()/100*5)+'px');
 
     $('#text').keyup(function(e) {
         var code=e.keyCode;
         var txt = $('#text').val();
 
-        if(code==13 && !e.shiftKey){
+        if(code==13 && !e.shiftKey){    //Quando premo Enter senza premere anche shift
             $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+'you: '+txt+'</span>').appendTo(boxActive);$('#text').val('');
             var id_conv = $('#id_conversation').val();
             var id_user = $('#id_utente_log').val();
@@ -62,17 +74,24 @@ $(document).ready(function(){
 
 });
 
+//Funzione per creare una nuova tab nella chat
+
 function crea(text, id_other,id_conv) {
-    var element=$('<div></div>').addClass("btn btn-inverted").text(text);
-    var elementChild=$('<div></div>').addClass("btn btn-primary").text("x");
+
+    var element=$('<div></div>').addClass("btn btn-inverted btnn").text(text);
+    var elementChild=$('<div></div>').addClass("btn btn-primary btnn").text("x");
     var container=$('<div></div>').addClass("container");
-    container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
+    //container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
     container.attr("id","chat_div");
     containers[text]=container;
+
+    container.css("height",($('.chat').width()/100*72.5)+'px');
+    container.css("top",$('#text').position().top-container.height());
 
     element.append(elementChild);
     $('#buttons').append(element);
     $('#text').before(container);
+
     element.click(changeContext.bind(null,text));
     
     if(boxActive!=null)boxActive.css("visibility","hidden");
@@ -105,6 +124,7 @@ function getMessage(id_conv, text, id_other) {
     });
 }
 
+//Funzione per rimuovere un tab dalla chat
 
 function removeTab(e) {
     e.remove();
@@ -112,6 +132,8 @@ function removeTab(e) {
         closeChat();
     }
 }
+
+//Funzione per cambiare il box chat attualmente da visualizzare
 
 function changeContext(text) {
     containers[text].css("visibility","visible");
@@ -137,27 +159,26 @@ function resizeChat() {
     if(!resiChat) {
 
         $('.chat').animate({
-                height: 40,
-                width: 40,
-                left: $('.chat').position().left+360,
-                top: $('.chat').position().top+360
+                height: chatInitDim/10,
+                width: chatInitDim/10,
+                left: $('.chat').position().left+chatResizeDim,
+                top: $('.chat').position().top+chatResizeDim
             },function(){
-                    //$('#chat').replaceWith('<div id="chat" style="left: '+$('#chat').position().left+';" class="chatt"><span onclick="resizeChat()" style="position: absolute; font-size: 30; heigth=30; width:30; text-align: center;display: block; top: 5; left: 5;" class="glyphicon glyphicon-resize-full"></span></div>');
                     $(this).css("visibility","hidden");
-                    $('<div id="overlay" style="position: fixed; left: '+$('.chat').position().left+'; top: '+$('.chat').position().top+';"><span id="overlay" onclick="resizeChat()" style="position: absolute; font-size: 30; heigth=30; width:30; text-align: center;display: block; top: 5; left: 5;" class="glyphicon glyphicon-resize-full icon"></span></div>').appendTo($('body'))
+                    $('<div style="position: fixed; left: '+$('.chat').position().left+'; top: '+$('.chat').position().top+';"><span id="overlay" onclick="resizeChat()" style="position: absolute; font-size: 30; heigth=30; width:30; text-align: center;display: block; top: 5; left: 5;" class="glyphicon glyphicon-resize-full icon"></span></div>').appendTo($('body'))
                     resiChat=true;
         });
     }
     else {
         $('.chat').css("visibility","visible");
         $('.chat').animate({
-                height: 400,
-                width: 400,
-                left: $('.chat').position().left-360,
-                top: $('.chat').position().top-360
+                height: chatInitDim,
+                width: chatInitDim,
+                left: $('.chat').position().left-chatResizeDim,
+                top: $('.chat').position().top-chatResizeDim
             },function(){
                 $('.icon').remove();
+                resiChat=false;
             });
-        resiChat=false;
     }
 }
