@@ -206,3 +206,9 @@ body {													/* Corpo della pagina */
 #bacheca {
 	border-top: 2px solid white;
 }
+
+.icon {
+	position: absolute;
+	text-align: center;
+	display: block;
+}

@@ -165,7 +165,8 @@ function resizeChat() {
                 top: $('.chat').position().top+chatResizeDim
             },function(){
                     $(this).css("visibility","hidden");
-                    $('<div style="position: fixed; left: '+$('.chat').position().left+'; top: '+$('.chat').position().top+';"><span id="overlay" onclick="resizeChat()" style="position: absolute; font-size: 30; heigth=30; width:30; text-align: center;display: block; top: 5; left: 5;" class="glyphicon glyphicon-resize-full icon"></span></div>').appendTo($('body'))
+                    $('<div style="position: fixed; left: '+$(this).position().left+'; top: '+$(this).position().top+';"><span id="overlay" onclick="resizeChat()" class="glyphicon glyphicon-resize-full icon"></span></div>').appendTo($('body'))
+                    $('.icon').css("font-size",(chatInitDim/10)+'px');
                     resiChat=true;
         });
     }
