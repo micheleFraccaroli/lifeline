@@ -56,7 +56,7 @@
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group add-on">
-                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text">
+                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required>
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit" onclick="chech_search();"><i class="glyphicon glyphicon-search"></i></button>
                                     </div>
@@ -66,10 +66,11 @@
                                 <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @foreach(Auth::user()->unreadNotifications as $notification)
+                                        @foreach(Auth::user()->Notifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
                                         @endforeach
                                     </li>
+                                    <button type="button" value="{{ Auth::user()->unreadNotifications->markAsRead() }}">Mark as read</button>
                                 </ul>
                             </li>
                             <li>
@@ -114,7 +115,6 @@
     <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/search.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
 </body>

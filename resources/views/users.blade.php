@@ -8,7 +8,7 @@
 				<h3>We are sorry, we haven't found any user with this name :(</h3>
 		<?php } ?>
 		<?php foreach ($user as $u) { ?>
-			<a href="/users/{{$u->id}}">{{$u->name}} {{$u->surname}}</a><br>
+			<h3><a href="/users/{{$u->id}}">{{$u->name}} {{$u->surname}}</a></h3><br>
 		<?php } ?>
 	</div>
 </div>
