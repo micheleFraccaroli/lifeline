@@ -6,7 +6,7 @@
     <div class="row">
 
         <div class="col-md-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default homeImage">
                 <?php if(Auth::user()->image == '0'){?>
                     <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image.png')}}" alt="Profile Image"></a>
                     <?php } else { ?>
@@ -17,7 +17,7 @@
                         {{ Auth::user()->surname }}
                     </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-default homeGroups">
                 <div class="panel-heading">Gruppi</div>
                     <div class="panel-body">
                         Gruppetti Fighetti
@@ -143,4 +143,4 @@
 
 @endsection
 
-@extends('layouts.chat')
+@include('layouts.chat')

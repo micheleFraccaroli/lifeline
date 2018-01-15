@@ -1,9 +1,53 @@
-body {													/* Corpo della pagina */
-	background-color: #ddd;
+body {
 	overflow-x: hidden;
 	word-wrap: normal;
 	word-break: keep-all;
 	padding-top: 100px;
+	background-color: #eee;
+}
+
+.login {
+	background-image: linear-gradient(to right,#000,#060,#fff,#060,#000);
+	background-size: 400% 400%;
+	animation: Gradient 120s ease infinite;
+	-webkit-animation: Gradient 1200s infinite;
+	-moz-animation: Gradient 120s infinite;	
+}
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
 }
 
 .font {
@@ -15,6 +59,7 @@ body {													/* Corpo della pagina */
 .photo {
 	max-width: 100%;
 	max-height: 100%;
+	border-top-left-radius: 20px;
 }
 
 .post_photo {
@@ -81,23 +126,12 @@ body {													/* Corpo della pagina */
 
 .panel-heading {
 	background-color: #aeeaae !important;
-	color: #a1a1a1 !important;
+	color: black;
 	text-align: center;
 	font-size: 25px;
-	font-style: italic;
-}
-
-.panel-body {
-	text-align: center;
 }
 
 .panel-default {
-
-	border-radius: 20px;
-}
-
-.alert-info {
-	background-color: #ffffff;
 	border: 0;
 }
 
@@ -119,12 +153,13 @@ body {													/* Corpo della pagina */
 	height: 100%;
 	width: 15%;
 	position: fixed;
-	background-color: #888;
+	background-color: #949494;
 	z-index: 10;
 	margin: 0;
 	padding: 0;
 	border: 0;
 	top: 50;
+
 }
 
 .btnn {
@@ -211,4 +246,21 @@ body {													/* Corpo della pagina */
 	position: absolute;
 	text-align: center;
 	display: block;
+}
+
+.homeImage {
+	border-top-left-radius: 20px;
+}
+
+.homeGroups {
+	border-bottom-left-radius: 20px; 
+}
+
+#post_page {
+	text-align: left;
+	border: 0;
+	margin: 0;
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
 }
