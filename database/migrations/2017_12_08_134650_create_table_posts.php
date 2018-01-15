@@ -19,6 +19,7 @@ class CreateTablePosts extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('body')->nullable();
             $table->string('photo')->nullable();
+            $table->string('link')->nullable();
             $table->timestamps();
         });
 

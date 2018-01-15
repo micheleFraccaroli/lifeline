@@ -16,36 +16,45 @@ class PostController extends Controller
             $post = new Post;
 
             $body = $request->input('body_post');
+            $link = $request->input('link_post');
 
             $post->user_id = Auth::id();
             $post->group_id = NULL;
 
+            /*verifico l'esistenza o meno della foto nel post*/
+
             if ($request->hasFile('pic_post')) {
 
                 $request->validate([
-                    'body_post' => 'bail|max:255',
+                    'body_post' => 'bail|nullable|string|max:255',
                     'pic_post' => 'bail|image',
+                    'link_post' => 'bail|nullable|url',
                 ]);
                 
-                $path = $request->file('post_pic')->store('public');
+                $path = $request->file('pic_post')->store('public');
 
                 $url = Storage::url($path);
 
-                $asset = asset($url);
+                //$asset = asset($url);
 
                 $post->photo = $url;
 
                 $post->body = $body;
 
+                $post->link = $link;
+
             }else{
 
                 $request->validate([
-                    'body_post' => 'bail|required|max:255',
+                    'body_post' => 'bail|required|string|max:255',
+                    'link_post' => 'bail|nullable|url',
                 ]);
 
                 $post->body = $body;
 
-                $asset = "";
+                $post->link = $link;
+
+                //$asset = "";
             }
 
                 $post->save();
