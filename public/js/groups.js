@@ -55,15 +55,14 @@ $("#aggiorna_gruppi").on('submit',function(e){
 
 });
 
-/*La funzione ReadURL viene utilizzata per mostrare l'immagine in anteprima nel form relativo
-alla creazione del gruppo o per la modifica*/
-function readURL(input) {
+/*Anteprima immagine che verrà caricata in un gruppo*/
+function profile_group(input) {
 
     if (input.files && input.files[0]) {
-        var reader = new FileReader();                 /* vado ad instanziare l'oggetto FileReader */
+        var reader = new FileReader();
 
         reader.onload = function(e) {
-            $("#show_group_pic").attr("src", e.target.result); /* sull' evento onload leggo il contenuto */ 
+            $("#show_group_pic").attr("src", e.target.result); /*carico in src il contenuto della pic*/
             $("input[name*='group_pic_value']").val(e.target.result);
         }                                                                                               
 
@@ -72,12 +71,30 @@ function readURL(input) {
     }
 }
 
+/*Anteprima immagine che verrà caricata in un post di una bacheca di un gruppo o nella principale*/
+function pic_post(input) {
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        var img = "<img id='pic_src' src='#' class='img-thumbnail' height='200' width='200'/><br><br>";
+
+        $('#pic_space').append(img);
+
+        reader.onload = function(e) {
+            $("#pic_src").attr("src", e.target.result); 
+        }                                                                                               
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 $("#group_pic").change(function() {
-    readURL(this);
+    profile_group(this);
 });
 
-$("#pic").change(function() {
-    readURL(this);
+$("#pic_post").change(function() {
+    pic_post(this);
 });
 
 
@@ -497,38 +514,168 @@ $("#append_new_posts").on('click','button',function (e) {
 
 /******************************************BACHECA HOME DELL'UTENTE*************************************/
 
+$("#close_post").on('click',function(e){
+
+    $("#Mycollapse").collapse("hide");   
+
+});
+
+$("#body_post").on('click',function(e){
+
+    $("#Mycollapse").collapse("show");   
+
+});
+
+/*****Convalida dei dati in input*****/
+
+function check_pic_extension(pic_name){
+
+    var arr = pic_name.split(".");
+
+    var pic_extension = arr[arr.length-1];
+
+    var res = pic_extension.match(/(gif|jpg|jpeg|png)/i);
+
+    if (res == null){
+
+        alert("check extension");
+
+        res = 0;
+
+    }else{
+
+        res = 1;
+    }
+
+    return res;
+
+}
+
+function check_pic_size(pic_size){
+
+    var res;
+
+    if (pic_size > 3072){
+
+        res = 1;
+
+    }else{
+
+        res = 0;
+
+    }
+
+    return res;
+
+}
+
+function check_link(link){
+
+    var res;
+
+    
+
+    return res;
+
+}
+
+/****la funzione check() prende in input come parametri tutti i possibili campi di input*****/
+
+function check(post,pic,link){
+
+    var check = [1,1,1,1];
+
+    if (post){
+
+        check[0] = check_length(post.length);
+    }
+
+    if (pic){
+
+        check[1] = check_pic_extension(pic.name);
+        check[2] = check_pic_size(pic.size);
+
+    }
+
+    if (link){
+
+        check[3] = check_link(link);
+
+    }
+
+    var res = check.indexOf("0");
+
+    return res;
+
+}
+
 /*****Crea un nuovo post nella home*****/
 
 $("#new_post").on('submit',function(e){
 
     e.preventDefault();
 
-    var formData = new FormData();
+    var res;
 
-    formData.append('body_post', $('#body_post').val());
+    res = check($('#body_post').val(),$("#pic_post")[0].files[0]);
 
-    formData.append('post_pic', $("#pic")[0].files[0]);   
+    if (res!=-1) {
+  
+        var formData = new FormData();
 
-    $.ajax({
-        type: "POST",
-        url: "/home/post",
-        data: formData,
-        datatype: "json",
-        contentType: false,
-        processData: false,
-        success: function(data){
-               
-            $('#bacheca_posts').load(location.href + " #bacheca_posts");
-                 
-            $('#pic').val("");
-            $('#body_post').val("");
+        formData.append('body_post', $('#body_post').val());
 
-    },
-        error: function(xhr){
-        alert("An error occured: " + xhr.status + " " + xhr.statusText);
-    },
+        formData.append('pic_post', $("#pic_post")[0].files[0]);
 
-    });
+        formData.append('link_post', $("#link_post").val());
+
+        $.ajax({
+            type: "POST",
+            url: "/home/post",
+            data: formData,
+            datatype: "json",
+            contentType: false,
+            processData: false,
+            success: function(data){
+                   
+                $('#bacheca_posts').load(location.href + " #bacheca_posts");
+                     
+                $("#pic_src").remove();
+                $('#pic_post').val("");
+                $('#body_post').val("");
+                $('#link_post').val("");
+
+                if ($("#errors_ajax").children()){
+
+                    $("#errors_ajax").children().remove();
+
+                }
+
+            },
+
+            error: function(data){
+
+                var errors = data.responseJSON;
+
+                if ($("#errors_ajax").children()){
+
+                    $("#errors_ajax").children().remove();
+
+                }
+
+                $("#errors_ajax").append("<div class='alert alert-danger'><ul></ul></div>");
+
+                for(var key in errors.errors){
+
+                    $(".alert.alert-danger > ul").append("<li>"+errors.errors[key]+"</li>");
+                }
+                
+            },
+
+        });
+    }
+
+    /*fine if*/
 
 });
 

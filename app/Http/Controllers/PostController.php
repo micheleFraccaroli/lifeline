@@ -10,48 +10,57 @@ use App\Comment;
 class PostController extends Controller
 {
     protected function create(Request $request) {
-    	/*if($request->ajax()) {
-    		$post = Post::create([
-                'group_id' => null,
-	    		'user_id' => $request['your_id'],
-	    		'body' => $request['body_post'],
-	    		'photo' => NULL,
-    		]);
-    		return response($post);
-    	}
-    	return redirect('/home');*/
-
+    	
         if($request->ajax()){
 
             $post = new Post;
 
             $body = $request->input('body_post');
+            $link = $request->input('link_post');
 
             $post->user_id = Auth::id();
             $post->group_id = NULL;
-            $post->body = $body;
 
-            if ($request->hasFile('post_pic')) {
+            /*verifico l'esistenza o meno della foto nel post*/
+
+            if ($request->hasFile('pic_post')) {
+
+                $request->validate([
+                    'body_post' => 'bail|nullable|string|max:255',
+                    'pic_post' => 'bail|image',
+                    'link_post' => 'bail|nullable|url',
+                ]);
                 
-                $path = $request->file('post_pic')->store('public');
+                $path = $request->file('pic_post')->store('public');
 
                 $url = Storage::url($path);
 
-                $asset = asset($url);
+                //$asset = asset($url);
 
                 $post->photo = $url;
 
+                $post->body = $body;
+
+                $post->link = $link;
+
             }else{
 
-                $asset = "";
+                $request->validate([
+                    'body_post' => 'bail|required|string|max:255',
+                    'link_post' => 'bail|nullable|url',
+                ]);
+
+                $post->body = $body;
+
+                $post->link = $link;
+
+                //$asset = "";
             }
 
                 $post->save();
 
                 $user = Auth::user();
             
-                //return Response()->json(['post'=>$post,'user'=>$user,'asset'=>$asset]);
-
         }
     }
 

@@ -256,6 +256,12 @@ body {
 	border-bottom-left-radius: 20px; 
 }
 
+<<<<<<< HEAD
+.grass
+{
+	background-color: #000000;
+}*/
+=======
 #post_page {
 	text-align: left;
 	border: 0;
@@ -264,3 +270,4 @@ body {
 	border-bottom-right-radius: 20px;
 	border-bottom-left-radius: 20px;
 }
+>>>>>>> 2b5b135ad3b87e22635bb2ff52562b06ec5550ef
