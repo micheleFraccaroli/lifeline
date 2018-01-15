@@ -3,9 +3,10 @@ $(document).ready(function() {
     socket = io('http://localhost:65001');
     socket.on('new message', function(data){
         console.log("nel new message" + data);
-        console.log("nel new message ---->" + $('#id_logged').val());
+        console.log("nel new message ---->" + $('#id_utente_log').val());
+        
         socket.emit('friend_identified', {
-            nickname: $('#id_logged').val()
+            my_id: $('#id_utente_log').val()
         });
     });
 
@@ -21,12 +22,12 @@ $(document).ready(function() {
             data : data,
             dataTy : 'json',
             success:function(data) {
-                console.log(data);
-                $('#requester').load(location.href + " #requester");
+                console.log("Richiesta di amicizia----> " + data.id);
                 socket.emit('friend_request', {
                     user_requester: data.id_utente1,
                     user_receiver: data.id_utente2,
                 });
+                $('#requester').load(location.href + " #requester");
             },
             error: function(xhr){
                 alert("An error occured: " + xhr.status + " " + xhr.statusText);
@@ -39,7 +40,6 @@ $(document).ready(function() {
         var data = $(this).serialize();
         var url = $(this).attr('action');
         var post = $(this).attr('method');
-        alert(data);
 
         $.ajax({
             type : post,
@@ -48,10 +48,10 @@ $(document).ready(function() {
             dataTy : 'json',
             success:function(data) {
                 console.log("risposta: " + data);
-                $('#requester').load(location.href + " #requester");
                 socket.emit('friend_response', {
                     user_resp_receiver: data
                 });
+                $('#requester').load(location.href + " #requester");
             },
             error: function(xhr){
                 alert("An error occured: " + xhr.status + " " + xhr.statusText);

@@ -60,21 +60,6 @@ io.on('connection', function(socket){
 	});
 });
 
-// appN.get('/', function(req,res) {
-// 	res.sendFile('/resources/index.blade.php');
-// });
-
-// ioN.on('connection', function(socket) {
-// 	console.log("Connected");
-// 	//Notifiche
-// 	socket.on('friend_request', function(data) {
-// 		console.log("NOTIFICA DI RICHIESTA D'AMICIZIA DA UTENTE ID: " + data.user_requester);
-// 		console.log("NOTIFICA DI RICHIESTA D'AMICIZIA A UTENTE ID: " + data.user_receiver);
-// 		//socket.to(id_users[receiver_message])
-// 	});
-// });
-
-
 //utente disconnesso
 io.on('connection', function(socket){
 	socket.on('disconnect', function(){

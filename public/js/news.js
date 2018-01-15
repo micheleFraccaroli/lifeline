@@ -20,9 +20,9 @@ io.on('connection', function(socket){
 
 	//set dentro alla var globale l'id del mio utente con cui sono loggato
 	socket.on('friend_identified', function(data) {
-		id_users[data.nickname] = socket.id;
-		console.log("MIO ID ========> " + data.nickname);
-		console.log("SOCKE MIA ===========> " + id_users[data.nickname]);
+		id_users[data.my_id] = socket.id;
+		console.log("MIO ID ========> " + data.my_id);
+		console.log("SOCKE MIA ===========> " + id_users[data.my_id]);
 	});
 
 	socket.on('friend_request', function(data) {
@@ -30,7 +30,7 @@ io.on('connection', function(socket){
 		console.log("RICHIESTA D'AMICIZIA PER UTENTE CON ID -------> " + data.user_receiver);
 		receiver_notification[data.user_requester] = data.user_receiver;
 		console.log(receiver_notification[data.my_identifier] = data.user_receiver);
-		console.log("SOCKET DEL RICEVENTEA DALLA NOTIFICA: " + id_users[receiver_notification[data.user_requester]])
+		console.log("SOCKET DEL RICEVENTE DALLA NOTIFICA: " + id_users[receiver_notification[data.user_requester]])
 		socket.to(id_users[receiver_notification[data.user_requester]]).emit('send_fr_req', {
 			news: "Richiesta di amicizia"
 		});
