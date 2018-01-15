@@ -6,18 +6,18 @@
     <div class="row">
 
         <div class="col-md-2">
-            <div class="panel panel-default">
+            <div class="panel panel-default homeImage">
                 <?php if(Auth::user()->image == '0'){?>
-                    <a href="/users/{{ Auth::user()->id }}"><img id="photo" src="{{URL::asset('/default-profile-image.png')}}"></a>
+                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image.png')}}" alt="Profile Image"></a>
                     <?php } else { ?>
-                        <a href="/users/{{ Auth::user()->id }}"><img id="photo" src="{{asset(Auth::user()->image)}}" height="200" width="163"></a>
+                        <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{asset(Auth::user()->image)}}" alt="Profile Image"></a>
                     <?php } ?>
                     <div id="nick"> 
                         {{ Auth::user()->name }}    
                         {{ Auth::user()->surname }}
                     </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-default homeGroups">
                 <div class="panel-heading">Gruppi</div>
                     <div class="panel-body">
                         Gruppetti Fighetti
@@ -27,7 +27,6 @@
 
         <div class="col-md-8">
             <div class="panel panel-default" id="post_page">
-                <div class="panel-heading">Bacheca</div>
 
                 <!--inizio panel body-->
                     <div class="panel-body">
@@ -38,6 +37,7 @@
                         @endif
 
                         <div class="panel-body">
+
 
                             @include('layouts.errorajax')
                             
@@ -102,6 +102,7 @@
                                         <!--fine modale-->
 
                                     </form>
+
                                 </div>
                             </div>
                         
@@ -117,6 +118,7 @@
                                             if ($post->photo != NULL) {
 
                                                 echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha pubblicato una foto:<br>";
+
                                                 echo $post->body."<br>";
                                                 echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
                                                 echo "<img src='".asset($post->photo)."' class='img-thumbnail' height='200' width='200'/><br><br>";
@@ -197,4 +199,4 @@
 
 @endsection
 
-@extends('layouts.chat')
+@include('layouts.chat')

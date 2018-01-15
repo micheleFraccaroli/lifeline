@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Notifications\FriendshipRequest;
+use App\Notifications\FriendshipResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
@@ -17,8 +18,10 @@ class FriendController extends Controller
         $users = collect();
         $friends = Friend::getFriends(Auth::id());
         foreach ($friends as $fr) {
-            $user = User::find($fr->id_utente);
-            $users = $users->push($user);
+            if($fr->type == 0) {
+                $user = User::find($fr->id_utente);
+                $users = $users->push($user);
+            }
         }
         return view('home', compact('users'));
     }
@@ -47,6 +50,12 @@ class FriendController extends Controller
     protected function friendshipRespond(Request $request) {
     	if($request->ajax()) {
     		$resp = Friend::where('id_utente1', $request['other_id'])->where('id_utente2', $request['my_id'])->update(['type' => $request['type']]);
+
+            $user = User::find($request['my_id']);
+            $user->id = $request['other_id'];
+            $user->setAttribute('my_id', $request['my_id']);
+
+            $user->notify(new FriendshipResponse());
 
     		return response($resp);
     	}

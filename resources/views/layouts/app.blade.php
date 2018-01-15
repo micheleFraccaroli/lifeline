@@ -60,9 +60,9 @@
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group add-on">
-                                    <input class="form-control" placeholder="Cerca" name="srch-term" id="srch-term" type="text">
+                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required>
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><i class="glyphicon glyphicon-search"></i></button>
                                     </div>
                                 </div>
                             </form>
@@ -70,10 +70,11 @@
                                 <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @foreach(Auth::user()->unreadNotifications as $notification)
+                                        @foreach(Auth::user()->Notifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
                                         @endforeach
                                     </li>
+                                    <button type="button" value="{{ Auth::user()->unreadNotifications->markAsRead() }}">Mark as read</button>
                                 </ul>
                             </li>
                             <li>
@@ -108,11 +109,21 @@
                 </div>
             </div>
         </nav>
-
         @yield('content')
     </div>
 
     <!-- Scripts -->
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if(window.location.pathname=='/login'){
+                $(document.body).addClass('login');
+            }
+            else{
+                $(document.body).removeClass('login');   
+            }
+        });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
     <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
