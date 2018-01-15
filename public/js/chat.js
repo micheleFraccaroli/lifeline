@@ -75,18 +75,10 @@ $(document).ready(function(){
 
 });
 
-<<<<<<< HEAD
-function crea(text, id_other, id_conv, my_id) {
-    var element=$('<div></div>').addClass("btn btn-inverted").text(text);
-    var elementChild=$('<div></div>').addClass("btn btn-primary").text("x");
-=======
-//Funzione per creare una nuova tab nella chat
-
-function crea(text, id_other,id_conv) {
+function crea(text, id_other,id_conv, my_id) {
 
     var element=$('<div></div>').addClass("btn btn-inverted btnn").text(text);
     var elementChild=$('<div></div>').addClass("btn btn-primary btnn").text("x");
->>>>>>> 58534100d40688b0eda48db94990d5475e36309a
     var container=$('<div></div>').addClass("container");
     //container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
     container.attr("id","chat_div");
@@ -98,13 +90,8 @@ function crea(text, id_other,id_conv) {
     element.append(elementChild);
     $('#buttons').append(element);
     $('#text').before(container);
-<<<<<<< HEAD
     element.click(changeContext.bind(null,id_other,my_id));
-=======
 
-    element.click(changeContext.bind(null,text));
->>>>>>> 58534100d40688b0eda48db94990d5475e36309a
-    
     if(boxActive!=null)boxActive.css("visibility","hidden");
 
     boxActive=container;
@@ -146,16 +133,10 @@ function removeTab(e) {
     }
 }
 
-<<<<<<< HEAD
 function changeContext(id_other, my_id) {
     console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + my_id);
     containers[id_other].css("visibility","visible");
-=======
-//Funzione per cambiare il box chat attualmente da visualizzare
 
-function changeContext(text) {
-    containers[text].css("visibility","visible");
->>>>>>> 58534100d40688b0eda48db94990d5475e36309a
     boxActive.css("visibility","hidden");
     boxActive=containers[id_other];
     socket.emit('change context', {
