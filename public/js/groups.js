@@ -615,9 +615,7 @@ $("#new_post").on('submit',function(e){
 
     e.preventDefault();
 
-    var res;
-
-    res = check($('#body_post').val(),$("#pic_post")[0].files[0]);
+    var res = 1;
 
     if (res!=-1) {
   
@@ -695,7 +693,12 @@ function like_post_home(target) {
         data : {id_post:post_id},
         dataTy : 'json',
         success:function(data) {
+            console.log("Dati dei like di ritorno dal controller "+data.id)
             $('#bacheca_posts').load(location.href + " #bacheca_posts");
+            socket.emit('like_news', {
+                to: data.id
+            });
+
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);

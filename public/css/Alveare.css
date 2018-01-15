@@ -227,7 +227,7 @@ body {
 	width: 100%;
 	position: absolute;
 	left: 0;
-	background-color: #313131;
+	background-color: #fff;
 	border-bottom: 2px solid black;
 	overflow-y: scroll;
 	word-wrap: normal;

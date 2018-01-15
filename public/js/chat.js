@@ -13,7 +13,7 @@ $(document).ready(function(){
 
     socket = io('http://localhost:65000');
     socket.on('new message', function(data){
-        console.log(data);
+        console.log("E QUA CI SONO "+ data.message);
         socket.emit('identified', {
             nickname: $('#id_utente_log').val()
         });
@@ -21,7 +21,7 @@ $(document).ready(function(){
 
     socket.on('mess', function(data){
         console.log("MESSAGGIO ----> " + data.body + "     "+ data.id_utente);
-        containers[data.id_utente].append('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">' + data.body);
+        containers[data.id_utente].append('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">' + data.body);
         $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
     });
 
@@ -49,7 +49,7 @@ $(document).ready(function(){
         var txt = $('#text').val();
 
         if(code==13 && !e.shiftKey){
-            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
+            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
             $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
             var id_conv = $('#id_conversation').val();
             var id_user = $('#id_utente_log').val();
@@ -72,11 +72,9 @@ $(document).ready(function(){
             });
         }
     });
-
 });
 
 function crea(text, id_other,id_conv, my_id) {
-
     var element=$('<div></div>').addClass("btn btn-inverted btnn").text(text);
     var elementChild=$('<div></div>').addClass("btn btn-primary btnn").text("x");
     var container=$('<div></div>').addClass("container");
@@ -112,11 +110,11 @@ function getMessage(id_conv, text, id_other) {
             for(i=0; i<data.length; i++) {
                 console.log(data[i]);
                 if(data[i].id_utente == id_other) {
-                    $('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+data[i].body+'</span>').appendTo(boxActive);
+                    $('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">'+data[i].body+'</span>').appendTo(boxActive);
                     $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
                 }
                 else {
-                    $('<span style="float: left; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block;">'+data[i].body+'</span>').appendTo(boxActive);
+                    $('<span style="float: left; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">'+data[i].body+'</span>').appendTo(boxActive);
                     $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
                 }
             }

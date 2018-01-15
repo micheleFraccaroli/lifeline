@@ -36,7 +36,7 @@ use App\Http\Controllers\FriendController;
                 <?php   $i++;    
                     }
                     else { ?>
-                        <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}});crea('{{$chat_name}}','{{$user->id}}', null, {{Auth::user()->id}});">{{$chat_name}}</button><br>
+                        <button type="submit" value="{{ $user->id }}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}});crea('{{$chat_name}}','{{$user['id']}}', null, {{Auth::user()->id}});">{{$chat_name}}</button><br>
                 <?php    }
                 }
                 ?>  

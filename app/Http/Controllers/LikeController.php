@@ -46,7 +46,7 @@ class LikeController extends Controller
             $news->id_post = $request['id_post'];
             $news->notify(new LikeNotification());
             
-            return response($like);
+            return response($news);
         }
     }
 

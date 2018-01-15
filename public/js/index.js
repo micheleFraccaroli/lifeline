@@ -1,6 +1,5 @@
 /************* CHAT *************/
 
-
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -15,8 +14,6 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
 	console.log('other user connected to the chat');
-	//console.log(socket.id);
-
 	io.emit('new message', { 
 		username: socket.id,
 		message: "sei connesso alla chat"
@@ -58,12 +55,21 @@ io.on('connection', function(socket){
 			id_utente: data.id_utente
 		});
 	});
+
+	//like section
+	socket.on('like_news', function(data) {
+		console.log("DATA ID DEI LIKE: " + data.to);
+		console.log("LIKE SERVE SIDE =====>  " + id_users[data.to]);
+		socket.to(id_users[data.to]).emit('like_news_refresh', {
+			like: data.id_post
+		});
+	});
 });
 
 //utente disconnesso
 io.on('connection', function(socket){
 	socket.on('disconnect', function(){
-	    console.log('user disconnected');
+	    console.log('user disconnected from the chat');
 	  });
 });
 

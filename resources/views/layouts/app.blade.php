@@ -10,7 +10,7 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
     <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
@@ -113,7 +113,7 @@
     </div>
 
     <!-- Scripts -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function(){
             if(window.location.pathname=='/login'){
                 $(document.body).addClass('login');
@@ -122,11 +122,11 @@
                 $(document.body).removeClass('login');   
             }
         });
-    </script>
+    </script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
-    <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/app.js') }}"></script>
+    <script src="{{asset('js/chat.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/groups.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
