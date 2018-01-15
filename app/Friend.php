@@ -18,12 +18,12 @@ class Friend extends Model
     	$a = array();
     	$b = array();
 
-    	$up = DB::table('friends')->select('id_utente2 AS id_utente', 'type')->where('id_utente1', $id)->get()->toArray();
+    	$up = DB::table('friends')->select('id_utente2 AS id_utente', 'type')->where('id_utente1', $id)->where('type', '<>', 2)->where('type', '<>', 3)->get()->toArray();
 
     	foreach ($up as $u) {
     		array_push($a, $u);
     	}
-    	$down = DB::table('friends')->select('id_utente1 AS id_utente', 'type')->where('id_utente2', $id)->get();
+    	$down = DB::table('friends')->select('id_utente1 AS id_utente', 'type')->where('id_utente2', $id)->where('type', '<>', 2)->where('type', '<>', 3)->get();
     	foreach ($down as $d) {
     		array_push($b, $d);
     	}
@@ -44,20 +44,30 @@ class Friend extends Model
 
     public static function checkFriendship($id_logged, $id_other) {
         $friends = self::getFriends($id_logged);
+        $res = "";
 
-        foreach ($friends as $f) {
-            if($f->id_utente == $id_other) {
-                if($f->type==0) {
-                    return "found";
-                }
-                elseif ($f->type==1) {
-                    return "requested";
+        if(!empty($friends)) {
+            foreach ($friends as $f) {
+                if($f->id_utente == $id_other) {
+                    if($f->type==0) {
+                        $res = "found";
+                    }
+                    elseif ($f->type==1) {
+                        $res = "requested";
+                    }
+                    else {
+                        $res = "not_found";
+                    }
+                    return $res;
                 }
                 else {
-                    return "not_found";
+                    $res = "not_found";
                 }
             }
+            return $res;
         }
-        return "not_found";
+        else {
+            return "not_found";
+        }
     }
 }

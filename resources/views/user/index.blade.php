@@ -22,24 +22,24 @@
 	            		<?php if(strcmp($user[0], "not_found") == 0) {?>
 		                	<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
 		                		{{ csrf_field() }}
-		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
-		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}" id="id_logged">
+		                		<input type="hidden" name="other_id" value="{{$user['id']}}" id="other_id">
 		                		<input type="hidden" name="type" value="1">
 		                		<button type="submit" class="btn btn-success">
 		                    	    Richiedi amicizia
 		                        </button>
 		                	</form>
-		                <?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] != 0) { ?>
+		                <?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] != 0) { ?>	
 		                	<form action="{{ URL::to('/friends/resp') }}" method="POST" id="friend_form_resp">
 		                		{{ csrf_field() }}
 		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
 		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
 		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
 		                		<input type="hidden" id="type_request" name="type" value="">
-		                		<button type="submit" class="btn btn-success" onclick="acceptRequest()">
+		                		<button type="submit" class="btn btn-success" onclick="acceptRequest();">
 		                    	    Accetta
 		                        </button>
-		                        <button type="submit" class="btn btn-success" onclick="rejectRequest()">
+		                        <button type="submit" class="btn btn-danger" onclick="rejectRequest();">
 		                    	    Rifiuta
 		                        </button>
 		                	</form>
@@ -98,3 +98,4 @@
 </div>
 
 @endsection
+<script src="http://localhost:65001/socket.io/socket.io.js"></script>

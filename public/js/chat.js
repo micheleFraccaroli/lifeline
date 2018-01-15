@@ -13,7 +13,6 @@ $(document).ready(function(){
 
     socket = io('http://localhost:65000');
     socket.on('new message', function(data){
-        //boxActive.append('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">').text("you: " + txt);
         console.log(data);
         socket.emit('identified', {
             nickname: $('#id_utente_log').val()
@@ -21,8 +20,9 @@ $(document).ready(function(){
     });
 
     socket.on('mess', function(data){
-        console.log("MESSAGGIO ----> " + data);
-        boxActive.append(data);
+        console.log("MESSAGGIO ----> " + data.body + "     "+ data.id_utente);
+        containers[data.id_utente].append('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">' + data.body);
+        $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
     });
 
     lefts=$(window).width()-$('.nomi').width();  //left del container nomi
@@ -48,8 +48,9 @@ $(document).ready(function(){
         var code=e.keyCode;
         var txt = $('#text').val();
 
-        if(code==13 && !e.shiftKey){    //Quando premo Enter senza premere anche shift
-            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+'you: '+txt+'</span>').appendTo(boxActive);$('#text').val('');
+        if(code==13 && !e.shiftKey){
+            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
+            $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
             var id_conv = $('#id_conversation').val();
             var id_user = $('#id_utente_log').val();
             var mess = txt;           
@@ -74,16 +75,22 @@ $(document).ready(function(){
 
 });
 
+<<<<<<< HEAD
+function crea(text, id_other, id_conv, my_id) {
+    var element=$('<div></div>').addClass("btn btn-inverted").text(text);
+    var elementChild=$('<div></div>').addClass("btn btn-primary").text("x");
+=======
 //Funzione per creare una nuova tab nella chat
 
 function crea(text, id_other,id_conv) {
 
     var element=$('<div></div>').addClass("btn btn-inverted btnn").text(text);
     var elementChild=$('<div></div>').addClass("btn btn-primary btnn").text("x");
+>>>>>>> 58534100d40688b0eda48db94990d5475e36309a
     var container=$('<div></div>').addClass("container");
     //container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
     container.attr("id","chat_div");
-    containers[text]=container;
+    containers[id_other]=container;
 
     container.css("height",($('.chat').width()/100*72.5)+'px');
     container.css("top",$('#text').position().top-container.height());
@@ -91,8 +98,12 @@ function crea(text, id_other,id_conv) {
     element.append(elementChild);
     $('#buttons').append(element);
     $('#text').before(container);
+<<<<<<< HEAD
+    element.click(changeContext.bind(null,id_other,my_id));
+=======
 
     element.click(changeContext.bind(null,text));
+>>>>>>> 58534100d40688b0eda48db94990d5475e36309a
     
     if(boxActive!=null)boxActive.css("visibility","hidden");
 
@@ -114,10 +125,12 @@ function getMessage(id_conv, text, id_other) {
             for(i=0; i<data.length; i++) {
                 console.log(data[i]);
                 if(data[i].id_utente == id_other) {
-                    $('<span class="dx" style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+text+': '+data[i].body+'</span>').appendTo(boxActive);
+                    $('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+data[i].body+'</span>').appendTo(boxActive);
+                    $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
                 }
                 else {
-                    $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block;">'+'you: '+data[i].body+'</span>').appendTo(boxActive);
+                    $('<span style="float: left; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block;">'+data[i].body+'</span>').appendTo(boxActive);
+                    $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
                 }
             }
         }
@@ -133,12 +146,22 @@ function removeTab(e) {
     }
 }
 
+<<<<<<< HEAD
+function changeContext(id_other, my_id) {
+    console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + my_id);
+    containers[id_other].css("visibility","visible");
+=======
 //Funzione per cambiare il box chat attualmente da visualizzare
 
 function changeContext(text) {
     containers[text].css("visibility","visible");
+>>>>>>> 58534100d40688b0eda48db94990d5475e36309a
     boxActive.css("visibility","hidden");
-    boxActive=containers[text];
+    boxActive=containers[id_other];
+    socket.emit('change context', {
+        nick_receiver: id_other,
+        my_identifier: my_id
+    });
 }
 
 function openChat() {
