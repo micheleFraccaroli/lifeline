@@ -534,7 +534,7 @@ function check_pic_extension(pic_name){
 
     var pic_extension = arr[arr.length-1];
 
-    var res = pic_extension.match(/(gif|jpg|jpeg|png)/i);
+    var res = pic_extension.match(/(gif|jpg|jpeg|png)/);
 
     if (res == null){
 
@@ -573,7 +573,32 @@ function check_link(link){
 
     var res;
 
-    
+    var res = link.match(/^(http:\/\/|https:\/\/|ftp:\/\/)(\w{2,})\.(\w{2,})/);
+
+    if (res==null){
+
+        res = 0;
+
+        alert("link non valido...");
+
+    }else{
+
+        res = 1;
+        alert("link valido");
+    }
+
+    return res;
+
+}
+
+function check_length(post_length){
+
+    var res;
+
+    if (post_length > 255){
+
+        alert("input max 255...");
+    }
 
     return res;
 
@@ -617,7 +642,7 @@ $("#new_post").on('submit',function(e){
 
     var res;
 
-    res = check($('#body_post').val(),$("#pic_post")[0].files[0]);
+    res = check($('#body_post').val(),$("#pic_post")[0].files[0],$("#link_post").val());
 
     if (res!=-1) {
   
