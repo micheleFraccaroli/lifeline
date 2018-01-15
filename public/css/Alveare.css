@@ -1,5 +1,5 @@
 body {													/* Corpo della pagina */
-	background-color: #aeeaae;
+	background-color: #ddd;
 	overflow-x: hidden;
 	word-wrap: normal;
 	word-break: keep-all;
@@ -12,9 +12,14 @@ body {													/* Corpo della pagina */
 	font-size: 30px;
 }
 
-#photo {
-	height: 100%;
-	width: 100%;
+.photo {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.post_photo {
+	max-width: auto;
+	max-height: 300px;
 }
 
 .navigation {
@@ -25,6 +30,9 @@ body {													/* Corpo della pagina */
 
 .navbar {
     background-color: #313131;							/* Navbar */
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar-brand span,
@@ -46,12 +54,6 @@ body {													/* Corpo della pagina */
 
 .navbar-default .navbar-nav li a{ 						/* Tasti Navbar */
 	color: #a1a1a1;
-}
-
-.panel-heading {										/* Intestazione pannelli Home */
-	text-align: center;
-	font-size: 25px;
-	font-style: italic;
 }
 
 .dropdown.open > a {
@@ -77,20 +79,34 @@ body {													/* Corpo della pagina */
 	border: 1px solid #a1a1a1;
 }
 
-.panel-default .panel-heading {
-	background-color: #313131;
-	color: #a1a1a1;
-
+.panel-heading {
+	background-color: #aeeaae !important;
+	color: #a1a1a1 !important;
+	text-align: center;
+	font-size: 25px;
+	font-style: italic;
 }
 
-.panel-default .panel-body {
-	background-color: #f1f1f1;
-	color: #000000;
+.panel-body {
+	text-align: center;
+}
+
+.panel-default {
+
+	border-radius: 20px;
+}
+
+.alert-info {
+	background-color: #ffffff;
+	border: 0;
+}
+
+#bacheca_posts {
+	background-color: #dffddf;
 }
 
 .chat {
-	height: 400px;
-	width: 400px;
+	width: 20%;
 	position: fixed;
 	background-color: #444;
 	z-index: 9;
@@ -101,86 +117,85 @@ body {													/* Corpo della pagina */
 
 .nomi {
 	height: 100%;
-	width: 300px;
+	width: 15%;
 	position: fixed;
 	background-color: #888;
 	z-index: 10;
 	margin: 0;
 	padding: 0;
 	border: 0;
-	top: 200;
+	top: 50;
 }
 
-.btn {
-	height: 25px !important;
+.btnn {
+	height: 6.25% !important;
 	padding: 2 !important;
 	margin: 0 !important;
 	display: inline;
 }
 
-.chatt {
-	height: 40px;
-	width: 40px;
-	position: absolute;
-	background-color: #444;
-	bottom: -40;
-	margin: 0;
-	padding: 0;
-	text-align: center;
-	display: inline;
-}
-
 .chat > div:first-child {
+	position: absolute;
 	background-color: #000080;
-	height: 25px;
+	height: 6.25%;/*25px*/
 	width: 100%;
 }
 
 #buttons {
 	overflow: hidden;
-	height: 25;
+	position: absolute;
+	height: 6.5%;/*25px*/
 	width: 100%;
+	background-color: #444;
 }
 
 .resizeChat {
-	width: 25px;
-	height: 25px;
 	position: absolute;
-	top: 0;
-	left: 350;
+	left: 60%;
 	margin: 0;
 	padding: 0;
 }
 
 .closeChat {
-	width: 25px;
-	height: 25px;
 	position: absolute;
-	top: 0;
-	left: 375;
+	left: 90%;
 	margin: 0;
 	padding: 0;
 }
 
 .glyphicon-resize-small,
 .glyphicon-remove {
-	font-size: 25px;
-	text-align: center;
-	display: block;
+	position: absolute;
+}
+
+.chat > div:first-child > .glyphicon-resize-small {
+	left: 87.5%;
+}
+
+.chat > div:first-child > .glyphicon-remove {
+	left: 93.75%;
 }
 
 #text {
 	width: 100%;
 	resize: none;
 	border: none;
-	line-height: 30px;
-	font-size: 20px;
 	font-family: 'Times New Roman';
 	color: black;
 	overflow: hidden;
 	position: absolute;
 	bottom: 0;
 	background-color: #818181;
+}
+
+#chat_div {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	background-color: #313131;
+	border-bottom: 2px solid black;
+	overflow-y: scroll;
+	word-wrap: normal;
 }
 
 #nick {
@@ -191,45 +206,9 @@ body {													/* Corpo della pagina */
 #bacheca {
 	border-top: 2px solid white;
 }
-/*
-.navbar {
-    background-color: #313131;
-}
-ul.nav a:hover {
-	background-color: #313131;
-	text-shadow: 0px 0px 4px #ffffff;
-}
-li {
-	background-color: #313131;
-	font-family: "Raleway",sans-serif;
-	font-weight: lighter;
-	font-size: 30px;
-}
 
-h1 {
-	font-family: "Raleway",sans-serif;
-}
-
-li a {
-	color: #ffffff;
-}
-
-li a:hover {
-	
-	color: #ffffff;
-	background-color: #313131
-}
-
-a {
-	color: #000000;
-}
-
-.container
-{
-	zmargin-left: 0;
-}
-
-.grass
-{
-	background-color: #000000;
+.icon {
+	position: absolute;
+	text-align: center;
+	display: block;
 }
