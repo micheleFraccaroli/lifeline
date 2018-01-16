@@ -1,11 +1,11 @@
 $(document).ready(function() {
 
-    socket = io('http://localhost:65001');
-    socket.on('new message', function(data){
+    socket1 = io('http://localhost:65001');
+    socket1.on('new message', function(data){
         console.log("nel new message" + data);
         console.log("nel new message ---->" + $('#id_utente_log').val());
         
-        socket.emit('friend_identified', {
+        socket1.emit('friend_identified', {
             my_id: $('#id_utente_log').val()
         });
     });
@@ -23,7 +23,7 @@ $(document).ready(function() {
             dataTy : 'json',
             success:function(data) {
                 console.log("Richiesta di amicizia----> " + data.id);
-                socket.emit('friend_request', {
+                socket1.emit('friend_request', {
                     user_requester: data.id_utente1,
                     user_receiver: data.id_utente2,
                 });
@@ -48,7 +48,7 @@ $(document).ready(function() {
             dataTy : 'json',
             success:function(data) {
                 console.log("risposta: " + data);
-                socket.emit('friend_response', {
+                socket1.emit('friend_response', {
                     user_resp_receiver: data
                 });
                 $('#requester').load(location.href + " #requester");
@@ -82,12 +82,12 @@ $(document).ready(function() {
     })
 
     $(document).ready(function() {
-        socket.on('send_fr_req', function(data) {
+        socket1.on('send_fr_req', function(data) {
             console.log(data);
             $('#requester').load(location.href + " #requester");
         });
         
-        socket.on('friend_resp', function(data) {
+        socket1.on('friend_resp', function(data) {
             console.log(data);
             $('#requester').load(location.href + " #requester");
         });

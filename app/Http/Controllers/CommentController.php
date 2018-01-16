@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\CommentNotification;
 use Illuminate\Http\Request;
 
 use App\Comment;
+use App\Post;
 
 class CommentController extends Controller
 {
@@ -49,7 +52,12 @@ class CommentController extends Controller
             $comment->save();
             $user = Auth::user();
 
-            return Response()->json(['comment'=>$comment,'user'=>$user]);
+            $news = Post::find($post_id)->user;
+            $news->id_post = $post_id;
+            $news->body_comment = $body;
+            $news->notify(new CommentNotification());
+
+            return Response()->json(['comment'=>$comment,'user'=>$user, 'news'=>$news]);
 
         }
     }

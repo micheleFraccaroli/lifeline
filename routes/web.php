@@ -65,5 +65,6 @@ Route::post('/contacts/message/show', 'MessageController@show');
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+//Route::get('/update/post', 'HomeController@updatePost');
 
 Route::post('/home/post','PostController@create');
