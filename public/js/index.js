@@ -1,5 +1,3 @@
-/************* CHAT *************/
-
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -19,6 +17,7 @@ io.on('connection', function(socket){
 		message: "sei connesso alla chat"
 	});
 
+	/* --- IDENTIFICAZIONE DELL'UTENTE --- */
 	//set dentro alla var globale l'id del mio utente con cui sono loggato
 	socket.on('identified', function(data) {
 		id_users[data.nickname] = socket.id;
@@ -26,6 +25,7 @@ io.on('connection', function(socket){
 		console.log("ID_USERS[DATA]: " + id_users[data.nickname]);
 	});
 
+	/* --- CHAT --- */
 	//set dentro alla var globale l'id dell'utente con cui voglio comunicare
 	socket.on('receiver', function(data) {
 		receiver_message[data.my_identifier] = data.nick_receiver;
@@ -56,12 +56,29 @@ io.on('connection', function(socket){
 		});
 	});
 
-	//like section
+	/* --- LIKE --- */
 	socket.on('like_news', function(data) {
 		console.log("DATA ID DEI LIKE: " + data.to);
 		console.log("LIKE SERVE SIDE =====>  " + id_users[data.to]);
 		socket.to(id_users[data.to]).emit('like_news_refresh', {
 			like: data.id_post
+		});
+	});
+
+	/* --- COMMENT --- */
+	socket.on('comment_news', function(data) {
+		console.log("DATA COMMENT NOTIFICATION ----> " + data.to);
+		console.log("COMMENT SERVER SIDE ----> " + id_users[data.to]);
+		socket.to(id_users[data.to]).emit('comment_news_refresh', {
+			comment: "Comment"
+		});
+	});
+
+	/* --- POST --- */
+	socket.on('new_post', function(data) {
+		console.log("LAVORO SU POST");
+		socket.emit('refresh_posts', {
+			data: "New posts"
 		});
 	});
 });

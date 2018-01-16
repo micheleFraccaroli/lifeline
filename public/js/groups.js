@@ -359,14 +359,13 @@ function new_comment(target){
         data: {post_id:post_id,body:body},
         datatype: "json",
         success: function(data){
-
-            //$("#collapse_"+post_id).collapse('show');
-
-            //$('#new_comment_'+post_id).load(location.href + ' #new_comment_'+post_id);
-
+            console.log("Commenti: " + data.comment);
             var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
             $('#new_comment_'+post_id).append(comment);
             $('#body_comment_'+post_id).val("");
+            socket.emit('comment_news', {
+                to: data.news.id
+            });
 
         },
             error: function(xhr){
@@ -635,13 +634,16 @@ $("#new_post").on('submit',function(e){
             contentType: false,
             processData: false,
             success: function(data){
-                   
                 $('#bacheca_posts').load(location.href + " #bacheca_posts");
                      
                 $("#pic_src").remove();
                 $('#pic_post').val("");
                 $('#body_post').val("");
                 $('#link_post').val("");
+
+                socket.emit('new_post', {
+                    data: "chack new posts"
+                });
 
                 if ($("#errors_ajax").children()){
 

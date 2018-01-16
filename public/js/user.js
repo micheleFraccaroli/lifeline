@@ -62,5 +62,11 @@ $(document).ready(function() {
             console.log(data);
             $('#notification_div').load(location.href + " #notification_div")
         });
+
+        //refresh per i commenti
+        socket.on('comment_news_refresh', function(data) {
+            console.log(data.comment);
+            $('#notification_div').load(location.href + " #notification_div")
+        });
 });
 
