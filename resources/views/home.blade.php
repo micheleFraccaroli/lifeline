@@ -110,7 +110,7 @@
                             <div class ="col-sm-12"> 
                                 <div class="alert alert-info" id="all_groups">
                                     
-                                    <span hidden id="verify_new_post">{{$all_posts[0]->id}}</span>
+                                    
 
                                     <div id="bacheca_posts">
                                         <?php
