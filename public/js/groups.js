@@ -81,6 +81,8 @@ function pic_post(input) {
 
         $('#pic_space').append(img);
 
+        $('#discard_pic').css({"display":"inline-block"});
+
         reader.onload = function(e) {
             $("#pic_src").attr("src", e.target.result); 
         }                                                                                               
@@ -514,6 +516,21 @@ $("#append_new_posts").on('click','button',function (e) {
 
 /******************************************BACHECA HOME DELL'UTENTE*************************************/
 
+/*****se gli input sono vuoti disabilita il pulsante di condivisione del post*****/
+
+$("#input_mask").keyup(function() {
+
+    if ($('#body_post').val() || $("#pic_post")[0].files[0] || $("#link_post").val()){
+
+        $('#input_mask button[type="submit"]').prop('disabled', false);
+
+    }else{
+
+        $('#input_mask button[type="submit"]').prop('disabled', true);
+    }
+
+});
+
 $("#close_post").on('click',function(e){
 
     $("#Mycollapse").collapse("hide");   
@@ -534,7 +551,7 @@ function check_pic_extension(pic_name){
 
     var pic_extension = arr[arr.length-1];
 
-    var res = pic_extension.match(/(gif|jpg|jpeg|png)/);
+    var res = pic_extension.match(/\b(gif|jpg|jpeg|png)\b/);
 
     if (res == null){
 
@@ -569,27 +586,23 @@ function check_pic_size(pic_size){
 
 }
 
-function check_link(link){
+$("#link_post").keyup(function() {
 
-    var res;
+    var link = $(this).val();
 
-    var res = link.match(/^(http:\/\/|https:\/\/|ftp:\/\/)(\w{2,})\.(\w{2,})/);
+    var res = link.match(/\b(http:\/\/|https:\/\/|ftp:\/\/|www\.)\b([A-Za-z0-9]{2,}[.]){1,}\b(com|it|fr)\b(\/\w)*/);
 
     if (res==null){
 
-        res = 0;
-
-        alert("link non valido...");
+        $("#link_post").css({"color":"#555","text-decoration": "none"});
 
     }else{
 
-        res = 1;
-        alert("link valido");
+        $("#link_post").css({"color":"#5bc0de","text-decoration": "underline"});
+
     }
 
-    return res;
-
-}
+});
 
 function check_length(post_length){
 
@@ -606,9 +619,9 @@ function check_length(post_length){
 
 /****la funzione check() prende in input come parametri tutti i possibili campi di input*****/
 
-function check(post,pic,link){
+function check(post,pic){
 
-    var check = [1,1,1,1];
+    var check = [1,1,1];
 
     if (post){
 
@@ -619,12 +632,6 @@ function check(post,pic,link){
 
         check[1] = check_pic_extension(pic.name);
         check[2] = check_pic_size(pic.size);
-
-    }
-
-    if (link){
-
-        check[3] = check_link(link);
 
     }
 
@@ -642,7 +649,7 @@ $("#new_post").on('submit',function(e){
 
     var res;
 
-    res = check($('#body_post').val(),$("#pic_post")[0].files[0],$("#link_post").val());
+    res = check($('#body_post').val(),$("#pic_post")[0].files[0]);
 
     if (res!=-1) {
   

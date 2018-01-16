@@ -41,7 +41,7 @@
 
                             @include('layouts.errorajax')
                             
-                            <div class ="col-sm-12"> 
+                            <div class ="col-sm-12" id="input_mask"> 
                                 <div class="alert alert-info">
                                     <form method="POST" action="{{ URL::to('/home/post') }}" enctype="multipart/form-data" id="new_post">
 
@@ -67,13 +67,16 @@
                                                 </button>
                                                 <hr>
                                                 <div id = "pic_space">
-                                                
+                                                    <button type='button' class='btn btn-info' id="discard_pic" style="display: none;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                    Discard pic
+                                                    </button>
                                                 </div>
                                                                                             
                                             </div>
                                         </div>
 
-                                        <button type="submit" class="class= btn btn-info btn-block">
+                                        <button type="submit" class="btn btn-info btn-block" disabled>
                                                 Share with your friends...
                                         </button>
 
