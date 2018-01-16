@@ -73,14 +73,6 @@ io.on('connection', function(socket){
 			comment: "Comment"
 		});
 	});
-
-	/* --- POST --- */
-	socket.on('new_post', function(data) {
-		console.log("LAVORO SU POST");
-		socket.emit('refresh_posts', {
-			data: "New posts"
-		});
-	});
 });
 
 //utente disconnesso
