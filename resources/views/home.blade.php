@@ -109,8 +109,6 @@
 
                             <div class ="col-sm-12"> 
                                 <div class="alert alert-info" id="all_groups">
-                                    
-                                    
 
                                     <div id="bacheca_posts">
                                         <?php

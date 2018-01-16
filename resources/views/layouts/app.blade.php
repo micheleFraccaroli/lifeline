@@ -70,11 +70,10 @@
                                 <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @foreach(Auth::user()->Notifications as $notification)
+                                        @foreach(Auth::user()->unreadNotifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
                                         @endforeach
                                     </li>
-                                    <button type="button" value="{{ Auth::user()->unreadNotifications->markAsRead() }}">Mark as read</button>
                                 </ul>
                             </li>
                             <li>
