@@ -10,16 +10,10 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     
     <link href="{{ asset('css/Alveare.css') }}" rel="stylesheet">
 
@@ -54,7 +48,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('register') }}" class="navigation">Sigup</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">Sign up</a></li>
 
                         @else
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
@@ -62,7 +56,7 @@
                                 <div class="input-group add-on">
                                     <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required>
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><i class="glyphicon glyphicon-search"></i></button>
+                                        <button class="btn btn-default" type="submit" onclick="chech_search();">&nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp;</button>
                                     </div>
                                 </div>
                             </form>
@@ -113,16 +107,6 @@
     </div>
 
     <!-- Scripts -->
-    <script type="text/javascript">
-        $(document).ready(function(){
-            if(window.location.pathname=='/login'){
-                $(document.body).addClass('login');
-            }
-            else{
-                $(document.body).removeClass('login');   
-            }
-        });
-    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
@@ -132,5 +116,17 @@
     <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            if(window.location.pathname=='/login'){
+                $(document.body).addClass('login');
+            }
+            else{
+                $(document.body).removeClass('login');   
+            }
+        });
+    </script>       
 </body>
 </html>

@@ -199,4 +199,4 @@
 
 @endsection
 
-@include('layouts.chat')
+@extends('layouts.chat')

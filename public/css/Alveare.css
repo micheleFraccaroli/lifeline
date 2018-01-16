@@ -153,7 +153,7 @@ body {
 	height: 100%;
 	width: 15%;
 	position: fixed;
-	background-color: #949494;
+	background: linear-gradient(to bottom,#626262,#949494);
 	z-index: 10;
 	margin: 0;
 	padding: 0;
@@ -221,6 +221,10 @@ body {
 	position: absolute;
 	bottom: 0;
 	background-color: #818181;
+}
+
+.form-control {				//L'area dove scrivere i post non deve essere ridimensionata manualmente
+	resize: none;
 }
 
 #chat_div {
