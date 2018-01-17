@@ -614,9 +614,7 @@ $("#new_post").on('submit',function(e){
 
     e.preventDefault();
 
-    var res=1;
-
-   // res = check($('#body_post').val(),$("#pic_post")[0].files[0]);
+    var res = 1;
 
     if (res!=-1) {
   

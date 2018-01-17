@@ -21,7 +21,16 @@ $(document).ready(function(){
 
     socket.on('mess', function(data){
         console.log("MESSAGGIO ----> " + data.body + "     "+ data.id_utente);
-        containers[data.id_utente].append('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">' + data.body);
+        var div=$('<span class="chatMex">' + data.body+'</span>');
+
+        div.css("float","right");
+        div.css("background-color","#ddf");
+           
+        if(boxActive.children().length>2) {
+            div.css("clear",boxActive.children().last().css("float"));
+        }
+
+        containers[data.id_utente].append(div);
         $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
     });
 
@@ -49,7 +58,15 @@ $(document).ready(function(){
         var txt = $('#text').val();
 
         if(code==13 && !e.shiftKey){
-            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
+            var div=$('<span class="chatMex">'+txt+'</span>');
+            div.css("float","left");
+            div.css("background-color","#dffddf");
+            
+            if(boxActive.children().length>2) {
+                        div.css("clear",boxActive.children().last().css("float"));
+            }
+
+            div.appendTo(boxActive);$('#text').val('');
             $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
             var id_conv = $('#id_conversation').val();
             var id_user = $('#id_utente_log').val();
@@ -75,10 +92,10 @@ $(document).ready(function(){
 });
 
 function crea(text, id_other,id_conv, my_id) {
-    var element=$('<div></div>').addClass("btn btn-inverted btnn").text(text);
-    var elementChild=$('<div></div>').addClass("btn btn-primary btnn").text("x");
+    var element=$('<div></div>').addClass("btn btnName").text(text);
+    var elementChild=$('<div></div>').addClass("btn btnX").text("X");
     var container=$('<div></div>').addClass("container");
-    //container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
+    
     container.attr("id","chat_div");
     containers[id_other]=container;
 
@@ -88,6 +105,9 @@ function crea(text, id_other,id_conv, my_id) {
     element.append(elementChild);
     $('#buttons').append(element);
     $('#text').before(container);
+
+    var ps=new PerfectScrollbar('#chat_div'); //Creo scrollbar al container creando due figli
+
     element.click(changeContext.bind(null,id_other,my_id));
 
     if(boxActive!=null)boxActive.css("visibility","hidden");
@@ -106,16 +126,26 @@ function getMessage(id_conv, text, id_other) {
         data : {'id_conversazione': id_conv},
         dataTy : 'json',
         success:function(data) {
-            console.log(data);
+            var div; //Variabile contenitore del messaggio
             for(i=0; i<data.length; i++) {
-                console.log(data[i]);
+                div=$('<span class="chatMex">'+data[i].body+'</span>');
+                    
+                //console.log("Numero figli: "+boxActive.children().length);
+                if(boxActive.children().length>2) {//console.log(boxActive.children().last().css("float"));
+                        div.css("clear",boxActive.children().last().css("float"));
+                }
+
                 if(data[i].id_utente == id_other) {
-                    $('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">'+data[i].body+'</span>').appendTo(boxActive);
+                    div.css("float","right");
+                    div.css("background-color","#ddf");
+                    div.appendTo(boxActive);
                     $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
                 }
                 else {
-                    $('<span style="float: left; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block; color: black;">'+data[i].body+'</span>').appendTo(boxActive);
-                    $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
+                    div.css("float","left");
+                    div.css("background-color","#dffddf");
+                    div.appendTo(boxActive);
+                    $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);//console.log("Aggiunto: "+boxActive.children().last().css("background-color"));
                 }
             }
         }

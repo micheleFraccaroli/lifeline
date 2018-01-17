@@ -96,5 +96,6 @@
 		</div>
 	<?php } ?>
 </div>
-<script src="http://localhost:65001/socket.io/socket.io.js"></script>
+
 @endsection
+<script src="http://localhost:65001/socket.io/socket.io.js"></script>

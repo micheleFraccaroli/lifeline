@@ -44,11 +44,5 @@ use App\Http\Controllers\FriendController;
         </div>
     </div>
 </div>
-<script src="http://localhost:65000/socket.io/socket.io.js"></script>
-<div id="container" style="position: relative; overflow: auto;">
-    <div style="width: 1280px;height: 720px;" class="content"></div></div>
-        <script src="{{asset('js/perfect-scrollbar.js') }}" type="text/javascript"></script>
 
-    <script type="text/javascript">
-        var ps=new PerfectScrollbar('#container');
-    </script>
+<script src="http://localhost:65000/socket.io/socket.io.js"></script>
