@@ -5,5 +5,5 @@
 	<?php } else { ?>
 		<h5>Mi piace ad un tuo post da {{ $notification->data['like']['name'] }} {{ $notification->data['like']['surname'] }} </h5>
 	<?php } ?>
-
+	
 </a>

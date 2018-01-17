@@ -40,35 +40,11 @@ class UserController extends Controller
     }
 
     public function search(Request $request) {
-        if(count(request('srch-term')) == 0) {
-            $user = "";
-            return view('users', compact('user'));
-        }
-        $search = explode(" ", request('srch-term'));
-        if(count($search) == 2) {
-            $user = User::where('name', 'LIKE', '%'.$search[0].'%')->where('surname', 'LIKE', '%'.$search[1].'%')->get();
-            if(count($user) == 0) {
-                $user = User::where('name', 'LIKE', '%'.$search[1].'%')->where('surname', 'LIKE', '%'.$search[0].'%')->get();
-                if(count($user) == 0) {
-                    //exit();
-                }
-            }
-            //return redirect()->action('UserController@show', ['id' => $user[0]->id]);
-            return view('users', compact('user'));
-        }
-        elseif (count($search) == 1) {
-            $user = User::where('name', 'LIKE', '%'.$search[0].'%')->get();
-            if(count($user) == 0) {
-                $user = User::where('surname', 'LIKE', '%'.$search[0].'%')->get();
-                if(count($user) == 0) {
-                    //exit();
-                }
-            }
-            return view('users', compact('user'));
-        }
-        else {
-            return "void_search";
-        }
+
+        $search = request('srch-term');
+        $user = User::where('complete_name', 'LIKE', '%'.$search.'%')->get();
+        return view('users', compact('user'));
+
     }
 
     public function edit($id) {

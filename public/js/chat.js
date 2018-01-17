@@ -8,6 +8,7 @@ var tops;
 var socket;
 var chatResizeDim;
 var chatInitDim;
+var ChatIsOpen = false;
 
 $(document).ready(function(){
 
@@ -21,7 +22,10 @@ $(document).ready(function(){
 
     socket.on('mess', function(data){
         console.log("MESSAGGIO ----> " + data.body + "     "+ data.id_utente);
-        var div=$('<span class="chatMex">' + data.body+'</span>');
+        //decrypt message from other socket
+        var decryptedMess = CryptoJS.AES.decrypt(data.body, "testKey").toString(CryptoJS.enc.Utf8);
+
+        var div=$('<span class="chatMex">' + decryptedMess+'</span>');
 
         div.css("float","right");
         div.css("background-color","#ddf");
@@ -29,9 +33,13 @@ $(document).ready(function(){
         if(boxActive.children().length>2) {
             div.css("clear",boxActive.children().last().css("float"));
         }
-
-        containers[data.id_utente].append(div);
-        $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
+        if(ChatIsOpen) {
+            containers[data.id_utente].append(div);
+            $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
+        }
+        else {
+            crea(data.chat_name, data.id_other, data.id_conv, data.id_utente);
+        }
     });
 
     lefts=$(window).width()-$('.nomi').width();  //left del container nomi
@@ -74,15 +82,21 @@ $(document).ready(function(){
             var url = "/message/create";
             var method = "post";
 
+            //encrypt message
+            var encryptedAES = CryptoJS.AES.encrypt(mess, "testKey").toString() ;
+
             $.ajax({
                 type : method,
                 url : url,
-                data : {'id_conv': id_conv, 'id_user' : id_user, 'mess' : mess},
+                data : {'id_conv': id_conv, 'id_user' : id_user, 'mess' : encryptedAES},
                 dataTy : 'json',
                 success:function(data) {
-                    console.log(data);
+                    console.log("MESSAGGIO IN RICEZIONE ____ " + data.name_receiver);
                     socket.emit('chat message', {
                         body: data.body,
+                        chat_name:  data.name_receiver,
+                        id_other: $('#id_other').val(),
+                        id_conv: data.id_conversazione,
                         id_utente: data.id_utente
                     });
                 }
@@ -97,26 +111,30 @@ function crea(text, id_other,id_conv, my_id) {
     var container=$('<div></div>').addClass("container");
     
     container.attr("id","chat_div");
-    containers[id_other]=container;
+    if(containers[id_other]) {
+        boxActive = containers[id_other];    
+    }
+    else {
+        containers[id_other]=container;
+        container.css("height",($('.chat').width()/100*72.5)+'px');
+        container.css("top",$('#text').position().top-container.height());
 
-    container.css("height",($('.chat').width()/100*72.5)+'px');
-    container.css("top",$('#text').position().top-container.height());
+        element.append(elementChild);
+        $('#buttons').append(element);
+        $('#text').before(container);
+        element.click(changeContext.bind(null,id_other,my_id));
 
-    element.append(elementChild);
-    $('#buttons').append(element);
-    $('#text').before(container);
+        var ps=new PerfectScrollbar('#chat_div'); //Creo scrollbar al container creando due figli
 
-    var ps=new PerfectScrollbar('#chat_div'); //Creo scrollbar al container creando due figli
+        if(boxActive!=null)boxActive.css("visibility","hidden");
 
-    element.click(changeContext.bind(null,id_other,my_id));
+        boxActive=container;
 
-    if(boxActive!=null)boxActive.css("visibility","hidden");
+        elementChild.click(removeTab.bind(null,element));
+        getMessage(id_conv, text, id_other);
+    }
 
-    boxActive=container;
-
-    elementChild.click(removeTab.bind(null,element));
     openChat();
-    getMessage(id_conv, text, id_other);
 }
 
 function getMessage(id_conv, text, id_other) {
@@ -128,7 +146,10 @@ function getMessage(id_conv, text, id_other) {
         success:function(data) {
             var div; //Variabile contenitore del messaggio
             for(i=0; i<data.length; i++) {
-                div=$('<span class="chatMex">'+data[i].body+'</span>');
+                //decrypt message from database
+                var decryptedMessages = CryptoJS.AES.decrypt(data[i].body, "testKey").toString(CryptoJS.enc.Utf8);
+
+                div=$('<span class="chatMex">'+decryptedMessages+'</span>');
                     
                 //console.log("Numero figli: "+boxActive.children().length);
                 if(boxActive.children().length>2) {//console.log(boxActive.children().last().css("float"));
@@ -176,6 +197,8 @@ function changeContext(id_other, my_id) {
 function openChat() {
     $('.chat').animate({
             left: lefts-$('.chat').width()-10
+    }, function() {
+        ChatIsOpen = true;
     });
     
 }
@@ -183,6 +206,8 @@ function openChat() {
 function closeChat() {
     $('.chat').animate({
             left: lefts
+    }, function() {
+        ChatIsOpen = false;
     });
 }
 

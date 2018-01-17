@@ -29,7 +29,6 @@ use App\Http\Controllers\FriendController;
                 foreach($users['users'] as $user) {
                     $id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user['id']);
                     $chat_name = $user->name . " " . $user->surname; 
-                    
                     if(!empty($id_conv)) { 
                         $tot = array_merge($tot, $id_conv); ?>
                         <button type="submit" value="{{ $user['id'] }}" onclick="add_id_other({{$user['id']}},{{Auth::user()->id}});crea('{{$chat_name}}','{{$user['id']}}',{{$tot[$i]->id_conversazione}},{{Auth::user()->id}});">{{$chat_name}}</button><br>
