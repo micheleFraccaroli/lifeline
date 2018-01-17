@@ -50,8 +50,13 @@ io.on('connection', function(socket){
 	socket.on('chat message', function(data) {
 		console.log("CORPO DEL MESSAGGIO -------> " + data.body);
 		console.log("MESSAGGIO A LUI ---------> " + id_users[receiver_message[data.id_utente]]);
+		console.log("RICETTORE DEL MESSAGGIO ---> " + data.chat_name);
+
 		socket.to(id_users[receiver_message[data.id_utente]]).emit('mess', {
 			body: data.body, 
+			chat_name: data.chat_name,
+			id_other: data.id_other,
+			id_conv: data.id_conv,
 			id_utente: data.id_utente
 		});
 	});
