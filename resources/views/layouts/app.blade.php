@@ -56,20 +56,20 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('register') }}" class="navigation">Sigup</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">sigup</a></li>
 
                         @else
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group add-on">
-                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required>
+                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required oninvalid="this.setCustomValidity('This field can not be empty')" oninput="setCustomValidity('')">
                                     <div class="input-group-btn">
                                         <button class="btn btn-default" type="submit" onclick="chech_search();"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
                                     </div>
                                 </div>
                             </form>
                             <li class="dropdown" id="notification_div">
-                                <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
+                                <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">News <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         @foreach(Auth::user()->unreadNotifications as $notification)
@@ -79,7 +79,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="/contacts">Contatti</a>
+                                <a href="/friends">Friends</a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -102,7 +102,9 @@
                                     <li>
                                         <a href="/users/{{ Auth::user()->id }}">Profile</a>
                                     </li>
-
+                                    <li>
+                                        <a href="/activity/{{ Auth::user()->id }}">Activity</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endguest

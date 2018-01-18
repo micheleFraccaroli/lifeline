@@ -49,8 +49,13 @@ io.on('connection', function(socket){
 	//invio del messaggio
 	socket.on('chat message', function(data) {
 		console.log("CORPO DEL MESSAGGIO -------> " + data.body);
-		console.log("MESSAGGIO A LUI ---------> " + id_users[receiver_message[data.id_utente]]);
-		console.log("RICETTORE DEL MESSAGGIO ---> " + data.chat_name);
+		console.log("MESSAGGIO A LUI ---------> " + id_users[data.id_other]);
+		console.log("EMITTENTE DEL MESSAGGIO ---> " + data.chat_name);
+		console.log("ID UTENTE DAL SERVER --->" + data.id_utente);
+		console.log("ID OTHER DAL SERVER --->" + data.id_other);
+		console.log("ID OTHER ARRAY DAL SERVER --->" +receiver_message[data.id_utente]);
+		console.log("ID CONV DAL SERVER --->" + data.id_conv);
+
 
 		socket.to(id_users[receiver_message[data.id_utente]]).emit('mess', {
 			body: data.body, 

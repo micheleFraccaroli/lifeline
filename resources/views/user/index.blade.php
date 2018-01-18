@@ -1,14 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <div class="panel panel-default">
-                <?php if($user['image'] == null) { ?>
-                    <a href="/users/{{ $user['id'] }}"><img src="{{URL::asset('/default-profile-image.png')}}" width="163" height="200"></a>
+            <div class="panel panel-default homeImage">
+                <?php if($user['image'] == 0 && $user['sex'] == 'M') { ?>
+                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{URL::asset('/default-profile-image-M.png')}}" alt="Profile Image"></a>
+                <?php } elseif($user['image'] == 0 && $user['sex'] == 'F') { ?>
+                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{URL::asset('/default-profile-image-F.png')}}" alt="Profile Image"></a>
                 <?php } else { ?>
-                    <a href="/users/{{ $user['id'] }}"><img src="{{asset($user['image'])}}" height="200" width="163"></a>
+                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{asset($user['image'])}}" alt="Profile Image"></a>
                 <?php } ?>
                 <hr>
                 {{ $user['name'] }}    

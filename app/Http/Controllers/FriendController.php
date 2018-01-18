@@ -23,7 +23,7 @@ class FriendController extends Controller
                 $users = $users->push($user);
             }
         }
-        return view('home', compact('users'));
+        return view('contacts', compact('users'));
     }
 
     protected function friendshipRequest(Request $request) {

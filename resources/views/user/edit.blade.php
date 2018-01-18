@@ -16,7 +16,13 @@
                     </div>
 
                     <div class="form-group">
-                        <img id="show_users_pic" class = "img-responsive" src="{{asset($user_up->image)}}" height="200" width="200"/>
+                        <?php if(Auth::user()->image == '0' && Auth::user()->sex == 'M'){ ?>
+                            <img id="show_users_pic" class="img-responsive" src="{{URL::asset('/default-profile-image-M.png')}}" alt="Profile Image">
+                        <?php } elseif(Auth::user()->image == '0' && Auth::user()->sex == 'F') { ?>
+                            <img id="show_users_pic" class="img-responsive" src="{{URL::asset('/default-profile-image-F.png')}}" alt="Profile Image">
+                        <?php } else { ?>
+                            <img id="show_users_pic" class = "img-responsive" src="{{asset($user_up->image)}}" height="200" width="200"/>
+                        <?php } ?>
                         <span class="custom-file-control"></span>
                         <input type="hidden" name="user_pic_value">
                     </div>

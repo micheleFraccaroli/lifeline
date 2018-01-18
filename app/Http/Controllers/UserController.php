@@ -103,4 +103,9 @@ class UserController extends Controller
         }
 
     }
+
+    public function activity($id) {
+        $user = User::find($id);
+        return view('user.activity', compact('user'));
+    }
 }

@@ -18,10 +18,11 @@ class MessageController extends Controller
     			'id_utente' => $request['id_user'],
 	    	]);
 
-            $id_receiver = Conversations_user::where('id_conversazione', $request['id_conv'])->where('id_utente', $request['id_user'])->get();
-            $user_receiver = User::find($id_receiver[0]->id_utente);
+            $id_receiver = Conversations_user::where('id_conversazione', $request['id_conv'])->where('id_utente','<>', $request['id_user'])->get();
+            $user_receiver = User::find($request['id_user']);
 
             $message['name_receiver'] = $user_receiver->name . " " . $user_receiver->surname;
+            $message['id_receiver'] = $id_receiver[0]->id_utente;
             return $message;
     	}
     }
