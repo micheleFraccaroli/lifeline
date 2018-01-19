@@ -13,8 +13,9 @@
 
 //Users
 //Route::get('/contacts', 'UserController@index');
+
 Route::post('/search', 'UserController@search');
-Route::post('/users/conversation', 'UserController@test_ajax');
+//Route::post('/users/conversation', 'UserController@test_ajax');
 Route::get('/users/update/{id}', 'UserController@edit');
 Route::get('/users/{id}', 'UserController@show');
 Route::post('/users/{id}', 'UserController@update');
@@ -36,20 +37,20 @@ Route::get('/user/new_group/{id}','UserController@subscribe_new_group');
 //Friends
 //Route::get('/contacts', 'FriendController@show');
 Route::get('/friends', 'FriendController@show');
-Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+//Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::post('/friends/req', 'FriendController@friendshipRequest');
 Route::post('/friends/resp', 'FriendController@friendshipRespond');
 Route::post('/friends/del', 'FriendController@Deletefriendship');
 
 //Comments
-Route::get('/comments', 'CommentController@index');
-Route::get('/comments/{id_post}', 'CommentController@showPost');
+//Route::get('/comments', 'CommentController@index');
+//Route::get('/comments/{id_post}', 'CommentController@showPost');
 Route::post('/comments','CommentController@store');
 
 //Conversations
-Route::get('/conversations','ConversationController@index');
+//Route::get('/conversations','ConversationController@index');
 Route::post('/conversations/create','ConversationController@create');
-Route::get('/conversations/{id}','ConversationController@get_id');
+//Route::get('/conversations/{id}','ConversationController@get_id');
 
 //Likes
 Route::post('/post/like', 'LikeController@createPostLike');
@@ -62,6 +63,7 @@ Route::get('/post/{id}', 'PostController@show');
 Route::post('/message/create', 'MessageController@create');
 Route::post('/contacts/message/show', 'MessageController@show');
 
+//Every news received for the users
 Route::get('/activity/{id}', 'UserController@activity');
 
 Auth::routes();

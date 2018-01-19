@@ -53,11 +53,10 @@ io.on('connection', function(socket){
 		console.log("EMITTENTE DEL MESSAGGIO ---> " + data.chat_name);
 		console.log("ID UTENTE DAL SERVER --->" + data.id_utente);
 		console.log("ID OTHER DAL SERVER --->" + data.id_other);
-		console.log("ID OTHER ARRAY DAL SERVER --->" +receiver_message[data.id_utente]);
 		console.log("ID CONV DAL SERVER --->" + data.id_conv);
 
 
-		socket.to(id_users[receiver_message[data.id_utente]]).emit('mess', {
+		socket.to(id_users[data.id_other]).emit('mess', {
 			body: data.body, 
 			chat_name: data.chat_name,
 			id_other: data.id_other,

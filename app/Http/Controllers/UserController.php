@@ -41,6 +41,11 @@ class UserController extends Controller
 
     public function search(Request $request) {
 
+        if(request('srch-term') == 'null') {
+            $user = "Error";
+            return view('users', compact('user'));
+        }
+
         $search = request('srch-term');
         $user = User::where('complete_name', 'LIKE', '%'.$search.'%')->get();
         return view('users', compact('user'));

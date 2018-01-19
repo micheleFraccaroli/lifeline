@@ -28,7 +28,7 @@ class FriendController extends Controller
 
     protected function friendshipRequest(Request $request) {
     	$news = collect();
-
+        
     	if($request->ajax()) {
     		$friendShip = Friend::updateOrCreate(
     			['id_utente1' => $request['my_id'],

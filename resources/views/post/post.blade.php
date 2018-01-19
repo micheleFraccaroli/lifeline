@@ -2,6 +2,8 @@
 
 @section('content')
 
+<?php if(Auth::check()) { ?>
+
 {{Auth::user()->unreadNotifications->markAsRead()}}
 
 <div class="container">
@@ -24,5 +26,10 @@
         </div>
     </div>
 </div>
+
+<?php } else {
+    header('Location: ' . route('login'));
+    die();
+} ?>
 
 @endsection

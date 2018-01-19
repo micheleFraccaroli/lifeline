@@ -46,9 +46,13 @@ class GroupController extends Controller
 
 			$appartiene = GROUP::find($id)->users()->where('id',Auth::id())->get();
 
-			$user_log = User::find(Auth::id());
+			if(Auth::id() != 0) {
 
-			$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->get();
+				$user_log = User::find(Auth::id());
+
+				$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->get();
+
+			}
 
 			$group = Group::find($id);
 

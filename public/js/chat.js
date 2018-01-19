@@ -38,7 +38,7 @@ $(document).ready(function(){
                 crea(data.chat_name, data.id_utente, data.id_conv, data.id_other, 1);
             }
 
-            if(containers[data.id_utente].children().length>2) {
+            if(containers[data.id_utente].children().length>2) {console.log("Ci sono messaggi!!!!");
                 div.css("clear",containers[data.id_utente].children().last().css("float"));
             }
 
@@ -136,15 +136,15 @@ function crea(text, id_other,id_conv, my_id, flag) {
         var container=$('<div></div>').addClass("container");
         
         container.attr("id","chat_div");
-
         containers[id_other]=container;
         container.css("height",($('.chat').width()/100*72.5)+'px');
         container.css("top",$('#text').position().top-container.height());
+        container.idU=id_other;
 
         element.append(elementChild);
         $('#buttons').append(element);
         $('#text').before(container);
-        element.click(changeContext.bind(null,id_other,my_id));
+        element.click(changeContext.bind(null,id_other,my_id, id_conv));
 
         var ps=new PerfectScrollbar('#chat_div'); //Creo scrollbar al container creando due figli
 
@@ -213,12 +213,14 @@ function removeTab(e) {
     }
 }
 
-function changeContext(id_other, my_id) {
-    console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + my_id);
+function changeContext(id_other, my_id, id_conv) {
+    console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + id_other);
     containers[id_other].css("visibility","visible");
 
     boxActive.css("visibility","hidden");
     boxActive=containers[id_other];
+
+    getMessage(id_conv, "", id_other);
     socket.emit('change context', {
         nick_receiver: id_other,
         my_identifier: my_id

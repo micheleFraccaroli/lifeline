@@ -13,7 +13,6 @@
     
     <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -58,7 +57,7 @@
                         @guest
                             <li><a href="{{ route('register') }}" class="navigation">sigup</a></li>
 
-                        @else
+                        
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group add-on">
@@ -68,6 +67,7 @@
                                     </div>
                                 </div>
                             </form>
+                        @else
                             <li class="dropdown" id="notification_div">
                                 <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">News <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
