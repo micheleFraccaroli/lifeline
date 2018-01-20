@@ -32,7 +32,7 @@ use App\Http\Controllers\FriendController;
                     $chat_name = $user->name . " " . $user->surname; 
                     if(!empty($id_conv)) { 
                         $tot = array_merge($tot, $id_conv); ?>
-                        <button type="submit" value="{{ $user['id'] }}" onclick="add_id_other({{$user['id']}},{{Auth::user()->id}});crea('{{$chat_name}}','{{$user['id']}}',{{$tot[$i]->id_conversazione}},{{Auth::user()->id}}, 0);">{{$chat_name}}</button><br>
+                        <button type="submit" value="{{ $user['id'] }}" onclick="clearIdConv();add_id_other({{$user['id']}},{{Auth::user()->id}});crea('{{$chat_name}}','{{$user['id']}}',{{$tot[$i]->id_conversazione}},{{Auth::user()->id}}, 0);">{{$chat_name}}</button><br>
                 <?php   $i++;    
                     }
                     else { ?>

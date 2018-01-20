@@ -101,7 +101,7 @@ $(document).ready(function(){
             //encrypt message
             var encryptedAES = CryptoJS.AES.encrypt(mess, "testKey").toString() ;
             console.log("MESSAGGIO IN SCRITTURA ----> " + encryptedAES + " UTENTE " + id_user + " ID CONV " + id_conv);
-
+            console.log("ID_CONV NELLA SCRITTURA --------->" + id_conv);
             $.ajax({
                 type : method,
                 url : url,
@@ -127,6 +127,7 @@ $(document).ready(function(){
 
 //flag serve per vedere s la chat è creata da un click dell'utente o dall'arrivo di un nuovo messaggio
 function crea(text, id_other,id_conv, my_id, flag) {    
+    document.getElementById("id_conversation").value = id_conv;
     if(typeof containers[id_other] != 'undefined') {
         boxActive = containers[id_other];
     }
@@ -214,17 +215,17 @@ function removeTab(e) {
 }
 
 function changeContext(id_other, my_id, id_conv) {
-    console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + id_other);
+    console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + id_other + " MY _ID -->" + my_id);
+    console.log("ID CONV DENTRO A CHANGE CONTEXT --->" + id_conv);
     containers[id_other].css("visibility","visible");
 
     boxActive.css("visibility","hidden");
     boxActive=containers[id_other];
 
-    getMessage(id_conv, "", id_other);
-    socket.emit('change context', {
-        nick_receiver: id_other,
-        my_identifier: my_id
-    });
+    // socket.emit('change context', {
+    //     nick_receiver: id_other,
+    //     my_identifier: my_id
+    // });
 }
 
 function openChat() {

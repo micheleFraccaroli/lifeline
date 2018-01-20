@@ -37,14 +37,14 @@ io.on('connection', function(socket){
 	});
 
 	//cambio interlocutore quando cambio la tab nella chat
-	socket.on('change context', function(data) {
-		console.log("CHANGE_CONTEXT-----MESSAGGIO DA " + data.my_identifier);
-		console.log("CHANGE_CONTEXT-----MESSAGGIO A LUI ---------> " + data.nick_receiver);
-		console.log("MESSAGGIO INIZIALMENTE A......" + receiver_message[data.my_identifier]);
-		receiver_message[data.my_identifier] = data.nick_receiver;
-		console.log("CHANGING............." + receiver_message[data.my_identifier]);
-		console.log("NEW SOCKET TO SEND MESSAGE......." + id_users[receiver_message[data.my_identifier]]);
-	});
+	// socket.on('change context', function(data) {
+	// 	console.log("CHANGE_CONTEXT-----MESSAGGIO DA " + data.my_identifier);
+	// 	console.log("CHANGE_CONTEXT-----MESSAGGIO A LUI ---------> " + data.nick_receiver);
+	// 	console.log("MESSAGGIO INIZIALMENTE A......" + receiver_message[data.my_identifier]);
+	// 	receiver_message[data.my_identifier] = data.nick_receiver;
+	// 	console.log("CHANGING............." + receiver_message[data.my_identifier]);
+	// 	console.log("NEW SOCKET TO SEND MESSAGE......." + id_users[receiver_message[data.my_identifier]]);
+	// });
 
 	//invio del messaggio
 	socket.on('chat message', function(data) {

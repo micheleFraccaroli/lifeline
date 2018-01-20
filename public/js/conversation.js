@@ -10,7 +10,7 @@
         data : data,
         dataTy : 'json',
         success:function(data) {
-            console.log(data);
+            console.log("Id_conversazione " + data);
             document.getElementById("id_conversation").value = data;
         },
         error: function(xhr){
@@ -26,4 +26,9 @@ function add_id_other(id_other, my_id) {
         my_identifier: my_id
     });
     console.log("id_other--> " + id_other + " ||| my_id--> " + my_id);
+}
+
+function clearIdConv() {
+    document.getElementById("id_conversation").value = "";
+    return;
 }
