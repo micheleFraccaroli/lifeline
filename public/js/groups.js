@@ -10,93 +10,204 @@ $(document).ready(function(){
     });
 
 });
-        
-$("#aggiorna_gruppi").on('submit',function(e){
+      
 
-    e.preventDefault();
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover({html:true}).click(function(e) {  
+        e.preventDefault();
+        $(this).focus(); 
+   });
+});
 
-    /*Individuo qual'è l'id più grande attualmente presente nella finestra index*/
 
-    var max_id = $("input[name='max_id_index']").val();
+/*****Controllo input mascherina di creazione gruppi, in particolare il pulsante share with your friends*****/  
 
-    /*tramite ajax() effettuo una chiamata asincrona al controller */
+$('input[name="name_group"],textarea[name="description_group"]').keyup(function() {
+    if($('input[name="name_group"]').val() && $('textarea[name="description_group"]').val()){
 
-    $.ajax({
-        type: "GET",
-        url: "/groups/index",
-        data: {id:max_id},
-        datatype: "json",
-        success: function(data){
+        $('button[name="button_create_group"]').prop('disabled', false);
 
-        var i = 0;
+    }else{
 
-        if (data.length!=0){
+        $('button[name="button_create_group"]').prop('disabled', true);
 
-            var new_max_id = data[0].id;
+    }
+});
 
-            /*assegno il nuovo id più grande al bottone "aggiorna_gruppi"*/
 
-            $("input[name='max_id_index']").val(new_max_id);
+/*****Controllo il bottone dei commenti, se presente viene disabilitato*****/
 
-            for (i = 0; i < data.length; i++) {
+$("[id*='body_comment_']").keyup(function() {
 
-                var new_group = "<a href=\"/groups/index/"+data[i].id+"\">"+data[i].id+" - "+data[i].name+"</a> <br>";
-                $('#all_groups').prepend(new_group);
+    if($(this).val()){
 
-                    }
-                }
+        $("[id*='Post_comment_']").prop('disabled', false);
 
-        },
-                error: function(xhr){
-                alert("An error occured: " + xhr.status + " " + xhr.statusText);
-        },
+    }else{
 
-    });
+        $("[id*='Post_comment_']").prop('disabled', true);
+
+    }
 
 });
 
-/*Anteprima immagine che verrà caricata in un gruppo*/
-function profile_group(input) {
+/****Controllo lunghezza stringhe prima di inviare la richiesta al server*****/
+function check_create_group(){
 
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+    var check = true;
 
-        reader.onload = function(e) {
-            $("#show_group_pic").attr("src", e.target.result); /*carico in src il contenuto della pic*/
-            $("input[name*='group_pic_value']").val(e.target.result);
-        }                                                                                               
+    if ($('input[name="name_group"]').val().length < 10 || $('input[name="name_group"]').val().length > 50){
 
-        reader.readAsDataURL(input.files[0]);  /* ritorna il contenuto del file sotto forma di URL */
-        $("input[name*='group_pic_value']").val(reader.readAsDataURL(input.files[0]));
+        alert("name must be higher than 10 characters and not higher than 50 characters.");
+
+        return check = false;
+
     }
+
+    if ($('textarea[name="description_group"]').val().length <10 || $('textarea[name="description_group"]').val().length > 255){
+
+        alert("description must be higher than 10 characters and not higher than 255 characters.");
+
+        return check = false;
+
+    }
+
+    if($("#group_pic")[0].files[0]){
+
+        check = check_pic_size($("#group_pic")[0].files[0]);
+
+        if (check == 0){
+
+            return check = false;
+
+        }
+
+    }
+
 }
 
-/*Anteprima immagine che verrà caricata in un post di una bacheca di un gruppo o nella principale*/
+/*****Anteprima dell' immagine che verrà caricata in un post di un gruppo o nella bacheca principale*****/
+
 function pic_post(input) {
 
+    if ($('#pic_space').children(".img-thumbnail")) {
+
+        $('#pic_space').children("br").remove();
+        $('#pic_space').children(".img-thumbnail").remove();
+        $('#discard_pic').css({"display":"none"});
+
+    }
+
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
 
-        var img = "<img id='pic_src' src='#' class='img-thumbnail' height='200' width='200'/><br><br>";
+        type = input.files[0].type;
 
-        $('#pic_space').append(img);
+        res = type.match(/\b(image\/jpg|image\/jpeg|image\/png|image\/bmp)\b/);
 
-        $('#discard_pic').css({"display":"inline-block"});
+        if(res != null){
 
-        reader.onload = function(e) {
-            $("#pic_src").attr("src", e.target.result); 
-        }                                                                                               
+            var reader = new FileReader();
 
-        reader.readAsDataURL(input.files[0]);
+            var img = "<br><br><img id='pic_src' src='#' class='img-thumbnail' height='200' width='200'/><br><br>";
+
+            $('#pic_space').append(img);
+
+            $('#discard_pic').css({"display":"inline-block"});
+
+            reader.onload = function(e) {
+                $("#pic_src").attr("src", e.target.result); 
+            }                                                                                               
+
+            reader.readAsDataURL(input.files[0]);
+
+            $('#input_mask button[type="submit"]').prop('disabled', false);
+
+
+        }else{
+
+            alert("Only .jpg, .jpeg, .png, .bmp files are allowed");
+        }
     }
 }
 
-$("#group_pic").change(function() {
-    profile_group(this);
+/*****Pulsante scarta immagine post*****/
+
+$("#discard_pic").on('click',function(){
+    $('#pic_space').children("br").remove();
+    $('#pic_space').children(".img-thumbnail").remove();
+    $('#discard_pic').css({"display":"none"});
+    $('#pic_post').val("");
+
+    if ($('#body_post').val() || $("#link_post").val()){
+
+        $('#input_mask button[type="submit"]').prop('disabled', false);
+
+    }else{
+
+        $('#input_mask button[type="submit"]').prop('disabled', true);
+
+    }
+
 });
 
 $("#pic_post").change(function() {
     pic_post(this);
+});
+
+
+/*****Anteprima immagine gruppi*****/
+
+function group_pic(input) {
+
+    if ($('#pic_space').children(".img-thumbnail")) {
+
+        $('#pic_space').children("br").remove();
+        $('#pic_space').children(".img-thumbnail").remove();
+        $('#discard_pic_group').css({"display":"none"});
+
+    }
+
+    if (input.files && input.files[0]) {
+
+        type = input.files[0].type;
+
+        res = type.match(/\b(image\/jpg|image\/jpeg|image\/png|image\/bmp)\b/);
+
+        if(res != null){
+
+            var reader = new FileReader();
+
+            var img = "<br><br><img id='pic_src' src='#' class='img-thumbnail' height='200' width='200'/><br><br>";
+
+            $('#pic_space').append(img);
+
+            $('#discard_pic_group').css({"display":"inline-block"});
+
+            reader.onload = function(e) {
+                $("#pic_src").attr("src", e.target.result); 
+            }                                                                                               
+
+            reader.readAsDataURL(input.files[0]);
+
+        }else{
+
+            alert("Only .jpg, .jpeg, .png, .bmp files are allowed");
+        }
+    }
+}
+
+/*****Pulsante scarta immagine gruppi*****/
+
+$("#discard_pic_group").on('click',function(){
+    $('#pic_space').children("br").remove();
+    $('#pic_space').children(".img-thumbnail").remove();
+    $('#discard_pic_group').css({"display":"none"});
+    $('#group_pic').val("");
+
+});
+
+$("#group_pic").change(function() {
+    group_pic(this);
 });
 
 
@@ -137,119 +248,82 @@ $("[id*='new_post_group']").on('submit',function(e){
 
     e.preventDefault();
 
-    var formData = new FormData();
+    var res;
 
-    var id = $(this).attr('id');
+    res = check($('#body_post').val(),$("#pic_post")[0].files[0],$("#link_post").val());
 
-    var arr = id.split("_");
+    if (res == -1){
 
-    var group_id = arr[arr.length-1];
+        var body = addNewlines($('#body_post').val());
 
-    formData.append('body_post_group', $('#body_post_group').val());
+        var link = addNewlines($('#link_post').val());
 
-    formData.append('post_pic_group', $('input[type=file]')[0].files[0]);   
+        var formData = new FormData();
 
-    formData.append('group_id', group_id);
+        var id = $(this).attr('id');
 
-    $.ajax({
-        type: "POST",
-        url: "/posts",
-        data: formData,
-        datatype: "json",
-        contentType: false,
-        processData: false,
-        success: function(data){
+        var arr = id.split("_");
 
-                var body;
+        var group_id = arr[arr.length-1];
 
-                if (data.asset.length){
+        formData.append('body_post', body);
 
-                    body =  "<div id='post_"+data.post.id+"'>"+
+        formData.append('pic_post', $('#pic_post')[0].files[0]);
 
-                    "<B>"+data.post.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha pubblicato una foto:<br>"+data.post.body+"<br><br>"+"<img src='"+data.post.photo+"' height='200' width='200'/><br><br>"+
+        formData.append('link_post', link);
 
-                    " <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>"+
-                    " <div class='btn-group mr-2' role='group' aria-label='First group'>"+
+        formData.append('group_id', group_id);
 
-                    "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_"+data.post.id+"'>"+
-                            "Show comments"+
-                    "</button>"+   
-                    "<button class='btn btn-info btn-sm' type='button'>"+
-                            "Like"+
-                    "</button>"+
+        $.ajax({
 
-                    "<button type='button' class='btn btn-info btn-sm' name='delete' id='modal_"+data.post.id+"'>"+
-                            "Delete post"+
-                    "</button>"+
-                    
-                    "</div></div>"+
+            type: "POST",
+            url: "/posts",
+            data: formData,
+            datatype: "json",
+            contentType: false,
+            processData: false,
+            success: function(data){
+                   
+                $('#append_new_posts').load(location.href + " #append_new_posts");
+                     
+                $('#pic_post').val("");
+                $('#body_post').val("");
+                $('#link_post').val("");
+                $('#pic_space').children("br").remove();
+                $('#pic_space').children(".img-thumbnail").remove();
+                $('#discard_pic').css({"display":"none"});
+                $('#input_mask button[type="submit"]').prop('disabled', true);
 
-                    "<div class='collapse' id='collapse_"+data.post.id+"'>"+
-                        "<div class='card card-body'>"+
-                            "<br>"+
-                                "<div id='new_comment_"+data.post.id+"'>"+
-                                "</div>"+
-                                "<div class='form-group'>"+
-                                   "<input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_"+data.post.id+"'>"+
-                                "</div>"+
-                                "<form action='#'>"+
-                                    "<button type='submit' class='btn btn-info btn-block' name='answer' id='Post_group_"+data.post.id+"'>Rispondi</button>"+
-                                "</form>"+
-                        "</div>"+
-                    "</div>"+
-                    "<hr>"+
-                    "</div>";
 
-                }else{
+                if ($("#errors_ajax").children()){
 
-                    body =  "<div id='post_"+data.post.id+"'>"+
+                    $("#errors_ajax").children().remove();
 
-                    "<B>"+data.post.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha scritto:<br>"+data.post.body+"<br><br>"+
+                }
 
-                    " <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>"+
-                    " <div class='btn-group mr-2' role='group' aria-label='First group'>"+
+            },
 
-                     "<button class='btn btn-info btn-sm' type='button' name='show_details' data-target='#collapse_"+data.post.id+"'>"+
-                            "Show comments"+
-                    "</button>"+  
-                    "<button class='btn btn-info btn-sm' type='button'>"+
-                            "Like"+
-                    "</button>"+
+            error: function(data){
 
-                    "<button type='button' class='btn btn-info btn-sm' name='delete' id='modal_"+data.post.id+"'>"+
-                            "Delete post"+
-                    "</button>"+
-                    
-                    "</div></div>"+
+                var errors = data.responseJSON;
 
-                    "<div class='collapse' id='collapse_"+data.post.id+"'>"+
-                        "<div class='card card-body'>"+
-                            "<br>"+
-                                "<div id='new_comment_"+data.post.id+"'>"+
-                                "</div>"+
-                                "<div class='form-group'>"+
-                                   "<input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_"+data.post.id+"'>"+
-                                "</div>"+
-                                "<form action='#'>"+
-                                    "<button type='submit' class='btn btn-info btn-block' name='answer' id='Post_group_"+data.post.id+"'>Rispondi</button>"+
-                                "</form>"+
-                        "</div>"+
-                    "</div>"+
-                    "<hr>"+
-                    "</div>";
-                }          
-                        
-            $('#post_pic_group').val("");
-            $('#body_post_group').val("");
+                if ($("#errors_ajax").children()){
 
-            $('#append_new_posts').prepend(body);
+                    $("#errors_ajax").children().remove();
 
-    },
-        error: function(xhr){
-        alert("An error occured: " + xhr.status + " " + xhr.statusText);
-    },
+                }
 
-    });
+                $("#errors_ajax").append("<div class='alert alert-danger'><ul></ul></div>");
+
+                for(var key in errors.errors){
+
+                    $(".alert.alert-danger > ul").append("<li>"+errors.errors[key]+"</li>");
+                }
+                
+            },
+
+        });
+    }
 
 });
 
@@ -288,7 +362,7 @@ function show_details(target){
 
                         for (i = 0; i < data.user.length; i++) {
 
-                            var comment = "<div id="+data.comments[i].id+"><br><B>"+data.comments[i].created_at+" "+data.user[i].name+" "+data.user[i].surname+"</B> ha commentato:<br>"+data.comments[i].body+"<br></div>";
+                            var comment = "<div id="+data.comments[i].id+"><br><img src='"+data.user[i].image+"' class='img-circle' height='30' width='30'/><B> "+data.comments[i].created_at+" <a href='/users/"+data.user[i].id+""+"'>"+data.user[i].name+" "+data.user[i].surname+"</a></B> has commented:<br>"+data.comments[i].body+"<br></div>";
                             $('#new_comment_'+post_id).append(comment);
 
                         }
@@ -319,7 +393,7 @@ function show_details(target){
 
                         for (i = 0; i < data.user.length; i++) {
 
-                            var comment = "<div id="+data.comments[i].id+"><br><B>"+data.comments[i].created_at+" "+data.user[i].name+" "+data.user[i].surname+"</B> ha commentato:<br>"+data.comments[i].body+"<br></div>";
+                            var comment = "<div id="+data.comments[i].id+"><br><img src='"+data.user[i].image+"' class='img-circle' height='30' width='30'/><B> "+data.comments[i].created_at+" <a href='/users/"+data.user[i].id+""+"'>"+data.user[i].name+" "+data.user[i].surname+"</a></B> has commented:<br>"+data.comments[i].body+"<br></div>";
                             $('#new_comment_'+post_id).append(comment);
 
                         }
@@ -355,27 +429,48 @@ function new_comment(target){
 
     var body = $('#body_comment_'+post_id).val(); /*estrapolo il corpo del commento*/
 
-    $.ajax({
-        type: "POST",
-        url: "/comments",
-        data: {post_id:post_id,body:body},
-        datatype: "json",
-        success: function(data){
+    var res = check_length(body.length);
 
-            //$("#collapse_"+post_id).collapse('show');
+    if (res == 1) {
 
-            //$('#new_comment_'+post_id).load(location.href + ' #new_comment_'+post_id);
+        var body_full = addNewlines($('#body_comment_'+post_id).val());
 
-            var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
-            $('#new_comment_'+post_id).append(comment);
-            $('#body_comment_'+post_id).val("");
+        $.ajax({
+            type: "POST",
+            url: "/comments",
+            data: {post_id:post_id,body:body_full},
+            datatype: "json",
+            success: function(data){
 
-        },
-            error: function(xhr){
-            alert("An error occured: " + xhr.status + " " + xhr.statusText);
-        },
+                var comment = "<div id="+data.comment.id+"><br><img src='"+data.user.image+"' class='img-circle' height='30' width='30'/><B> "+data.comment.created_at+" <a href='/users/"+data.user.id+""+"'>"+data.user.name+" "+data.user.surname+"</a></B> has commented:<br>"+data.comment.body+"<br></div>";
+                $('#new_comment_'+post_id).append(comment);
+                $('#body_comment_'+post_id).val("");
+                $("[id*='Post_comment_']").prop('disabled', true);
 
-    });
+            },
+            
+            error: function(data){
+
+                var errors = data.responseJSON;
+
+                if ($("#errors_ajax").children()){
+
+                    $("#errors_ajax").children().remove();
+
+                }
+
+                $("#errors_ajax").append("<div class='alert alert-danger'><ul></ul></div>");
+
+                for(var key in errors.errors){
+
+                    $(".alert.alert-danger > ul").append("<li>"+errors.errors[key]+"</li>");
+                }
+                
+            },
+
+        });
+
+    }
   
 }
 
@@ -514,7 +609,7 @@ $("#append_new_posts").on('click','button',function (e) {
 });
 
 
-/******************************************BACHECA HOME DELL'UTENTE*************************************/
+/*****BACHECA HOME DELL'UTENTE*****/
 
 /*****se gli input sono vuoti disabilita il pulsante di condivisione del post*****/
 
@@ -545,40 +640,19 @@ $("#body_post").on('click',function(e){
 
 /*****Convalida dei dati in input*****/
 
-function check_pic_extension(pic_name){
-
-    var arr = pic_name.split(".");
-
-    var pic_extension = arr[arr.length-1];
-
-    var res = pic_extension.match(/\b(gif|jpg|jpeg|png)\b/);
-
-    if (res == null){
-
-        alert("check extension");
-
-        res = 0;
-
-    }else{
-
-        res = 1;
-    }
-
-    return res;
-
-}
-
 function check_pic_size(pic_size){
 
     var res;
 
-    if (pic_size > 3072){
+    if (pic_size > 3145728){
 
-        res = 1;
+        res = 0;
+
+        alert("the files's dimensions must be under 3MB");
 
     }else{
 
-        res = 0;
+        res = 1;
 
     }
 
@@ -604,13 +678,33 @@ $("#link_post").keyup(function() {
 
 });
 
+function addNewlines(str) {
+
+    var result = '';
+
+    while (str.length > 0) {
+
+        result += str.substring(0, 50) + '<br>';
+        str = str.substring(50);
+
+    }
+
+    return result;
+}
+
 function check_length(post_length){
 
     var res;
 
     if (post_length > 255){
 
-        alert("input max 255...");
+        res = 0;
+
+        alert("Input must contains max 255 characters");
+
+    }else{
+
+        res = 1;
     }
 
     return res;
@@ -619,7 +713,7 @@ function check_length(post_length){
 
 /****la funzione check() prende in input come parametri tutti i possibili campi di input*****/
 
-function check(post,pic){
+function check(post,pic,link){
 
     var check = [1,1,1];
 
@@ -630,18 +724,23 @@ function check(post,pic){
 
     if (pic){
 
-        check[1] = check_pic_extension(pic.name);
-        check[2] = check_pic_size(pic.size);
+        check[1] = check_pic_size(pic.size);
 
     }
 
-    var res = check.indexOf("0");
+    if (link){
+
+        check[2] = check_length(link.length);
+
+    }
+
+    var res = check.indexOf(0);
 
     return res;
 
 }
 
-/*****Crea un nuovo post nella home*****/
+/*****Crea un nuovo post nella home, prima di inviare le informazioni quest'ultime vengono convalidate*****/
 
 $("#new_post").on('submit',function(e){
 
@@ -649,9 +748,11 @@ $("#new_post").on('submit',function(e){
 
     var res;
 
-    res = check($('#body_post').val(),$("#pic_post")[0].files[0]);
+    res = check($('#body_post').val(),$("#pic_post")[0].files[0],$("#link_post").val());
 
-    if (res!=-1) {
+    if (res == -1) {
+
+        var body = addNewlines($('#body_post').val());
   
         var formData = new FormData();
 
@@ -672,10 +773,14 @@ $("#new_post").on('submit',function(e){
                    
                 $('#bacheca_posts').load(location.href + " #bacheca_posts");
                      
-                $("#pic_src").remove();
                 $('#pic_post').val("");
                 $('#body_post').val("");
                 $('#link_post').val("");
+                $('#pic_space').children("br").remove();
+                $('#pic_space').children(".img-thumbnail").remove();
+                $('#discard_pic').css({"display":"none"});
+                $('#input_mask button[type="submit"]').prop('disabled', true);
+
 
                 if ($("#errors_ajax").children()){
 
