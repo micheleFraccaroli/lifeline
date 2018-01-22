@@ -39,13 +39,19 @@ $('input[name="name_group"],textarea[name="description_group"]').keyup(function(
 
 $("[id*='body_comment_']").keyup(function() {
 
+    var id = $(this).attr('id');
+
+    var arr = id.split("_");
+
+    var comment_id = arr[arr.length-1];
+
     if($(this).val()){
 
-        $("[id*='Post_comment_']").prop('disabled', false);
+        $("[id*='Post_comment_"+comment_id+"']").prop('disabled', false);
 
     }else{
 
-        $("[id*='Post_comment_']").prop('disabled', true);
+        $("[id*='Post_comment_'"+comment_id+"]").prop('disabled', true);
 
     }
 
@@ -753,14 +759,16 @@ $("#new_post").on('submit',function(e){
     if (res == -1) {
 
         var body = addNewlines($('#body_post').val());
+
+        var link = addNewlines($('#link_post').val());
   
         var formData = new FormData();
 
-        formData.append('body_post', $('#body_post').val());
+        formData.append('body_post', body);
 
         formData.append('pic_post', $("#pic_post")[0].files[0]);
 
-        formData.append('link_post', $("#link_post").val());
+        formData.append('link_post', link);
 
         $.ajax({
             type: "POST",
