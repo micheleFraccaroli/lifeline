@@ -51,7 +51,7 @@ $("[id*='body_comment_']").keyup(function() {
 
     }else{
 
-        $("[id*='Post_comment_'"+comment_id+"]").prop('disabled', true);
+        $("[id*='Post_comment_"+comment_id+"']").prop('disabled', true);
 
     }
 
