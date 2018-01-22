@@ -3,10 +3,10 @@ $(document).ready(function() {
     socket1 = io('http://localhost:65001');
     socket1.on('new message', function(data){
         console.log("nel new message" + data);
-        console.log("nel new message ---->" + $('#id_utente_log').val());
+        console.log("nel new message ---->" + $('#0 input[name=user_log]').val());
         
         socket1.emit('friend_identified', {
-            my_id: $('#id_utente_log').val()
+            my_id: $('#0 input[name=user_log]').val()
         });
     });
 

@@ -18,8 +18,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     
     <link href="{{ asset('css/Alveare.css') }}" rel="stylesheet">
 
@@ -64,7 +62,7 @@
                                 <div class="input-group add-on">
                                     <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required>
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><i class="glyphicon glyphicon-search"></i></button>
+                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
                                     </div>
                                 </div>
                             </form>
@@ -72,11 +70,10 @@
                                 <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @foreach(Auth::user()->Notifications as $notification)
+                                        @foreach(Auth::user()->unreadNotifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
                                         @endforeach
                                     </li>
-                                    <button type="button" value="{{ Auth::user()->unreadNotifications->markAsRead() }}">Mark as read</button>
                                 </ul>
                             </li>
                             <li>
@@ -128,9 +125,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="{{asset('js/perfect-scrollbar.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/app.js') }}"></script>
+    <script src="{{asset('js/aes.js') }}"></script>
     <script src="{{asset('js/chat.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/groups.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
