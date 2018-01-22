@@ -142,7 +142,7 @@ body {
 .chat {
 	width: 20%;
 	position: fixed;
-	background-color: #444;
+	background-color: #00f;
 	z-index: 9;
 	margin: 0;
 	padding: 0;
@@ -177,7 +177,6 @@ body {
 	margin: 0 !important;
 	display: inline;
 	background-color: #aeeaae;
-	border-left: 1px solid black;
 }
 
 .chat > div:first-child {
@@ -239,12 +238,12 @@ body {
 	resize: none;
 }
 
-#chat_div {
+.chat_div {
 	width: 100%;
-	position: relative;
+	position: absolute;
 	left: 0;
-	background-color: #;
-	border-bottom: 2px solid black;
+	background-color: #444;
+	border-bottom: 1px solid black;
 	overflow: auto;
 	overflow-x: hidden;
 	word-wrap: normal;
