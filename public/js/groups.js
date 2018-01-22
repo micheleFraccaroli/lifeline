@@ -51,7 +51,7 @@ $("[id*='body_comment_']").keyup(function() {
 
     }else{
 
-        $("[id*='Post_comment_'"+comment_id+"]").prop('disabled', true);
+        $("[id*='Post_comment_"+comment_id+"']").prop('disabled', true);
 
     }
 
@@ -448,17 +448,15 @@ function new_comment(target){
         datatype: "json",
         success: function(data){
             console.log("Commenti: " + data.comment);
-            var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
+            var comment = "<div id="+data.comment.id+"><br><img src='"+data.user.image+"' class='img-circle' height='30' width='30'/><B> "+data.comment.created_at+" <a href='/users/"+data.user.id+""+"'>"+data.user.name+" "+data.user.surname+"</a></B> has commented:<br>"+data.comment.body+"<br></div>";
             $('#new_comment_'+post_id).append(comment);
             $('#body_comment_'+post_id).val("");
+            $("[id*='Post_comment_']").prop('disabled', true);
+
+            console.log("idi di chi fa il COMMENTO --> " + data.news.id);
             socket.emit('comment_news', {
                 to: data.news.id
-            });
-
-                var comment = "<div id="+data.comment.id+"><br><img src='"+data.user.image+"' class='img-circle' height='30' width='30'/><B> "+data.comment.created_at+" <a href='/users/"+data.user.id+""+"'>"+data.user.name+" "+data.user.surname+"</a></B> has commented:<br>"+data.comment.body+"<br></div>";
-                $('#new_comment_'+post_id).append(comment);
-                $('#body_comment_'+post_id).val("");
-                $("[id*='Post_comment_']").prop('disabled', true);
+            }); 
 
             },
             
@@ -533,6 +531,9 @@ function like_post(target) {
         dataTy : 'json',
         success:function(data) {
             $('#append_new_posts').load(location.href + " #append_new_posts");
+            socket.emit('like_news', {
+                to: data.news.id
+            });
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);

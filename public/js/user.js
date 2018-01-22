@@ -59,13 +59,13 @@ $(document).ready(function() {
 
     //refresh per i like
     socket.on('like_news_refresh', function(data) {
-        console.log(data);
+        console.log("refresh dei like  " + data);
         $('#notification_div').load(location.href + " #notification_div")
     });
 
     //refresh per i commenti
     socket.on('comment_news_refresh', function(data) {
-        console.log(data.comment);
+        console.log("refresh dei commenti  " + data.comment);
         $('#notification_div').load(location.href + " #notification_div")
     });
 });

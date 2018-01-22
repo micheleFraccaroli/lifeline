@@ -19,7 +19,7 @@ $(document).ready(function(){
     socket.on('new message', function(data){
         console.log("E QUA CI SONO "+ data.message);
         socket.emit('identified', {
-            nickname: $('#0 input[name=user_log]').val()
+            nickname: $('#id_user_logged').val()
         });
     });
 

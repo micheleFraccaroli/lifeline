@@ -114,7 +114,9 @@
     </div>
 
     <!-- Scripts -->
-    <!-- <script type="text/javascript">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
         $(document).ready(function(){
             if(window.location.pathname=='/login'){
                 $(document.body).addClass('login');
@@ -123,15 +125,14 @@
                 $(document.body).removeClass('login');   
             }
         });
-    </script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </script> 
     <script src="{{asset('js/perfect-scrollbar.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/app.js') }}"></script>
     <script src="{{asset('js/aes.js') }}"></script>
     <script src="{{asset('js/chat.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/groups.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Comment;
@@ -184,6 +185,10 @@ class PostController extends Controller
     {
         if($request->ajax()){
 
+            $pic_post = Post::find($id);
+            if($pic_post->photo != null) {
+                Storage::delete($pic_post->photo);
+            }
             POST::destroy($id);
 
             return Response()->json(['success'=>'eliminato']);

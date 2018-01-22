@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Comment;
 use App\Post;
+use App\Group;
 
 class CommentController extends Controller
 {
@@ -57,9 +58,23 @@ class CommentController extends Controller
             $user = Auth::user();
 
             $news = Post::find($post_id)->user;
+
+            $group_id = Post::find($post_id);
+
             $news->name = $user->name;
             $news->surname = $user->surname;
             $news->id_post = $post_id;
+
+            //$news->id_group = $group_id->group_id;
+            if($group_id->group_id != null) {
+                $group_name = Group::find($group_id->group_id);
+                $news->group_name = $group_name->name;     
+            }
+            else {
+                $news->group_name = null;
+            }
+            
+
             $news->body_comment = $body;
             $news->notify(new CommentNotification());
 

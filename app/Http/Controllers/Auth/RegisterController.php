@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -64,6 +65,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {   
         $complete_name = $data['name'] . " " . $data['surname'];
+        if($data['sex'] == 'M') {
+            $url = Storage::url('public/default-profile-image-M.png');
+        }
+        else {
+            $url = Storage::url('public/default-profile-image-F.png');          
+        }
 
         return User::create([
             'name' => $data['name'],
@@ -74,7 +81,7 @@ class RegisterController extends Controller
             'born' => $data['born'],
             'job' => $data['job'],
             'relation' => $data['relation'],
-            'image' => '0',
+            'image' => $url,
             'password' => bcrypt($data['password']),
         ]);
 

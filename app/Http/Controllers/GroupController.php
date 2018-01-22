@@ -127,8 +127,8 @@ class GroupController extends Controller
                 $gruppo->image = $url;
 
             }else{
-
-            	//do something...
+            	$url = Storage::url('public/default_groups.jpg');
+            	$gruppo->image = $url;
             }
 
 			$gruppo->name = request('name_group');
@@ -182,8 +182,8 @@ class GroupController extends Controller
                 $gruppo->image = $url;
 
             }else{
-
-            	//do something...
+            	$url = Storage::url('public/default_groups.jpg');
+            	$gruppo->image = $url;
             }
 
 			$gruppo->name = request('name_group');
