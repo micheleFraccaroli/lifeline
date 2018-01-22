@@ -37,11 +37,15 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         if ($request->ajax()) {
-            
-            $comment = new Comment;
 
             $post_id = $request->input('post_id');
             $body = $request->input('body');
+
+            $request->validate([
+                'body' => 'bail|required|string|max:255',
+            ]);
+
+            $comment = new Comment;
 
             $comment->user_id = Auth::id();
             $comment->post_id = $post_id;

@@ -22,10 +22,12 @@ class CreateTableGroupUser extends Migration
         Schema::table('group_user', function (Blueprint $table) {
             $table->foreign('group_id')
                   ->references('id')->on('groups')
-                  ->onUpdate('cascade');
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
             $table->foreign('user_id')
                   ->references('id')->on('users')
-                  ->onUpdate('cascade');
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
         });
     }
 

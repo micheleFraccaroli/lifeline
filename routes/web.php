@@ -29,8 +29,10 @@ Route::get('/groups/{id}/edit','GroupController@edit');
 Route::post('/groups/{id}','GroupController@update');
 Route::get('/posts/{id}','PostController@show_comments');
 Route::post('/posts','PostController@store_post_group');
+Route::delete('/groups/{id}', 'GroupController@delete');
 Route::delete('/posts/{id}','PostController@destroy');
 Route::get('/user/new_group/{id}','UserController@subscribe_new_group');
+Route::get('/users/leave_group/{id}','UserController@leave_group');
 
 
 //Friends

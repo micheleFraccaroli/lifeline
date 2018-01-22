@@ -1,34 +1,44 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.error')
+<div class="panel-body">
 	<div class = "row">
 		<div class ="col-sm-6 col-md-offset-3">
-			<form method="POST" action="/groups" enctype="multipart/form-data">
-
-				{{ csrf_field() }}
-
-				<div class="form-group">
-					<label for="Nome gruppo">Nome Gruppo *</label>
-					<input type="text" class="form-control" placeholder="Inserisci il nome del gruppo..." name = "name_group">
-				</div>
-				<div class="form-group">
-					<label for="Descrizio gruppo">Descrizione *</label>
-					<textarea class="form-control" name="description_group" placeholder="Inserisci una breve descrizione del gruppo..." rows="3"></textarea>
-				</div>
-				<div class="form-group">
-					<label for="Immagine gruppo">Modifica immagine gruppo</label>
-					<br>
-					<input type="file" name="new_group_pic" id="group_pic"/>
-				</div>
-				<div class="form-group">
-					<img id="show_group_pic" class ="img-responsive img-circle" src="#" height="200" width="200"/>
-  					<span class="custom-file-control"></span>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary btn-lg btn-block">Crea Gruppo</button>
-					<button type="button" class="btn btn-danger btn-lg btn-block">Annulla</button>
-				</div>
-			</form>
+			<div class="alert alert-info">
+				<form method="POST" action="/groups" enctype="multipart/form-data" onSubmit="return check_create_group()">
+					{{ csrf_field() }}
+					<div class="form-group">
+						<label for="Nome gruppo">Name *</label>
+						<input type="text" class="form-control" placeholder="Insert a name for the group" name = "name_group">
+					</div>
+					<div class="form-group">
+						<label for="Descrizione gruppo">Description *</label>
+						<textarea class="form-control" name="description_group" placeholder="Insert a short description" rows="3"></textarea>
+					</div>
+					<div class="form-group">
+						<input type="file" id="group_pic" name="group_pic" style="display: none;"/>
+		                <button type="button" class="btn btn-info" onclick="document.getElementById('group_pic').click();">
+		                <span class="glyphicon glyphicon-picture"></span>
+		                    Share a pic
+		                </button>
+					</div>
+					<div id = "pic_space">
+	                    <button type='button' class='btn btn-info' id="discard_pic_group" style="display: none;">
+	                    <span class="glyphicon glyphicon-trash"></span>
+	                    Discard pic
+	                    </button>
+                	</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-info btn-lg btn-block" name="button_create_group" disabled>Create</button>
+					</div>
+				</form>
+				<form method = "GET" action = "/"> 
+					<div class="form-group">
+						<button type="button" class="btn btn-secondary btn-lg btn-block">Discard</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
+</div>
 @endsection

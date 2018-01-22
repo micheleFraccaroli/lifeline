@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\Post;
 use App\Friend;
+use App\Like;
 use Auth;
 use App\Group_user;
 
@@ -32,11 +33,37 @@ class UserController extends Controller
         $type = $frn->checkTypeRequest(Auth::id());
         $user = $user->merge($type);
 
-        $pst = new Post;
+        /*$pst = new Post;
         $user_posts = $pst->getPosts($id);
-        $user = $user->merge($user_posts);
+        $user = $user->merge($user_posts);*/
 
-        return view('user.index', compact('user'));
+        $friend = collect($friends);
+
+        $my_friend = DB::table('users')->whereIn('id',$friend->pluck('id_utente'))->count();
+
+        dd($my_friend);
+
+        $all_posts = User::find($id)->posts;
+
+        foreach ($all_posts as $post) {
+
+            $user_io[$post->id] = POST::find($post->id)->user;
+            $like[$post->id] = POST::find($post->id)->likes->count();
+
+            $result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
+
+            if ($result->count()) {
+            
+                $my_like[$post->id] = 1;
+
+            }else{
+
+                $my_like[$post->id] = 0;
+            }
+
+        }
+
+        return view('user.index', compact('user','all_posts','user_io','my_friend','my_like','like'));
     }
 
     public function search(Request $request) {
@@ -126,5 +153,12 @@ class UserController extends Controller
             return redirect('groups/index/'.$id);
         }
 
+    }
+
+    public function leave_group(Request $request,$id){
+
+        DB::table('group_user')->where(['group_id' => $id, 'user_id' => Auth::id()])->delete();
+
+        return redirect('groups/index/'.$id);
     }
 }

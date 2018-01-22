@@ -18,10 +18,15 @@
                     </div>
             </div>
             <div class="panel panel-default homeGroups">
-                <div class="panel-heading">Gruppi</div>
-                    <div class="panel-body">
-                        Gruppetti Fighetti
-                    </div>
+                <form method="GET" action="/groups/create" >
+
+                    <div class="panel-heading">Gruppi</div>
+                        <div class="panel-body">
+                            Gruppetti Fighetti
+                        </div>
+                        <button type="submit" class="btn btn-info">Create new group</button>
+
+                </form>
             </div>
         </div>
 
@@ -72,7 +77,6 @@
                                                     Discard pic
                                                     </button>
                                                 </div>
-                                                                                            
                                             </div>
                                         </div>
 
@@ -95,7 +99,6 @@
                                                     <input type='text' id="link_post" class='form-control'>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary">Discard</button>
                                                     <button type="button" class="btn btn-info"data-dismiss="modal">Save</button>
                                                 </div>
                                             </div>
@@ -120,7 +123,7 @@
 
                                             if ($post->photo != NULL) {
 
-                                                echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha pubblicato una foto:<br>";
+                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> posted a photo:<br><br>";
 
                                                 echo $post->body."<br>";
                                                 echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
@@ -128,7 +131,7 @@
 
                                             }else{
 
-                                                echo "<B>".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> ha scritto:<br>";
+                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> said:<br><br>";
                                                 echo $post->body."<br>";
                                                 echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 
@@ -172,10 +175,10 @@
                                                     <div class='card card-body'>
                                                     <br>
                                                         <div class='form-group'>
-                                                            <input type='text' class='form-control' placeholder='Scrivi un commento in risposta...' id ='body_comment_{$post->id}'>
+                                                            <input type='text' class='form-control' placeholder='...' id ='body_comment_{$post->id}'>
                                                         </div>
                                                         <form action='#'>
-                                                            <button type='submit' class='btn btn-info btn-block btn-sm' name='answer' id='Post_{$post->id}'>Rispondi</button>
+                                                            <button type='submit' class='btn btn-info btn-block btn-sm' name='answer' id='Post_comment_{$post->id}' disabled>Answer</button>
                                                         </form>
                                                         </div>
                                                     </div>

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\validations;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use App\Group;
 use App\Post;
@@ -48,10 +49,11 @@ class GroupController extends Controller
 
 			$user_log = User::find(Auth::id());
 
-			$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->get();
+			$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->where('id','<>',$id)->get();
 
 			$group = Group::find($id);
 
+			$admin = Group::find($id)->user;
 
 			$access = 1;
 
@@ -59,7 +61,7 @@ class GroupController extends Controller
 
 				$access = 0;
 
-				return view('groups.show', compact('access','other_groups','group','id'));
+				return view('groups.show', compact('access','other_groups','group','id','admin'));
 
 			}else{
 
@@ -85,7 +87,7 @@ class GroupController extends Controller
 
 				$group = Group::find($id);
 
-				return view('groups.show', compact('all_posts','user','like','id','group','other_groups','my_like','access'));
+				return view('groups.show', compact('all_posts','user','like','id','group','other_groups','my_like','access','admin'));
 
 			}
 
@@ -102,18 +104,45 @@ class GroupController extends Controller
 		un controllo lato server sui campi inseriti in input: validations $request*/
 
 		public function store(Request $request){
-
+			
 			$gruppo = new Group;
 
-			$path = $request->file('new_group_pic')->store('public');
-			$url = Storage::url($path);
+			$request->validate([
+
+                'name_group' => 'bail|required|unique:groups,name|string|min:10|max:50',
+                'description_group' => 'bail|required|string|min:10|max:255',
+
+            ]);
+
+            if ($request->hasFile('group_pic')) {
+
+                $request->validate([
+                    'group_pic' => 'bail|image|max:3072',
+                ]);
+                
+                $path = $request->file('group_pic')->store('public');
+
+                $url = Storage::url($path);
+
+                $gruppo->image = $url;
+
+            }else{
+
+            	//do something...
+            }
 
 			$gruppo->name = request('name_group');
 			$gruppo->description = request('description_group');
-			$gruppo->image = $url;
+			$gruppo->admin = Auth::id();
 			$gruppo->save();
 
-			return redirect('groups/index');
+			/*****inserisco l'utente all'interno del gruppo*****/
+
+			DB::table('group_user')->insert(
+                ['group_id' => $gruppo->id, 'user_id' => Auth::id()]
+            );
+
+			return redirect('groups/index/'.$gruppo->id);
 		}
 
 		/*reindirizza l'utente alla pagina edit, 
@@ -129,15 +158,49 @@ class GroupController extends Controller
 
 		/*Prende in input le modifiche apportate e le salva nel db*/
 
-		public function update(validations $request, $id){
+		public function update(Request $request, $id){
 
 			$gruppo = Group::find($id);
 
+			$request->validate([
+
+                'name_group' => 'bail|required|string|min:10|max:50|unique:groups,name,'.$gruppo->id,
+                'description_group' => 'bail|required|string|min:10|max:255',
+
+            ]);
+
+            if ($request->hasFile('group_pic')) {
+
+                $request->validate([
+                    'group_pic' => 'bail|image|max:3072',
+                ]);
+                
+                $path = $request->file('group_pic')->store('public');
+
+                $url = Storage::url($path);
+
+                $gruppo->image = $url;
+
+            }else{
+
+            	//do something...
+            }
+
 			$gruppo->name = request('name_group');
 			$gruppo->description = request('description_group');
-			$gruppo->image = request('group_pic_value');
+			$gruppo->admin = Auth::id();
 			$gruppo->save();
 
-			return redirect('groups/index');
+			return redirect('groups/index/'.$id);
 		}
+
+		/*elimina un gruppo dal db*/
+
+		public function delete($id, Request $request){
+
+	        Group::destroy($id);
+
+	        return redirect('/');
+
+	    }
 }

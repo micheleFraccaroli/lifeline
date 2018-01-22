@@ -13,53 +13,62 @@ class PostController extends Controller
     	
         if($request->ajax()){
 
-            $post = new Post;
-
             $body = $request->input('body_post');
             $link = $request->input('link_post');
+            $pic = $request->file('pic_post');
 
-            $post->user_id = Auth::id();
-            $post->group_id = NULL;
+            /*verifico alemno che un campo in input sia presente, altrimenti segnalo l'obbligo della 
+              presenza di almeno un campo*/
 
-            /*verifico l'esistenza o meno della foto nel post*/
+            if ($body || $link || $pic) {
 
-            if ($request->hasFile('pic_post')) {
+                $post = new Post;
 
-                $request->validate([
-                    'body_post' => 'bail|nullable|string|max:255',
-                    'pic_post' => 'bail|image',
-                    'link_post' => 'bail|nullable|url',
-                ]);
-                
-                $path = $request->file('pic_post')->store('public');
+                $post->user_id = Auth::id();
+                $post->group_id = NULL;
 
-                $url = Storage::url($path);
+                if ($request->hasFile('pic_post')) {
 
-                //$asset = asset($url);
+                    $request->validate([
+                        'pic_post' => 'bail|image|max:3072',
+                    ]);
+                    
+                    $path = $request->file('pic_post')->store('public');
 
-                $post->photo = $url;
+                    $url = Storage::url($path);
 
-                $post->body = $body;
+                    $post->photo = $url;
 
-                $post->link = $link;
+                }
+
+                if($body){
+
+                    $request->validate([
+                        'body_post' => 'bail|string|max:255',
+                    ]);
+
+                    $post->body = $body;
+                }
+
+                if($link){
+
+                    $request->validate([
+                        'link_post' => 'bail|string|max:255',
+                    ]);
+
+                    $post->link = $link;
+                }
+
+                    $post->save();
+
+                    $user = Auth::user();
 
             }else{
 
                 $request->validate([
                     'body_post' => 'bail|required|string|max:255',
-                    'link_post' => 'bail|nullable|url',
                 ]);
-
-                $post->body = $body;
-
-                $post->link = $link;
-
-                //$asset = "";
             }
-
-                $post->save();
-
-                $user = Auth::user();
             
         }
     }
@@ -108,38 +117,65 @@ class PostController extends Controller
 
         if($request->ajax()){
 
-            $post = new Post;
-
+            $body = $request->input('body_post');
+            $link = $request->input('link_post');
+            $pic = $request->file('pic_post');
             $group_id = $request->input('group_id');
-            $body = $request->input('body_post_group');
 
-            $post->user_id = Auth::id();
-            $post->group_id = $group_id;
-            $post->body = $body;
+            /*verifico alemno che un campo in input sia presente, altrimenti segnalo l'obbligo della 
+              presenza di almeno un campo*/
 
-            if ($request->hasFile('post_pic_group')) {
-                
-                $path = $request->file('post_pic_group')->store('public');
+            if ($body || $link || $pic) {
 
-                $url = Storage::url($path);
+                $post = new Post;
 
-                $asset = asset($url);
+                $post->user_id = Auth::id();
 
-                $post->photo = $url;
+                if ($request->hasFile('pic_post')) {
+
+                    $request->validate([
+                        'pic_post' => 'bail|image|max:3072',
+                    ]);
+                    
+                    $path = $request->file('pic_post')->store('public');
+
+                    $url = Storage::url($path);
+
+                    $post->photo = $url;
+
+                }
+
+                if($body){
+
+                    $request->validate([
+                        'body_post' => 'bail|string|max:255',
+                    ]);
+
+                    $post->body = $body;
+                }
+
+                if($link){
+
+                    $request->validate([
+                        'link_post' => 'bail|string|max:255',
+                    ]);
+
+                    $post->link = $link;
+                }
+
+                    $post->group_id = $group_id;
+
+                    $post->save();
+
+                    $user = Auth::user();
 
             }else{
 
-                $asset = "";
+                $request->validate([
+                    'body_post' => 'bail|required|string|max:255',
+                ]);
             }
-
-                $post->save();
-
-                $user = Auth::user();
-            
-                return Response()->json(['post'=>$post,'user'=>$user,'asset'=>$asset]);
-
         }
-
     }
 
 

@@ -15,10 +15,18 @@ class CreateTableGroups extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('admin')->unsigned();
             $table->string('name');
             $table->text('description');
             $table->string('image');
             $table->timestamps();
+        });
+
+        Schema::table('groups', function (Blueprint $table) {
+            $table->foreign('admin')
+                  ->references('id')->on('users')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
         });
     }
 
