@@ -7,15 +7,17 @@
 
         <div class="col-md-2">
             <div class="panel panel-default homeImage">
-                <?php if(Auth::user()->image == '0'){?>
-                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image.png')}}" alt="Profile Image"></a>
-                    <?php } else { ?>
-                        <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{asset(Auth::user()->image)}}" alt="Profile Image"></a>
-                    <?php } ?>
-                    <div id="nick"> 
-                        {{ Auth::user()->name }}    
-                        {{ Auth::user()->surname }}
-                    </div>
+                <?php if(Auth::user()->image == '0' && Auth::user()->sex == 'M'){ ?>
+                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image-M.png')}}" alt="Profile Image"></a>
+                <?php } elseif (Auth::user()->image == '0' && Auth::user()->sex == 'F'){ ?>
+                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image-F.png')}}" alt="Profile Image"></a>
+                <?php } else { ?>
+                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{asset(Auth::user()->image)}}" alt="Profile Image"></a>
+                <?php } ?>
+            <div id="nick"> 
+                {{ Auth::user()->name }}    
+                {{ Auth::user()->surname }}
+            </div>
             </div>
             <div class="panel panel-default homeGroups">
                 <form method="GET" action="/groups/create" >
@@ -27,6 +29,7 @@
                         <button type="submit" class="btn btn-info">Create new group</button>
 
                 </form>
+
             </div>
         </div>
 
@@ -114,9 +117,11 @@
                         
 
                             <div class ="col-sm-12"> 
-                                <div class="alert alert-info" id="all_groups">
+                                <div class="alert alert-info" id="all_groups"> 
+
                                     <div id="bacheca_posts">
-                                        <?php 
+                                        <?php
+                                        
                                         foreach ($all_posts as $post){
 
                                             echo "<div id='post_{$post->id}'>";
@@ -203,6 +208,7 @@
     </div>
 </div>
 
+
 @endsection
 
-@include('layouts.chat')
+@extends('layouts.chat')

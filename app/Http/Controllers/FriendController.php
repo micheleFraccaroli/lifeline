@@ -23,12 +23,12 @@ class FriendController extends Controller
                 $users = $users->push($user);
             }
         }
-        return view('home', compact('users'));
+        return view('contacts', compact('users'));
     }
 
     protected function friendshipRequest(Request $request) {
     	$news = collect();
-
+        
     	if($request->ajax()) {
     		$friendShip = Friend::updateOrCreate(
     			['id_utente1' => $request['my_id'],

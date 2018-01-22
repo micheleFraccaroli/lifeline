@@ -2,6 +2,8 @@
 @section('content')
 
 <!-- pubblica post -->
+<<<<<<< HEAD
+<?php if(Auth::check()) { ?>
 <div class="panel-body">
 
 <div class = "row">
@@ -103,32 +105,52 @@
 </div>
 <hr>
 
-<!-- Pulsante che consente l'iscrizione al gruppo -->
+	<?php  if($access){ ?>
 
-<?php }else{?>
+	<div class = "row">
+		<div class ="col-sm-6 col-md-offset-3">	
+			<form id="<?php echo "new_post_group_{$id}" ?>" action="#" enctype="multipart/form-data">
+				<div class="form-group">
+					<div>
+	    				<input type='text' class='form-control' name='body_post_group' id='body_post_group' placeholder='Scrivi qualcosa di nuovo...'>
+						<br>
+						<input type="file" name="post_pic_group" id="post_pic_group"/>
+	    			</div>
+	    			<br><button type='submit' class='btn btn-info btn-block'>Pubblica</button>
+	    		</div>
+	    	</form>
+	  	</div>
+	</div>
+	<hr>
+
+	<!-- Pulsante che consente l'iscrizione al gruppo -->
+
+	<?php }else{?>
 
 
-<div class = "row">
-	<div class ="col-sm-6">	
-		<form action="<?php echo "/user/new_group/{$id}"; ?>">
-			<button type='submit' class='btn btn-info btn-block'>Iscriviti</button>
-    	</form>
-  	</div>
-</div>
-<hr>
+	<div class = "row">
+		<div class ="col-sm-6 col-md-offset-3">	
+			<form action="<?php echo "/user/new_group/{$id}"; ?>">
+				<button type='submit' class='btn btn-info btn-block'>Iscriviti</button>
+	    	</form>
+	  	</div>
+	</div>
+	<hr>
 
-<?php } ?>
+	<?php } ?>
 
-<div class = "row">
+	<div class = "row">
 
-	<!-- mostra i gruppi a cui NON sei ancora iscritto -->
+		<!-- mostra i gruppi a cui NON sei ancora iscritto -->
 
 	<div class ="col-sm-3">
 		<div class="alert alert-info">
 			<?php echo "<B>Maybe you could like</B><br><br>";?>
 			<?php foreach ($other_groups as $other_group){?>
 
-				<form id="<?php echo "other_{$other_group->id}" ?>" action="#">
+					<form id="<?php echo "other_{$other_group->id}" ?>" action="#">
+
+						<img class = "img-responsive img-circle" src="<?php echo asset($other_group->image)?>" height="50" width="50"/>
 
 					<?php echo "<img class = 'img-circle' src='".asset($other_group->image)."' height='60' width='60'/>&nbsp;<B><a href=\"/groups/index/{$other_group->id}\">{$other_group->name}</a></B><br><br>";?>
 
@@ -142,33 +164,34 @@
         @include('layouts.modal_other_groups')
 		</div>
 	</div>	
+						
 
+		<!-- mostra i post pubblicati sul gruppo -->
 
-	<!-- mostra i post pubblicati sul gruppo -->
+		<div class ="col-sm-6 offset-md-3">	
+			<div class="alert alert-info" id="all_groups">
+				<div id="append_new_posts">
+				<?php  if($access){ ?>
+				<?php 
+					foreach ($all_posts as $post){
 
-	<div class ="col-sm-6">	
-		<div class="alert alert-info" id="all_groups">
-			<div id="append_new_posts">
-			<?php  if($access){ ?>
-			<?php 
-				foreach ($all_posts as $post){
+						echo "<div id='post_{$post->id}'>";
 
-					echo "<div id='post_{$post->id}'>";
+						if ($post->photo != NULL) {
 
-					if ($post->photo != NULL) {
 
 						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> posted a photo:<br><br>";
 						echo $post->body."<br>";
             echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 						echo "<img src='".asset($post->photo)."' class = 'img-thumbnail' height='200' width='200'/><br><br>";
 
-					}else{
+						}else{
 
 						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> said:<br><br>";
 						echo $post->body."<br>";
             echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 
-					}
+						}
 
 					echo" <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>";
 					echo " <div class='btn-group mr-2' role='group' aria-label='First group'>";
@@ -224,8 +247,6 @@
 		</div>
 	</div>
 
-	<!-- utenti appartenenti al gruppo -->
-
 	<div class ="col-sm-3">
 		<div class="alert alert-info">
 			<?php echo "<B>Registered users</B><br><br>";?>
@@ -239,9 +260,29 @@
        Show all users
       </button>
       @include('layouts.modal_users_group')
-		</div>
-	</div>	
 
-</div>
-</div>
+		</div>
+  </div>
+
+		<!-- utenti appartenenti al gruppo -->
+
+		<div class ="col-sm-3">
+			<div class="alert alert-info">
+				<?php echo "<B>Utenti iscritti al gruppo</B><br>";?>
+				<?php
+					foreach ($group->users as $user) {
+						echo "<img class = 'img-responsive img-circle' src='' height='50' width='50'/><br>";
+						echo $user->name." ".$user->surname."<br><br>";
+						echo "<button type='button' class='btn btn-info btn-block btn-sm'>Visualizza profilo</button><hr>";
+					}
+				?>
+			</div>
+		</div>	
+
+	</div>
+<?php } else {
+	header('Location: ' . route('login'));
+    die();
+} ?>
+
 @endsection

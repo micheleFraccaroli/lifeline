@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
+<?php if(Auth::check()) { ?>
+
+{{Auth::user()->unreadNotifications->markAsRead()}}
+
 <div class="container">
     <div class="row">
         <div class="row">
@@ -10,7 +15,6 @@
                 <div class="panel panel-default">  
                 	<div class="panel-body" id="posts_div">
                 		{{$post->body}} - <strong>{{$post->name}} {{$post->surname}}</strong>
-                		{{ Auth::user()->unreadNotifications->markAsRead() }}
                 		<?php if(!empty($post->photo)) { ?>
                             <img id="show_group_pic" class = "img-responsive img-circle" src="{{$post->photo}}" height="200" width="200"/>
                             <span class="custom-file-control"></span>
@@ -22,5 +26,10 @@
         </div>
     </div>
 </div>
+
+<?php } else {
+    header('Location: ' . route('login'));
+    die();
+} ?>
 
 @endsection

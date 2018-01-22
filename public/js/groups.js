@@ -441,12 +441,19 @@ function new_comment(target){
 
         var body_full = addNewlines($('#body_comment_'+post_id).val());
 
-        $.ajax({
-            type: "POST",
-            url: "/comments",
-            data: {post_id:post_id,body:body_full},
-            datatype: "json",
-            success: function(data){
+    $.ajax({
+        type: "POST",
+        url: "/comments",
+        data: {post_id:post_id,body:body_full},
+        datatype: "json",
+        success: function(data){
+            console.log("Commenti: " + data.comment);
+            var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
+            $('#new_comment_'+post_id).append(comment);
+            $('#body_comment_'+post_id).val("");
+            socket.emit('comment_news', {
+                to: data.news.id
+            });
 
                 var comment = "<div id="+data.comment.id+"><br><img src='"+data.user.image+"' class='img-circle' height='30' width='30'/><B> "+data.comment.created_at+" <a href='/users/"+data.user.id+""+"'>"+data.user.name+" "+data.user.surname+"</a></B> has commented:<br>"+data.comment.body+"<br></div>";
                 $('#new_comment_'+post_id).append(comment);
@@ -778,7 +785,6 @@ $("#new_post").on('submit',function(e){
             contentType: false,
             processData: false,
             success: function(data){
-                   
                 $('#bacheca_posts').load(location.href + " #bacheca_posts");
                      
                 $('#pic_post').val("");
@@ -789,6 +795,10 @@ $("#new_post").on('submit',function(e){
                 $('#discard_pic').css({"display":"none"});
                 $('#input_mask button[type="submit"]').prop('disabled', true);
 
+
+                socket.emit('new_post', {
+                    data: "chack new posts"
+                });
 
                 if ($("#errors_ajax").children()){
 
@@ -840,7 +850,12 @@ function like_post_home(target) {
         data : {id_post:post_id},
         dataTy : 'json',
         success:function(data) {
+            console.log("Dati dei like di ritorno dal controller "+data.id)
             $('#bacheca_posts').load(location.href + " #bacheca_posts");
+            socket.emit('like_news', {
+                to: data.id
+            });
+
         },
         error: function(xhr){
             alert("An error occured: " + xhr.status + " " + xhr.statusText);

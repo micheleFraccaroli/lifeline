@@ -1,14 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" id="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-2 col-md-offset-1">
-            <div class="panel panel-default">
-                <?php if($user['image'] == null) { ?>
-                    <a href="/users/{{ $user['id'] }}"><img src="{{URL::asset('/default-profile-image.png')}}" width="163" height="200"></a>
+
+        <div class="col-md-2">
+            <div class="panel panel-default homeImage"> 
+                <?php if($user['image'] == '0' && $user['sex'] == 'M') { ?>
+                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{URL::asset('/default-profile-image-M.png')}}" alt="Profile Image"></a>
+                <?php } elseif ($user['image'] == '0' && $user['sex'] == 'F') { ?>
+                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{URL::asset('/default-profile-image-F.png')}}" alt="Profile Image"></a>
                 <?php } else { ?>
-                    <a href="/users/{{ $user['id'] }}"><img src="{{asset($user['image'])}}" height="200" width="163"></a>
+                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{asset($user['image'])}}" alt="Profile Image"></a>
                 <?php } ?>
                 <hr>
 
@@ -55,23 +58,58 @@
 		                        </button>
 		                	</form>
 
-	                	<?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] == 0) { ?>
-	            			<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
-	            		<?php } else { ?>
-	            			<button type="button" class="btn btn-info" disabled="">Amici</button>
-	            			<form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
-		                		{{ csrf_field() }}
-		                		{{ Auth::user()->unreadNotifications->markAsRead() }}
-		                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
-		                		<input type="hidden" name="other_id" value="{{$user['id']}}">
-		                		<input type="hidden" id="type_request" name="type" value="3">
-		                		<button type="submit" class="btn btn-danger">
-		                    	    Elimina amico
-		                        </button>
-		                	</form> 
-	            		<?php } ?>
+                <?php if((Auth::check())) { ?>
+	                <?php if($user['id'] == Auth::user()->id) { ?>
+	                	<a href="/users/update/{{ $user['id'] }}">Update profile</a><br>
 	            	<?php } ?>
-            	</div>
+
+
+	            	<div id="requester">
+	            		<?php if($user['id'] != Auth::user()->id) { ?>
+		            		<?php if(strcmp($user[0], "not_found") == 0) {?>
+			                	<form action="{{ URL::to('/friends/req') }}" method="POST" id="friend_form_req">
+			                		{{ csrf_field() }}
+			                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}" id="id_logged">
+			                		<input type="hidden" name="other_id" value="{{$user['id']}}" id="other_id">
+			                		<input type="hidden" name="type" value="1">
+			                		<button type="submit" class="btn btn-success">
+			                    	    Richiedi amicizia
+			                        </button>
+			                	</form>
+			                <?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] != 0) { ?>	
+			                	<form action="{{ URL::to('/friends/resp') }}" method="POST" id="friend_form_resp">
+			                		{{ csrf_field() }}
+			                		{{ Auth::user()->unreadNotifications->markAsRead() }}
+			                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+			                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+			                		<input type="hidden" id="type_request" name="type" value="">
+			                		<button type="submit" class="btn btn-success" onclick="acceptRequest();">
+			                    	    Accetta
+			                        </button>
+			                        <button type="submit" class="btn btn-danger" onclick="rejectRequest();">
+			                    	    Rifiuta
+			                        </button>
+			                	</form>
+
+		                	<?php } elseif(strcmp($user[0], "requested") == 0 && $user[1] == 0) { ?>
+		            			<button type="button" class="btn btn-info" disabled="">Richiesta inviata</button>
+		            		<?php } else { ?>
+		            			<button type="button" class="btn btn-info" disabled="">Amici</button>
+		            			<form action="{{ URL::to('/friends/del') }}" method="POST" id="friend_form_del">
+			                		{{ csrf_field() }}
+			                		{{ Auth::user()->unreadNotifications->markAsRead() }}
+			                		<input type="hidden" name="my_id" value="{{Auth::user()->id}}">
+			                		<input type="hidden" name="other_id" value="{{$user['id']}}">
+			                		<input type="hidden" id="type_request" name="type" value="3">
+			                		<button type="submit" class="btn btn-danger">
+			                    	    Elimina amico
+			                        </button>
+			                	</form> 
+		            		<?php } ?>
+		            	<?php } ?>
+	            	</div>
+
+            	<?php } ?>
 
             </div>
         </div>
@@ -226,6 +264,7 @@
 		            }
 		            ?>
 		            @include('layouts.modal_groups')
+
 		        </div>
 		    </div>
 		</div>

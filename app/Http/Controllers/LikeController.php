@@ -12,25 +12,6 @@ use App\Post;
 
 class LikeController extends Controller
 {
-    /*protected function createPostLike(Request $request) {
-    	if($request->ajax()) {
-    		$like = Like::create([
-    			'id_post' => $request['id_post'],
-    			'id_commento' => null,
-    			'id_utente' => $request['id_utente']
-    		]);
-    		
-    		$user = User::find($request['id_utente']);
-    		$news = Post::find($request['id_post'])->user;
-    		$news->name = $user->name;
-    		$news->surname = $user->surname;
-    		$news->id_post = $request['id_post'];
-    		$news->notify(new LikeNotification());
-			
-    		return response($like);
-    	}
-    }*/
-
     protected function createPostLike(Request $request) {
         if($request->ajax()) {
             $like = Like::create([
@@ -46,7 +27,7 @@ class LikeController extends Controller
             $news->id_post = $request['id_post'];
             $news->notify(new LikeNotification());
             
-            return response($like);
+            return response($news);
         }
     }
 

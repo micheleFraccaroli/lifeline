@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @include('layouts.error')
+<?php if(Auth::check()) { ?>
 <div class="panel-body">
 	<div class = "row">
 		<div class ="col-sm-6 col-md-offset-3">
@@ -41,4 +42,10 @@
 		</div>
 	</div>
 </div>
+
+<?php } else {
+	header('Location: ' . route('login'));
+	die();
+} ?>
+
 @endsection

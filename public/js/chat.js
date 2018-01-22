@@ -8,21 +8,53 @@ var tops;
 var socket;
 var chatResizeDim;
 var chatInitDim;
+var ChatIsOpen = false;
 
 $(document).ready(function(){
+    console.log("Numero containers: " + $('#buttons').children().length);
+
+    console.log("Numero containers: " + $('#buttons').children().length);
 
     socket = io('http://localhost:65000');
     socket.on('new message', function(data){
-        console.log(data);
+        console.log("E QUA CI SONO "+ data.message);
         socket.emit('identified', {
-            nickname: $('#id_utente_log').val()
+            nickname: $('#0 input[name=user_log]').val()
         });
     });
 
     socket.on('mess', function(data){
         console.log("MESSAGGIO ----> " + data.body + "     "+ data.id_utente);
-        containers[data.id_utente].append('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">' + data.body);
-        $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
+        //decrypt message from other socket
+        var decryptedMess = CryptoJS.AES.decrypt(data.body, "testKey").toString(CryptoJS.enc.Utf8);
+
+        var div=$('<span class="chatMex">' + decryptedMess+'</span>');
+
+        div.css("float","right");
+        div.css("background-color","#ddf");
+
+        if(ChatIsOpen) {
+            if(typeof containers[data.id_utente] === 'undefined') {
+                console.log('creo tab');
+                add_id_other(data.id_utente,data.id_other);
+                crea(data.chat_name, data.id_utente, data.id_conv, data.id_other, 1);
+            }
+
+            div.css("clear","both");
+
+            console.log("APP ULTIMO MESS " + containers[data.id_utente].children().length);
+            containers[data.id_utente].append(div);
+            $('.chat_div').scrollTop($('.chat_div')[0].scrollHeight);
+        }
+        else {
+            console.log("DATA ID UTENET: " + data.id_utente);
+            console.log("DATA ID ohter: " + data.id_other);
+
+            add_id_other(data.id_utente,data.id_other);
+
+            crea(data.chat_name, data.id_utente, data.id_conv, data.id_other, 1);
+            console.log("NUM FIGLI DI CONTAINRS DATA " + containers[data.id_utente].children().length);
+        }
     });
 
     lefts=$(window).width()-$('.nomi').width();  //left del container nomi
@@ -46,108 +78,176 @@ $(document).ready(function(){
 
     $('#text').keyup(function(e) {
         var code=e.keyCode;
-        var txt = $('#text').val();
+        
 
         if(code==13 && !e.shiftKey){
-            $('<span style="width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+txt+'</span>').appendTo(boxActive);$('#text').val('');
-            $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
-            var id_conv = $('#id_conversation').val();
-            var id_user = $('#id_utente_log').val();
+            var txt = $('#text').val();
+            var div=$('<span class="chatMex">'+txt+'</span>');
+            div.css("float","left");
+            div.css("background-color","#dffddf");
+
+            div.css("clear","both");
+
+            div.appendTo(boxActive);$('#text').val('');
+            $('.chat_div').scrollTop($('.chat_div')[0].scrollHeight);
+                
+            var id_conv=boxActive.id_conv;
+            var id_user = $('#0 input[name=user_log]').val()
+
             var mess = txt;           
             var url = "/message/create";
             var method = "post";
 
+            //encrypt message
+            var encryptedAES = CryptoJS.AES.encrypt(mess, "testKey").toString() ;
+            console.log("MESSAGGIO IN SCRITTURA ----> " + encryptedAES + " UTENTE " + id_user + " ID CONV " + id_conv);
+
             $.ajax({
                 type : method,
                 url : url,
-                data : {'id_conv': id_conv, 'id_user' : id_user, 'mess' : mess},
+                data : {'id_conv': id_conv, 'id_user' : id_user, 'mess' : encryptedAES},
                 dataTy : 'json',
                 success:function(data) {
-                    console.log(data);
+                    console.log("MESSAGGIO IN RICEZIONE ____ " + data.name_receiver);
+                    console.log("MESSAGGIO scritto ____ " + data.body);
+                    console.log("MESSAGGIO ID OTHER ____ " + data.id_receiver);
+                    console.log("MESSAGGIO ID UTENTE ____ " + data.id_utente);
                     socket.emit('chat message', {
                         body: data.body,
+                        chat_name:  data.name_receiver,
+                        id_other: data.id_receiver,
+                        id_conv: data.id_conversazione,
                         id_utente: data.id_utente
                     });
                 }
             });
         }
     });
-
 });
 
-function crea(text, id_other,id_conv, my_id) {
+//flag serve per vedere s la chat è creata da un click dell'utente o dall'arrivo di un nuovo messaggio
+function crea(text, id_other,id_conv, my_id, flag) {
+    if(typeof containers[id_other] != 'undefined') {
+        boxActive = containers[id_other];
+    }
+    else {
+        var element=$('<div></div>').addClass("btn btnName").text(text);
+        var elementChild=$('<div></div>').addClass("btn btnX").text("X");
 
-    var element=$('<div></div>').addClass("btn btn-inverted btnn").text(text);
-    var elementChild=$('<div></div>').addClass("btn btn-primary btnn").text("x");
-    var container=$('<div></div>').addClass("container");
-    //container.attr("style","height: 290; width: 100%; position: absolute; left: 0; top: 50; background-color: #313131; border-bottom: 2px solid black; overflow-y: scroll; word-wrap: normal;");
-    container.attr("id","chat_div");
-    containers[id_other]=container;
+        var container=$('<div></div>').addClass("chat_div");
 
-    container.css("height",($('.chat').width()/100*72.5)+'px');
-    container.css("top",$('#text').position().top-container.height());
+        containers[id_other]=container;
+        container.css("height",($('.chat').width()/100*72.5)+'px');
+        container.css("top",$('#text').position().top-container.height());
+        console.log("CONTAINER CONVERSATION ----> "+id_conv);
+        container.id_conv=id_conv;
 
-    element.append(elementChild);
-    $('#buttons').append(element);
-    $('#text').before(container);
-    element.click(changeContext.bind(null,id_other,my_id));
+        element.append(elementChild);
+        $('#buttons').append(element);
+        $('#text').before(container);
 
-    if(boxActive!=null)boxActive.css("visibility","hidden");
+        element.click(changeContext.bind(null,id_other));
 
-    boxActive=container;
+        var ps=new PerfectScrollbar('.chat_div'); //Creo scrollbar al container creando due figli
 
-    elementChild.click(removeTab.bind(null,element));
+        if(flag == 0) {
+            if(boxActive!=null) {
+                boxActive.css("visibility","hidden");
+                boxActive.buttonName.css("background-color","#aeeaae");
+            }
+            boxActive=container;
+            boxActive.buttonName=element;
+            element.css("background-color","#aaf");
+        }
+        else if(flag == 1 && $('#buttons').children().length == 1) {
+            boxActive=container;
+            boxActive.buttonName=element;
+            element.css("background-color","#aaf");
+        }
+        else {
+            container.css("visibility","hidden");
+            container.buttonName=element;
+        }
+
+        elementChild.click(removeTab.bind(null,element,container,id_other));
+        getMessage(id_conv, text, id_other);
+    }
+
     openChat();
-    getMessage(id_conv, text, id_other);
 }
 
 function getMessage(id_conv, text, id_other) {
+    console.log("Numero containers: " + $('#buttons').children().length);
+
     $.ajax({
         type : 'POST',
         url : '/contacts/message/show',
         data : {'id_conversazione': id_conv},
         dataTy : 'json',
         success:function(data) {
-            console.log(data);
+            var div; //Variabile contenitore del messaggio
             for(i=0; i<data.length; i++) {
-                console.log(data[i]);
+                //decrypt message from database
+                var decryptedMessages = CryptoJS.AES.decrypt(data[i].body, "testKey").toString(CryptoJS.enc.Utf8);
+
+                console.log("MEAASGGIIIII --> " + decryptedMessages);
+
+                div=$('<span class="chatMex">'+decryptedMessages+'</span>');
+
+                div.css("clear","both");
+
                 if(data[i].id_utente == id_other) {
-                    $('<span style="float: right; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block">'+data[i].body+'</span>').appendTo(boxActive);
-                    $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
+                    div.css("float","right");
+                    div.css("background-color","#ddf");
+                    div.appendTo(containers[id_other]);
+
+                    $('.chat_div').scrollTop($('.chat_div')[0].scrollHeight);
+
                 }
                 else {
-                    $('<span style="float: left; width: 300; word-break: keep-all; word-wrap: normal; display: inline-block;">'+data[i].body+'</span>').appendTo(boxActive);
-                    $("#chat_div").scrollTop($("#chat_div")[0].scrollHeight);
+                    div.css("float","left");
+                    div.css("background-color","#dffddf");
+                    div.appendTo(containers[id_other]);
+
+                    $('.chat_div').scrollTop($('.chat_div')[0].scrollHeight);//console.log("Aggiunto: "+boxActive.children().last().css("background-color"));
+
                 }
             }
+            console.log("A PRESCINDERE " + containers[id_other].children().length);
         }
     });
 }
 
 //Funzione per rimuovere un tab dalla chat
 
-function removeTab(e) {
-    e.remove();
-    if($('#buttons').children().length==0) {
+function removeTab(element,container,id_other) {
+    
+    if($('#buttons').children().length==1) { //Se hai una tab unica rimuovi direttamente la chat
         closeChat();
+    }
+    else {                                   //Altrimenti rimuovi solo la tab interessata
+        element.remove();
+        container.remove();
+        containers[id_other]=null;
     }
 }
 
-function changeContext(id_other, my_id) {
-    console.log("MIO ID DENTRO A CHANGE CONTEXT --->" + my_id);
-    containers[id_other].css("visibility","visible");
 
+function changeContext(id_other) {
+    boxActive.buttonName.css("background-color","#aeeaae");
     boxActive.css("visibility","hidden");
+
+    containers[id_other].css("visibility","visible");
+    containers[id_other].buttonName.css("background-color","#aaf");
+
     boxActive=containers[id_other];
-    socket.emit('change context', {
-        nick_receiver: id_other,
-        my_identifier: my_id
-    });
 }
 
 function openChat() {
     $('.chat').animate({
             left: lefts-$('.chat').width()-10
+    }, function() {
+        ChatIsOpen = true;
     });
     
 }
@@ -155,6 +255,11 @@ function openChat() {
 function closeChat() {
     $('.chat').animate({
             left: lefts
+    }, function() {
+        ChatIsOpen = false;
+        $('#buttons').empty();      //Elimino le tap
+        $('.chat_div').remove();    //Elimino i contenitori chat
+        containers=[];              //e l'array associato
     });
 }
 

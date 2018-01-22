@@ -10,18 +10,17 @@
 
     <title>{{ config('app.name') }}</title>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
     <!-- <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     
     <link href="{{ asset('css/Alveare.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/perfect-scrollbar.css') }}" rel="stylesheet">
 
     <link rel="shortcut icon" href="{{asset('/favicon_real.png')}}" type="image/x-icon">
 
@@ -54,31 +53,31 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('register') }}" class="navigation">Sigup</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">sigup</a></li>
 
                         @else
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group add-on">
-                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required>
+                                    <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required oninvalid="this.setCustomValidity('This field can not be empty')" oninput="setCustomValidity('')">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><i class="glyphicon glyphicon-search"></i></button>
+                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
                                     </div>
                                 </div>
                             </form>
+                        
                             <li class="dropdown" id="notification_div">
-                                <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Notifiche <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
+                                <a id="fracca" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">News <span class="badge">{{count(Auth::user()->unreadNotifications)}}</span></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        @foreach(Auth::user()->Notifications as $notification)
+                                        @foreach(Auth::user()->unreadNotifications as $notification)
                                             @include('layouts.notifications.'.snake_case(class_basename($notification->type)))
                                         @endforeach
                                     </li>
-                                    <button type="button" value="{{ Auth::user()->unreadNotifications->markAsRead() }}">Mark as read</button>
                                 </ul>
                             </li>
                             <li>
-                                <a href="/contacts">Contatti</a>
+                                <a href="/friends">Friends</a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
@@ -101,7 +100,9 @@
                                     <li>
                                         <a href="/users/{{ Auth::user()->id }}">Profile</a>
                                     </li>
-
+                                    <li>
+                                        <a href="/activity/{{ Auth::user()->id }}">Activity</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endguest
@@ -113,7 +114,7 @@
     </div>
 
     <!-- Scripts -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         $(document).ready(function(){
             if(window.location.pathname=='/login'){
                 $(document.body).addClass('login');
@@ -122,14 +123,14 @@
                 $(document.body).removeClass('login');   
             }
         });
-    </script>
+    </script> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/chat.js') }}" type="text/javascript"></script>
-    <script src = "{{ asset('js/groups.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/conversation.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/perfect-scrollbar.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/app.js') }}"></script>
+    <script src="{{asset('js/aes.js') }}"></script>
+    <script src="{{asset('js/chat.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/groups.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/post.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
 </body>
