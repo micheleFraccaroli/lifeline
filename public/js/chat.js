@@ -126,12 +126,7 @@ $(document).ready(function(){
 });
 
 //flag serve per vedere s la chat è creata da un click dell'utente o dall'arrivo di un nuovo messaggio
-<<<<<<< HEAD
-function crea(text, id_other,id_conv, my_id, flag) {    
-    document.getElementById("id_conversation").value = id_conv;
-=======
 function crea(text, id_other,id_conv, my_id, flag) {
->>>>>>> develop
     if(typeof containers[id_other] != 'undefined') {
         boxActive = containers[id_other];
     }

@@ -23,6 +23,9 @@
                 </div>
                 <div class="panel panel-default homeGroups">
                     <div class="panel-heading">Activity</div>
+                    <div class="panel-body">
+                        In this page you can see every notifications that you have received on Acheron                                                                                                                                                                                                                                                                                                                                                                                                                          
+                    </div>
                 </div>
             </div>
 

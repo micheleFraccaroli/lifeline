@@ -128,7 +128,7 @@ body {
 	background-color: #aeeaae !important;
 	color: black;
 	text-align: center;
-	font-size: 25px;
+	font-size: 20px;
 }
 
 .panel-default {
@@ -235,6 +235,10 @@ body {
 }
 
 .form-control {				//L'area dove scrivere i post non deve essere ridimensionata manualmente
+	resize: none;
+}
+
+textarea {
 	resize: none;
 }
 
