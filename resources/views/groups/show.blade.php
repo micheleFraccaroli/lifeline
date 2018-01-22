@@ -2,7 +2,6 @@
 @section('content')
 
 <!-- pubblica post -->
-<<<<<<< HEAD
 <?php if(Auth::check()) { ?>
 <div class="panel-body">
 
@@ -105,23 +104,6 @@
 </div>
 <hr>
 
-	<?php  if($access){ ?>
-
-	<div class = "row">
-		<div class ="col-sm-6 col-md-offset-3">	
-			<form id="<?php echo "new_post_group_{$id}" ?>" action="#" enctype="multipart/form-data">
-				<div class="form-group">
-					<div>
-	    				<input type='text' class='form-control' name='body_post_group' id='body_post_group' placeholder='Scrivi qualcosa di nuovo...'>
-						<br>
-						<input type="file" name="post_pic_group" id="post_pic_group"/>
-	    			</div>
-	    			<br><button type='submit' class='btn btn-info btn-block'>Pubblica</button>
-	    		</div>
-	    	</form>
-	  	</div>
-	</div>
-	<hr>
 
 	<!-- Pulsante che consente l'iscrizione al gruppo -->
 
@@ -180,25 +162,25 @@
 						if ($post->photo != NULL) {
 
 
-						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> posted a photo:<br><br>";
-						echo $post->body."<br>";
-            echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
-						echo "<img src='".asset($post->photo)."' class = 'img-thumbnail' height='200' width='200'/><br><br>";
+  						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> posted a photo:<br><br>";
+  						echo $post->body."<br>";
+              echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
+  						echo "<img src='".asset($post->photo)."' class = 'img-thumbnail' height='200' width='200'/><br><br>";
 
 						}else{
 
-						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> said:<br><br>";
-						echo $post->body."<br>";
-            echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
+  						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> said:<br><br>";
+  						echo $post->body."<br>";
+              echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 
 						}
 
-					echo" <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>";
-					echo " <div class='btn-group mr-2' role='group' aria-label='First group'>";
+  					echo" <div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>";
+  					echo " <div class='btn-group mr-2' role='group' aria-label='First group'>";
 
-					echo  "<button class='btn btn-info' type='button' name='show_details' data-target='#collapse_{$post->id}'> <span class='glyphicon glyphicon-eye-open'></span>
-    						Show comments
-  						  </button>";	
+  					echo  "<button class='btn btn-info' type='button' name='show_details' data-target='#collapse_{$post->id}'> <span class='glyphicon glyphicon-eye-open'></span>
+      						Show comments
+    						  </button>";	
 
   					if ($my_like[$post->id]) {
 
@@ -264,22 +246,11 @@
 		</div>
   </div>
 
-		<!-- utenti appartenenti al gruppo -->
-
-		<div class ="col-sm-3">
-			<div class="alert alert-info">
-				<?php echo "<B>Utenti iscritti al gruppo</B><br>";?>
-				<?php
-					foreach ($group->users as $user) {
-						echo "<img class = 'img-responsive img-circle' src='' height='50' width='50'/><br>";
-						echo $user->name." ".$user->surname."<br><br>";
-						echo "<button type='button' class='btn btn-info btn-block btn-sm'>Visualizza profilo</button><hr>";
-					}
-				?>
-			</div>
-		</div>	
+		
 
 	</div>
+</div>
+
 <?php } else {
 	header('Location: ' . route('login'));
     die();
