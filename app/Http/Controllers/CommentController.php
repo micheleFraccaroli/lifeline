@@ -53,6 +53,8 @@ class CommentController extends Controller
             $user = Auth::user();
 
             $news = Post::find($post_id)->user;
+            $news->name = $user->name;
+            $news->surname = $user->surname;
             $news->id_post = $post_id;
             $news->body_comment = $body;
             $news->notify(new CommentNotification());

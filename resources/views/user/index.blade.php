@@ -75,16 +75,16 @@
 			</div>
 		</div>
 	</div>
-	<?php if(count($user) > 11) { ?>
+	<?php if(count($user) > 14) { echo "Ciao";?>
 		<div class="row">
 			<div class="col-md-2">
 		    </div>
 		    <div class="col-md-8">
 		        <div class="panel panel-default"> 
-		        	<?php for($i=2; $i<count($user)-11; $i++) { ?>
+		        	<?php for($i=2; $i<count($user)-14; $i++) { ?>
 		        		<div class="panel-body">
 		        			{{$user[$i]->body }} <br>
-		        			<?php if(!empty($user[$i]->photo)) { ?>
+		        			<?php if(isset($user[$i]->photo) == 'true') { ?>
 			                    <img id="show_group_pic" class = "img-responsive img-circle" src="{{$user[$i]->photo}}" height="200" width="200"/>
 			                    <span class="custom-file-control"></span>
 			                    <input type="hidden" name="group_pic_value"> 
