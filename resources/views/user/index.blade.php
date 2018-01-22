@@ -186,7 +186,7 @@
 
 	</div>
 	
-	<?php if(($user['id'] == Auth::user()->id) || $my_friend > 0) { ?>
+	<?php if(($user['id'] == Auth::user()->id) || $my_friend != 0) { ?>
 
 	<!--post utente -->
 	<div class="row">

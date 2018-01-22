@@ -448,9 +448,6 @@ function new_comment(target){
         datatype: "json",
         success: function(data){
             console.log("Commenti: " + data.comment);
-            var comment = "<div id="+data.comment.id+"><br><B>"+data.comment.created_at+" "+data.user.name+" "+data.user.surname+"</B> ha commentato:<br>"+data.comment.body+"<br></div>";
-            $('#new_comment_'+post_id).append(comment);
-            $('#body_comment_'+post_id).val("");
             socket.emit('comment_news', {
                 to: data.news.id
             });

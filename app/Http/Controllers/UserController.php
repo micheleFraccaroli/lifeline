@@ -37,11 +37,11 @@ class UserController extends Controller
         $user_posts = $pst->getPosts($id);
         $user = $user->merge($user_posts);*/
 
-        $friend = collect($friends);
+        $all_requests = collect($friends);
 
-        $my_friend = DB::table('users')->whereIn('id',$friend->pluck('id_utente'))->count();
+        $only_friends = $all_requests->where('type',0);
 
-        dd($my_friend);
+        $my_friend = DB::table('users')->whereIn('id',$only_friends->pluck('id_utente'))->where('id',$id)->count();
 
         $all_posts = User::find($id)->posts;
 
