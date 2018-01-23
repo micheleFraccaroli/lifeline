@@ -7,7 +7,9 @@ use App\Http\Controllers\FriendController;
         <span onclick="closeChat()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
 
-    <div id="buttons"></div>
+    <div id="buttons">
+
+    </div>
     <textarea id="text" class="scrollabletextbox" rows="2" name="message"></textarea>
 </div>
 
