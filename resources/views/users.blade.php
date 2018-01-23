@@ -27,7 +27,7 @@
 				<?php 	} 
 						else {
 							foreach ($group as $g) { ?>
-								<h3 class="search_record"><a href="/groups/{{$g->id}}">{{$g->name}}</a></h3><br>
+								<h3 class="search_record"><a href="/groups/index/{{$g->id}}">{{$g->name}}</a></h3><br>
 				<?php 		}
 						} ?>
 

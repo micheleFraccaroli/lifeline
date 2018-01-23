@@ -11,7 +11,7 @@ use App\Post;
 use App\Friend;
 use App\Like;
 use Auth;
-use Group;
+use App\Group;
 use App\Group_user;
 
 class UserController extends Controller
