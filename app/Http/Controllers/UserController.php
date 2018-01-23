@@ -41,8 +41,6 @@ class UserController extends Controller
 
         $my_friend = DB::table('users')->whereIn('id',$friend->pluck('id_utente'))->count();
 
-        dd($my_friend);
-
         $all_posts = User::find($id)->posts;
 
         foreach ($all_posts as $post) {

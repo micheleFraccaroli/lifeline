@@ -12,7 +12,7 @@ use App\Http\Controllers\FriendController;
 </div>
 
 <audio id="sound">
-    <source src="/Sonar.wav" type="audio/wav">
+    <source src="/Sonar.ogg" type="audio/ogg">
 </audio>
 
 <div class="nomi">

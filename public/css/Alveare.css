@@ -165,6 +165,7 @@ body {
 .btnName {
 	height: 6.25% !important;
 	padding: 2 !important;
+	padding-right: 0px;
 	margin: 0 !important;
 	display: inline;
 	background-color: #aeeaae;

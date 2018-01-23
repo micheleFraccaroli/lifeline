@@ -53,7 +53,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('register') }}" class="navigation">sigup</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">Sign up</a></li>
 
                         @else
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
@@ -61,7 +61,7 @@
                                 <div class="input-group add-on">
                                     <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required oninvalid="this.setCustomValidity('This field can not be empty')" oninput="setCustomValidity('')">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
+                                        <button class="btn btn-default" type="submit"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
                                     </div>
                                 </div>
                             </form>
