@@ -137,6 +137,7 @@ function crea(text, id_other,id_conv, my_id, flag) {
         boxActive = containers[id_other];
     }
     else {
+        var cont=$('<div></div>').addClass("btn-group");
         var element=$('<div></div>').addClass("btn btnName").text(text);
         var elementChild=$('<div></div>').addClass("btn btnX").text("X");
 
@@ -148,8 +149,9 @@ function crea(text, id_other,id_conv, my_id, flag) {
         console.log("CONTAINER CONVERSATION ----> "+id_conv);
         container.id_conv=id_conv;
 
-        element.append(elementChild);
-        $('#buttons').append(element);
+        cont.append(element);
+        cont.append(elementChild);
+        $('#buttons').append(cont);
         $('#text').before(container);
 
         element.click(changeContext.bind(null,id_other));
@@ -175,7 +177,7 @@ function crea(text, id_other,id_conv, my_id, flag) {
             container.buttonName=element;
         }
 
-        elementChild.click(removeTab.bind(null,element,container,id_other));
+        elementChild.click(removeTab.bind(null,cont,container,id_other));
         getMessage(id_conv, text, id_other);
     }
 
@@ -234,7 +236,12 @@ function removeTab(element,container,id_other) {
     else {                                   //Altrimenti rimuovi solo la tab interessata
         element.remove();
         container.remove();
-        containers[id_other]=null;
+        containers.splice(id_other,1);
+        
+        if(boxActive===container) {
+            var index=Object.keys(containers);
+            changeContext(index[index.length-1]);
+        }
     }
 }
 
