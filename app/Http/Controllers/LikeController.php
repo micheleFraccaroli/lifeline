@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use App\Like;
 use App\Post;
+use App\Group;
 
 class LikeController extends Controller
 {
@@ -25,6 +26,16 @@ class LikeController extends Controller
             $news->name = $user->name;
             $news->surname = $user->surname;
             $news->id_post = $request['id_post'];
+
+            $group_id = Post::find($request['id_post']);
+            if($group_id->group_id != null) {
+                $group_name = Group::find($group_id->group_id);
+                $news->group_name = $group_name->name;     
+            }
+            else {
+                $news->group_name = null;
+            }
+
             $news->notify(new LikeNotification());
             
             return response($news);

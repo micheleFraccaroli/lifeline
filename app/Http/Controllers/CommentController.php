@@ -65,7 +65,6 @@ class CommentController extends Controller
             $news->surname = $user->surname;
             $news->id_post = $post_id;
 
-            //$news->id_group = $group_id->group_id;
             if($group_id->group_id != null) {
                 $group_name = Group::find($group_id->group_id);
                 $news->group_name = $group_name->name;     
