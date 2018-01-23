@@ -80,16 +80,14 @@ $(document).ready(function() {
         })
     })
 
-    $(document).ready(function() {
-        socket1.on('send_fr_req', function(data) {
-            console.log(data);
-            $('#requester').load(location.href + " #requester");
-        });
-        
-        socket1.on('friend_resp', function(data) {
-            console.log(data);
-            $('#requester').load(location.href + " #requester");
-        });
+    socket1.on('send_fr_req', function(data) {
+        console.log(data);
+        $('#notification_div').load(location.href + " #notification_div")
+    });
+    
+    socket1.on('friend_resp', function(data) {
+        console.log(data);
+        $('#notification_div').load(location.href + " #notification_div")
     });
 });
 

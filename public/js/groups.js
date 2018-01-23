@@ -47,11 +47,11 @@ $("[id*='body_comment_']").keyup(function() {
 
     if($(this).val()){
 
-        $("[id*='Post_comment_"+comment_id+"']").prop('disabled', false);
+        $("#Post_comment_"+comment_id+"").prop('disabled', false);
 
     }else{
 
-        $("[id*='Post_comment_"+comment_id+"']").prop('disabled', true);
+        $("#Post_comment_"+comment_id+"").prop('disabled', true);
 
     }
 
