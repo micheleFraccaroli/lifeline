@@ -21,6 +21,7 @@ class UserController extends Controller
     }
 
     public function show($id) {
+
         $user = collect();
 
         $usr = User::find($id);
@@ -41,7 +42,16 @@ class UserController extends Controller
 
         $only_friends = $all_requests->where('type',0);
 
-        $my_friend = DB::table('users')->whereIn('id',$only_friends->pluck('id_utente'))->where('id',$id)->count();
+        if ($only_friends->isNotEmpty()) {
+
+            $my_friend = DB::table('users')->whereIn('id',$only_friends->pluck('id_utente'))->where('id',$id)->count();
+
+        }else{
+
+            $my_friend = 0;
+        }
+
+        //$my_friend = DB::table('users')->whereIn('id',$only_friends->pluck('id_utente'))->where('id',$id)->count();
 
         $all_posts = User::find($id)->posts;
 

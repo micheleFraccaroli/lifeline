@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-<!-- pubblica post -->
-<?php if(Auth::check()) { ?>
 <div class="panel-body">
 
 <div class = "row">
@@ -250,10 +248,5 @@
 
 	</div>
 </div>
-
-<?php } else {
-	header('Location: ' . route('login'));
-    die();
-} ?>
 
 @endsection

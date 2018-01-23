@@ -45,49 +45,57 @@ class GroupController extends Controller
 
 		public function show($id){
 
-			$appartiene = GROUP::find($id)->users()->where('id',Auth::id())->get();
+			if (Auth::id()) {
+							
+				$appartiene = GROUP::find($id)->users()->where('id',Auth::id())->get();
 
-			$user_log = User::find(Auth::id());
+				$user_log = User::find(Auth::id());
 
-			$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->where('id','<>',$id)->get();
-
-			$group = Group::find($id);
-
-			$admin = Group::find($id)->user;
-
-			$access = 1;
-
-			if($appartiene->count()==0){
-
-				$access = 0;
-
-				return view('groups.show', compact('access','other_groups','group','id','admin'));
-
-			}else{
-
-				$all_posts = Group::find($id)->posts;
-
-				foreach ($all_posts as $post) {
-
-					$user[$post->id] = POST::find($post->id)->user;
-					$like[$post->id] = POST::find($post->id)->likes->count();
-
-					$result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
-
-					if ($result->count()) {
-					
-						$my_like[$post->id] = 1;
-
-					}else{
-
-						$my_like[$post->id] = 0;
-					}
-
-				}
+				$other_groups = DB::table('groups')->whereNotIn('id',$user_log->groups->pluck('id'))->where('id','<>',$id)->get();
 
 				$group = Group::find($id);
 
-				return view('groups.show', compact('all_posts','user','like','id','group','other_groups','my_like','access','admin'));
+				$admin = Group::find($id)->user;
+
+				$access = 1;
+
+				if($appartiene->count()==0){
+
+					$access = 0;
+
+					return view('groups.show', compact('access','other_groups','group','id','admin'));
+
+				}else{
+
+					$all_posts = Group::find($id)->posts;
+
+					foreach ($all_posts as $post) {
+
+						$user[$post->id] = POST::find($post->id)->user;
+						$like[$post->id] = POST::find($post->id)->likes->count();
+
+						$result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
+
+						if ($result->count()) {
+						
+							$my_like[$post->id] = 1;
+
+						}else{
+
+							$my_like[$post->id] = 0;
+						}
+
+					}
+
+					$group = Group::find($id);
+
+					return view('groups.show', compact('all_posts','user','like','id','group','other_groups','my_like','access','admin'));
+
+				}
+
+			}else{
+
+				return redirect('/');
 
 			}
 
