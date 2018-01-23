@@ -6,12 +6,13 @@
 	        <h4 class="modal-title">Other groups</h4>
 	    </div>
       	<div class="modal-body">
-      		<?php if($other_groups->isEmpty()){echo "There isn't other groups...";}else{ ?>
-	        <?php foreach ($other_groups as $other_group){?>
-
-				<?php echo "<img class = 'img-circle' src='<?php echo asset($other_group->image)?>' height='60' width='60'/>&nbsp;<B><a href=\"/groups/index/{$other_group->id}\">{$other_group->name}</a></B><br><br>";?>
-
-			<?php }} ?>
+      		<?php if($other_groups->isEmpty()){
+      			echo "There isn't other groups...";
+      			} else { 
+	        	foreach ($other_groups as $other_group){
+					echo "<img class = 'img-circle' src='" . asset($other_group->image) . "' height='60' width='60'/>&nbsp;<B><a href=\"/groups/index/{$other_group->id}\">{$other_group->name}</a></B><br><br>";
+	        	}
+	        } ?>
       	</div>
     </div>
   </div>

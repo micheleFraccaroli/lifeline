@@ -3,10 +3,10 @@ $(document).ready(function() {
     socket1 = io('http://localhost:65001');
     socket1.on('new message', function(data){
         console.log("nel new message" + data);
-        console.log("nel new message ---->" + $('#0 input[name=user_log]').val());
+        console.log("nel new message ---->" + $('#id_user_logged').val());
         
         socket1.emit('friend_identified', {
-            my_id: $('#0 input[name=user_log]').val()
+            my_id: $('#id_user_logged').val()
         });
     });
 
@@ -15,7 +15,6 @@ $(document).ready(function() {
         var data = $(this).serialize();
         var url = $(this).attr('action');
         var post = $(this).attr('method');
-
         $.ajax({
             type : post,
             url : url,

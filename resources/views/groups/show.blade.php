@@ -9,7 +9,7 @@
 
   <div class = "col-sm-3">
       <div class="alert alert-info">
-      <?php echo "<B>".$group->name."</B><br><br>" ?>
+      <?php echo "<B>".$group->name."</B><br><br>" ?> 
       <?php echo "<img src='".asset($group->image)."' class='img-thumbnail' height='200' width='200'/>&nbsp;<B></a></B>";?>
 
       <br>
@@ -132,12 +132,10 @@
 
 					<form id="<?php echo "other_{$other_group->id}" ?>" action="#">
 
-						<img class = "img-responsive img-circle" src="<?php echo asset($other_group->image)?>" height="50" width="50"/>
+  					<?php echo "<img class = 'img-circle' src='".asset($other_group->image)."' height='60' width='60'/>&nbsp;<B><a href=\"/groups/index/{$other_group->id}\">{$other_group->name}</a></B><br><br>";?>
 
-					<?php echo "<img class = 'img-circle' src='".asset($other_group->image)."' height='60' width='60'/>&nbsp;<B><a href=\"/groups/index/{$other_group->id}\">{$other_group->name}</a></B><br><br>";?>
-
-					<button type='submit' class='btn btn-info'  style="display: none;">Iscriviti</button>
-				</form>
+  					<button type='submit' class='btn btn-info'  style="display: none;">Iscriviti</button>
+  				</form>
 
 			<?php } ?>
       <button type='button' class='btn btn-info' data-toggle="modal" data-target="#other_groups">

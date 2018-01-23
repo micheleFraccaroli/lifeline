@@ -184,11 +184,6 @@ class PostController extends Controller
     public function destroy($id,Request $request)
     {
         if($request->ajax()){
-
-            $pic_post = Post::find($id);
-            if($pic_post->photo != null) {
-                Storage::delete($pic_post->photo);
-            }
             POST::destroy($id);
 
             return Response()->json(['success'=>'eliminato']);

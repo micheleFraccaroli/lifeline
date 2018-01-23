@@ -130,9 +130,9 @@
     <script src="{{asset('js/app.js') }}"></script>
     <script src="{{asset('js/aes.js') }}"></script>
     <script src="{{asset('js/chat.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/groups.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
+    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
 </body>
 </html>

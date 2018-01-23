@@ -18,7 +18,12 @@
 
                     <div class="panel-heading">Gruppi</div>
                         <div class="panel-body">
-                            Gruppetti Fighetti
+                            <?php foreach($groups as $group) { ?>
+                                    <a href="/groups/index/{{$group->id}}">
+                                        <img src="{{$group->image}}" class='img-circle' height='30' width='30'>
+                                        {{$group->name}}
+                                    </a><br>
+                            <?php } ?>
                         </div>
                         <button type="submit" class="btn btn-info">Create new group</button>
 

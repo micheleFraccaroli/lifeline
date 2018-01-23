@@ -37,9 +37,9 @@ Route::get('/users/leave_group/{id}','UserController@leave_group');
 
 
 //Friends
-//Route::get('/contacts', 'FriendController@show');
+Route::get('/contacts', 'FriendController@show');
 Route::get('/friends', 'FriendController@show');
-//Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
+Route::get('/friends/{id_utente1}', 'FriendController@showFriend');
 Route::post('/friends/req', 'FriendController@friendshipRequest');
 Route::post('/friends/resp', 'FriendController@friendshipRespond');
 Route::post('/friends/del', 'FriendController@Deletefriendship');

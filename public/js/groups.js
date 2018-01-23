@@ -530,6 +530,7 @@ function like_post(target) {
         data : {id_post:post_id},
         dataTy : 'json',
         success:function(data) {
+            console.log("HO MESSO UN MI PIACE");
             $('#append_new_posts').load(location.href + " #append_new_posts");
             socket.emit('like_news', {
                 to: data.news.id
@@ -851,7 +852,7 @@ function like_post_home(target) {
         data : {id_post:post_id},
         dataTy : 'json',
         success:function(data) {
-            console.log("Dati dei like di ritorno dal controller "+data.id)
+            console.log("Dati dei like di ritorno dal controller "+data.id);
             $('#bacheca_posts').load(location.href + " #bacheca_posts");
             socket.emit('like_news', {
                 to: data.id
