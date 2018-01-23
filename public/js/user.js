@@ -47,25 +47,17 @@ $("#user_pic").change(function() {
 
 
 $(document).ready(function() {
-    socket1.on('send_fr_req', function(data) {
-            console.log(data);
-            $('#notification_div').load(location.href + " #notification_div")
-    });
     
-    socket1.on('friend_resp', function(data) {
-        console.log(data);
-        $('#notification_div').load(location.href + " #notification_div")
-    });
 
     //refresh per i like
     socket.on('like_news_refresh', function(data) {
-        console.log(data);
+        console.log("refresh dei like  " + data);
         $('#notification_div').load(location.href + " #notification_div")
     });
 
     //refresh per i commenti
     socket.on('comment_news_refresh', function(data) {
-        console.log(data.comment);
+        console.log("refresh dei commenti  " + data.comment);
         $('#notification_div').load(location.href + " #notification_div")
     });
 });

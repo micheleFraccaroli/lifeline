@@ -20,6 +20,7 @@
 // })
 
 function add_id_other(id_other, my_id, id_form,chat_name,flag) {
+
     //Richiesta AJAX al model per ritornare l'id di conversazione, se non esisteva, lo crea.
     $('#'+id_form).on('submit', function(e) {
     e.preventDefault();
@@ -44,10 +45,5 @@ function add_id_other(id_other, my_id, id_form,chat_name,flag) {
     });
 
     $('#'+id_form).submit();
-    console.log("id_other--> " + id_other + " ||| my_id--> " + my_id);
-}
 
-function clearIdConv() {
-    document.getElementById("id_conversation").value = "";
-    return;
 }

@@ -7,7 +7,7 @@ var id_users = []; //qui va identificativo utente ogni volta che uno si collega
 
 
 app.get('/', function(req, res){
-  res.sendFile('/resources/home.blade.php');
+  res.sendFile('/resources/app.blade.php');
 });
 
 io.on('connection', function(socket){

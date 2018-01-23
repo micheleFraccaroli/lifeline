@@ -4,16 +4,10 @@
 
 <div class="container-fluid">
     <div class="row">
-
+        <input type="hidden" id="id_user_logged" value="{{ Auth::user()->id }}">
         <div class="col-md-2">
             <div class="panel panel-default homeImage">
-                <?php if(Auth::user()->image == '0' && Auth::user()->sex == 'M'){ ?>
-                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image-M.png')}}" alt="Profile Image"></a>
-                <?php } elseif (Auth::user()->image == '0' && Auth::user()->sex == 'F'){ ?>
-                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{URL::asset('/default-profile-image-F.png')}}" alt="Profile Image"></a>
-                <?php } else { ?>
-                    <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{asset(Auth::user()->image)}}" alt="Profile Image"></a>
-                <?php } ?>
+                <a href="/users/{{ Auth::user()->id }}"><img class="photo" src="{{asset(Auth::user()->image)}}" alt="Profile Image"></a>
             <div id="nick"> 
                 {{ Auth::user()->name }}    
                 {{ Auth::user()->surname }}
@@ -24,7 +18,12 @@
 
                     <div class="panel-heading">Gruppi</div>
                         <div class="panel-body">
-                            Gruppetti Fighetti
+                            <?php foreach($groups as $group) { ?>
+                                    <a href="/groups/index/{{$group->id}}">
+                                        <img src="{{$group->image}}" class='img-circle' height='30' width='30'>
+                                        {{$group->name}}
+                                    </a><br>
+                            <?php } ?>
                         </div>
                         <button type="submit" class="btn btn-info">Create new group</button>
 

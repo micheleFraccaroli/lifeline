@@ -19,7 +19,7 @@ $(document).ready(function(){
     socket.on('new message', function(data){
         console.log("E QUA CI SONO "+ data.message);
         socket.emit('identified', {
-            nickname: $('#0 input[name=user_log]').val()
+            nickname: $('#id_user_logged').val()
         });
     });
 
@@ -33,11 +33,17 @@ $(document).ready(function(){
         div.css("float","right");
         div.css("background-color","#ddf");
 
+        if(boxActive !== containers[data.id_utente]) {
+            var suono=new Audio("Sonar.ogg");
+            suono.play();
+        }
+
         if(ChatIsOpen) {
             if(typeof containers[data.id_utente] === 'undefined') {
                 console.log('creo tab');
-                add_id_other(data.id_utente,data.id_other);
+                //add_id_other(data.id_utente,data.id_other,,data.chat_name,1);
                 crea(data.chat_name, data.id_utente, data.id_conv, data.id_other, 1);
+                $('#sound')[0].play();
             }
 
             div.css("clear","both");
@@ -50,7 +56,7 @@ $(document).ready(function(){
             console.log("DATA ID UTENET: " + data.id_utente);
             console.log("DATA ID ohter: " + data.id_other);
 
-            add_id_other(data.id_utente,data.id_other);
+            //add_id_other(data.id_utente,data.id_other);
 
             crea(data.chat_name, data.id_utente, data.id_conv, data.id_other, 1);
             console.log("NUM FIGLI DI CONTAINRS DATA " + containers[data.id_utente].children().length);
@@ -131,6 +137,7 @@ function crea(text, id_other,id_conv, my_id, flag) {
         boxActive = containers[id_other];
     }
     else {
+        var cont=$('<div></div>').addClass("btn-group");
         var element=$('<div></div>').addClass("btn btnName").text(text);
         var elementChild=$('<div></div>').addClass("btn btnX").text("X");
 
@@ -142,8 +149,9 @@ function crea(text, id_other,id_conv, my_id, flag) {
         console.log("CONTAINER CONVERSATION ----> "+id_conv);
         container.id_conv=id_conv;
 
-        element.append(elementChild);
-        $('#buttons').append(element);
+        cont.append(element);
+        cont.append(elementChild);
+        $('#buttons').append(cont);
         $('#text').before(container);
 
         element.click(changeContext.bind(null,id_other));
@@ -169,7 +177,7 @@ function crea(text, id_other,id_conv, my_id, flag) {
             container.buttonName=element;
         }
 
-        elementChild.click(removeTab.bind(null,element,container,id_other));
+        elementChild.click(removeTab.bind(null,cont,container,id_other));
         getMessage(id_conv, text, id_other);
     }
 
@@ -228,7 +236,12 @@ function removeTab(element,container,id_other) {
     else {                                   //Altrimenti rimuovi solo la tab interessata
         element.remove();
         container.remove();
-        containers[id_other]=null;
+        containers.splice(id_other,1);
+        
+        if(boxActive===container) {
+            var index=Object.keys(containers);
+            changeContext(index[index.length-1]);
+        }
     }
 }
 
@@ -244,10 +257,12 @@ function changeContext(id_other) {
 }
 
 function openChat() {
+
     $('.chat').animate({
             left: lefts-$('.chat').width()-10
     }, function() {
         ChatIsOpen = true;
+        $('#text').focus();
     });
     
 }

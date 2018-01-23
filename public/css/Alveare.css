@@ -142,7 +142,7 @@ body {
 .chat {
 	width: 20%;
 	position: fixed;
-	background-color: #00f;
+	background-color: #444;
 	z-index: 9;
 	margin: 0;
 	padding: 0;
@@ -159,24 +159,32 @@ body {
 	padding: 0;
 	border: 0;
 	top: 50;
-
+	font-size: 0px;
 }
 
 .btnName {
-	height: 6.25% !important;
-	padding: 2 !important;
+	height: 100% !important;
+	padding: 0px !important;
+	padding-right: 2px;
 	margin: 0 !important;
 	display: inline;
 	background-color: #aeeaae;
-	border: 1px solid black;
 }
 
 .btnX {
-	height: 6.25% !important;
-	padding: 2 !important;
+	height: 100% !important;
+	padding: 0 !important;
 	margin: 0 !important;
 	display: inline;
 	background-color: #aeeaae;
+}
+
+.btnName:hover {
+	background-color: #ccf !important;
+}
+
+.btnX:hover {
+	background-color: #f00;
 }
 
 .chat > div:first-child {
@@ -251,6 +259,8 @@ textarea {
 	overflow: auto;
 	overflow-x: hidden;
 	word-wrap: normal;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
 .chatMex {
@@ -296,4 +306,44 @@ textarea {
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
 	border-bottom-left-radius: 20px;
+}
+
+input[type=button] {
+	height: 5%;
+	background-color: transparent;
+	border-bottom: 2px solid #0f0;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	font-style: bold;
+	font-size: 15px;
+	color: #aeeaae;
+}
+
+.search_record {
+	text-align: center;
+}
+
+.search_record a{
+	background-color: transparent;
+	text-align: center;
+	padding-bottom: 5px;
+	color: #444;
+	font-style: bold;
+}
+
+.search_result {
+	text-align: center;
+	color: #444;
+	padding: 3px;
+}
+
+.search {
+	background-color: #aeeaae;
+	width: 50%;
+	height: 100%;
+	border-radius: 20px;
 }

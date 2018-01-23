@@ -44,6 +44,8 @@ class HomeController extends Controller
 
         $all_posts = DB::table('posts')->whereIn('user_id',$collection->pluck('id_utente'))->where('group_id',NULL)->orderBy('created_at', 'desc')->get();
 
+        $groups = User::find(Auth::user()->id)->groups;
+
         foreach ($all_posts as $post) {
 
             $user[$post->id] = POST::find($post->id)->user;
@@ -62,7 +64,7 @@ class HomeController extends Controller
 
         }
 
-        return view('home', compact('all_posts','user','like','my_like'));
+        return view('home', compact('all_posts','user','like','my_like', 'groups'));
         
     } 
 

@@ -32,6 +32,7 @@
                         <?php
                         foreach ($users as $usr) { ?>
                             <li class="list-group-item">
+                                <img src="{{$usr['image']}}" class='img-circle' height='30' width='30'/>
                                 <a href="/users/{{$usr['id']}}">{{$usr['name']}} {{$usr['surname']}}</a>
                             </li>
                         <?php } ?>

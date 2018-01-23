@@ -7,16 +7,21 @@ use App\Http\Controllers\FriendController;
         <span onclick="closeChat()" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </div>
 
-    <div id="buttons"></div>
+    <div id="buttons">
+
+    </div>
     <textarea id="text" class="scrollabletextbox" rows="2" name="message"></textarea>
 </div>
 
-<div class="container nomi">
-    <div class="row">
-        <div class ="col-sm-6 col-md-offset-3">
+<audio id="sound">
+    <source src="/Sonar.ogg" type="audio/ogg">
+</audio>
+
+<div class="nomi">
             
     <?php   $index = 0;
             $users = FriendController::show();
+
             foreach($users['users'] as $user) { ?>
                 
                 <form action="{{ URL::to('/conversations/create') }}" method="POST" id="<?= $index ?>">
@@ -31,19 +36,19 @@ use App\Http\Controllers\FriendController;
                 
                     $chat_name = $user->name . " " . $user->surname; 
                     if(!empty($id_conv)) { ?>
-                        <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}', 0);"><br>
+                        <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}', 0);">
 
                 <?php    
                     }
                     else { ?>
-                        <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}',0);"><br>
+                        <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}',0);">
                 <?php    } ?>
+                
                 </form>
+                
                 <?php $index++;
             }
             ?>  
-        </div>
-    </div>
 </div>
 
 <script src="http://localhost:65000/socket.io/socket.io.js"></script>

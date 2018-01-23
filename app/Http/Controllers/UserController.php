@@ -11,6 +11,7 @@ use App\Post;
 use App\Friend;
 use App\Like;
 use Auth;
+use App\Group;
 use App\Group_user;
 
 class UserController extends Controller
@@ -109,7 +110,8 @@ class UserController extends Controller
 
         $search = request('srch-term');
         $user = User::where('complete_name', 'LIKE', '%'.$search.'%')->get();
-        return view('users', compact('user'));
+        $group = Group::where('name', 'LIKE', '%'.$search.'%')->get();
+        return view('users', compact('user', 'group'));
 
     }
 

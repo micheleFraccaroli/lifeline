@@ -39,10 +39,6 @@ class User extends Authenticatable
 
     }
 
-
-    /*****Geme 03/01/2018*****/
-    /*Ritorna tutti i gruppi a cui un utente è iscritto*/
-
     public function groups(){
 
         return $this->belongsToMany('App\Group');

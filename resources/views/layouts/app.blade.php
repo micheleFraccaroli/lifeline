@@ -41,8 +41,9 @@
 
                     <!-- Branding Image -->
 
+
                     <a class="navbar-brand" href="/">
-                        {{ config('app.name') }}
+                        <img src="{{asset('/favicon_real.png')}}" height='35' width='35' style="margin-top: -6px;">
                     </a>
                 </div>
 
@@ -53,7 +54,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a href="{{ route('register') }}" class="navigation">sigup</a></li>
+                            <li><a href="{{ route('register') }}" class="navigation">Sign up</a></li>
 
                         @else
                             <form class="navbar-form navbar-left" role="search" action="/search" method="POST">
@@ -61,7 +62,7 @@
                                 <div class="input-group add-on">
                                     <input class="form-control" placeholder="Search" name="srch-term" id="srch-term" type="text" required oninvalid="this.setCustomValidity('This field can not be empty')" oninput="setCustomValidity('')">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-default" type="submit" onclick="chech_search();"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
+                                        <button class="btn btn-default" type="submit"><img src="{{URL::asset('/search-image.png')}}" width="21" height="20"></button>
                                     </div>
                                 </div>
                             </form>
@@ -114,15 +115,28 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if(window.location.pathname=='/login'){
+                $(document.body).addClass('login');
+            }
+            else{
+                $(document.body).removeClass('login');   
+            }
+        });
+    </script>
+    <!-- <script src="http://localhost:65000/socket.io/socket.io.js"></script>
+    <script src="http://localhost:65001/socket.io/socket.io.js"></script> -->
     <script src="{{asset('js/perfect-scrollbar.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/app.js') }}"></script>
     <script src="{{asset('js/aes.js') }}"></script>
-    <script src="{{asset('js/chat.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/groups.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/friend.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/like.js') }}" type="text/javascript"></script>
-    <script src="{{asset('js/user.js') }}" type="text/javascript"></script>
-    
+    <script src="{{asset('js/chat.js') }}"></script>
+    <script src="{{asset('js/user.js') }}"></script>
+    <script src="{{asset('js/groups.js') }}"></script>
+    <script src="{{asset('js/friend.js') }}"></script>
+    <script src="{{asset('js/like.js') }}"></script>
 </body>
 </html>

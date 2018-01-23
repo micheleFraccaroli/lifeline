@@ -4,23 +4,21 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-2">
-            <div class="panel panel-default homeImage"> 
-                <?php if($user['image'] == '0' && $user['sex'] == 'M') { ?>
-                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{URL::asset('/default-profile-image-M.png')}}" alt="Profile Image"></a>
-                <?php } elseif ($user['image'] == '0' && $user['sex'] == 'F') { ?>
-                    <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{URL::asset('/default-profile-image-F.png')}}" alt="Profile Image"></a>
-                <?php } else { ?>
+
+        	<input type="hidden" value="{{ Auth::user()->id }}" id="id_user_logged">
+
+            <div class="panel panel-default homeImage">
                     <a href="/users/{{ $user['id'] }}"><img class="photo" src="{{asset($user['image'])}}" alt="Profile Image"></a>
-                <?php } ?>
                 <hr>
 
                 {{ $user['name'] }}    
                 {{ $user['surname'] }} <br>
 
+                
 	    		<button type="button" class="btn btn-info" data-container="body" data-toggle="popover" title="<B>{{$user['name']}} {{$user['surname']}}</B>" data-content="<B>Name:</B> {{$user['name']}}<br><B>Surname:</B> {{$user['surname']}}<br><B>Sex:</B> {{$user['sex']}}<br><B>Born:</B> {{$user['born']}}<br><B>Job:</B> {{$user['job']}}<br><B>Relathionship:</B> {{$user['relation']}}<br><B>E-mail:</B> {{$user['email']}}">
-      			Info
+      			<span class=' glyphicon glyphicon-info-sign'></span> Info
       			</button>
-      			
+			                   
             	<div id="requester">
             		<?php if($user['id'] != Auth::user()->id) { ?>
 	            		<?php if(strcmp($user[0], "not_found") == 0) {?>
@@ -69,6 +67,7 @@
         </div>
 	
 	<?php if($my_friend != 0) { ?>
+
 
 	<!--inizio bacheca-->
 

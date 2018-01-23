@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Comment;
@@ -183,7 +184,6 @@ class PostController extends Controller
     public function destroy($id,Request $request)
     {
         if($request->ajax()){
-
             POST::destroy($id);
 
             return Response()->json(['success'=>'eliminato']);
