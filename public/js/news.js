@@ -8,7 +8,7 @@ var id_users = []; //qui va identificativo utente ogni volta che uno si collega
 var receiver_notification = []; //qua va username interlocutore 
 
 app.get('/', function(req, res){
-  res.sendFile('/resources/index.blade.php');
+  res.sendFile('/resources/app.blade.php');
 });
 
 io.on('connection', function(socket1){

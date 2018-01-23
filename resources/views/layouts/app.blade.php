@@ -41,8 +41,9 @@
 
                     <!-- Branding Image -->
 
+
                     <a class="navbar-brand" href="/">
-                        {{ config('app.name') }}
+                        <img src="{{asset('/favicon_real.png')}}" height='35' width='35' style="margin-top: -6px;">
                     </a>
                 </div>
 
@@ -116,7 +117,7 @@
     <!-- Scripts -->
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script type="text/javascript">
+    <script type="text/javascript">
         $(document).ready(function(){
             if(window.location.pathname=='/login'){
                 $(document.body).addClass('login');
@@ -125,7 +126,9 @@
                 $(document.body).removeClass('login');   
             }
         });
-    </script>  -->
+    </script>
+    <!-- <script src="http://localhost:65000/socket.io/socket.io.js"></script>
+    <script src="http://localhost:65001/socket.io/socket.io.js"></script> -->
     <script src="{{asset('js/perfect-scrollbar.js') }}" type="text/javascript"></script>
     <script src="{{asset('js/app.js') }}"></script>
     <script src="{{asset('js/aes.js') }}"></script>
