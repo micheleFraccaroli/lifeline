@@ -35,11 +35,12 @@ class HomeController extends Controller
         $array_id_usr = array();
 
         $frn = new Friend;
+
         $friends = $frn->getFriends(Auth::user()->id);
 
         $array = array_prepend($friends, ['id_utente'=>Auth::id(),'type' => 0]);
 
-        $collection = collect($array);
+        $collection = collect($array)->where('type',0);
 
         $all_posts = DB::table('posts')->whereIn('user_id',$collection->pluck('id_utente'))->where('group_id',NULL)->orderBy('created_at', 'desc')->get();
 

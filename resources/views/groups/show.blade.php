@@ -7,6 +7,7 @@
 
   <div class = "col-sm-3">
       <div class="alert alert-info">
+
       <?php echo "<B>".$group->name."</B><br><br>" ?>
       <?php echo "<img src='".asset($group->image)."' class='img-thumbnail' height='200' width='200'/>&nbsp;<B></a></B>";?>
 
@@ -14,19 +15,16 @@
       <br>
 
       <form method="GET" action="<?php echo "/groups/{$id}/edit"; ?>">
-        <div class='btn-group' role='group' aria-label='...'>
-          <button type="button" class="btn btn-info" data-container="body" data-toggle="popover" title="<?php echo "<B>Administrator:</B><br><br><img class = 'img-circle' src='".$admin->image."' height='60' width='60'/>&nbsp;<a href='/users/{$admin->id}'><B>{$admin->name} {$admin->surname}</B></a>" ?>" data-content="<?php echo "<B>Description:</B><br>".$group->description ?>">
-          <span class=' glyphicon glyphicon-info-sign'></span> Info
-          </button>
+        <div class='btn-group' role='group'>
+          <button type="button" class="btn btn-info" data-container="body" data-toggle="popover" title="<B>Administrator:</B><br><br><img class = 'img-circle' src='{{$admin->image}}' height='60' width='60'/>&nbsp;<a href='/users/{{$admin->id}}'><B>{{$admin->name}} {{$admin->surname}}</B></a>" data-content="<B>Description:</B><br>{{$group->description}}"><span class=' glyphicon glyphicon-info-sign'></span> Info</button>
           <?php if(Auth::id() == $admin->id){ ?>
           <button class='btn btn-info' type='submit'><span class=' glyphicon glyphicon-cog'></span>
           Edit</button>
           <button class='btn btn-info' data-toggle="modal" data-target="#delete_group" type='button'><span class=' glyphicon glyphicon-trash'></span>
            Delete</button>
-          <?php }else if($access!=0){ ?>
-          <button class='btn btn-info' data-toggle="modal" data-target="#leave_group" type='button'>
-           Leave</button>
-           <?php } ?>    
+          <?php }elseif($access){ ?>
+          <button class='btn btn-info' data-toggle="modal" data-target="#leave_group" type='button'>Leave</button>  
+           <?php } ?> 
         </div>
       </form>
       <form method="POST" action="<?php echo "/groups/{$id}"; ?>">
@@ -99,25 +97,26 @@
 			</form>
 	  	</div>
   	</div>
-</div>
-<hr>
+
+  <hr>
 
 
 	<!-- Pulsante che consente l'iscrizione al gruppo -->
 
 	<?php }else{?>
 
-
-	<div class = "row">
-		<div class ="col-sm-6 col-md-offset-3">	
+		<div class ="col-sm-6">	
 			<form action="<?php echo "/user/new_group/{$id}"; ?>">
-				<button type='submit' class='btn btn-info btn-block'>Iscriviti</button>
-	    	</form>
-	  	</div>
-	</div>
-	<hr>
+				<button type='submit' class='btn btn-info btn-block'>Subscribe</button>
+	    </form>
+	  </div>
 
-	<?php } ?>
+  <hr>
+
+  <?php } ?>
+
+</div>
+
 
 	<div class = "row">
 

@@ -17,7 +17,7 @@
                 {{ $user['name'] }}    
                 {{ $user['surname'] }} <br>
 
-	    		<button type="button" class="btn btn-info" data-container="body" data-toggle="popover" title="<B>{{$user['name']}}</B>" data-content="<B>Name:</B> {{$user['name']}}<br><B>Surname:</B> {{$user['surname']}}<br><B>Sex:</B> {{$user['sex']}}<br><B>Born:</B> {{$user['born']}}<br><B>Job:</B> {{$user['job']}}<br><B>Relathionship:</B> {{$user['relation']}}<br><B>E-mail:</B> {{$user['email']}}">
+	    		<button type="button" class="btn btn-info" data-container="body" data-toggle="popover" title="<B>{{$user['name']}} {{$user['surname']}}</B>" data-content="<B>Name:</B> {{$user['name']}}<br><B>Surname:</B> {{$user['surname']}}<br><B>Sex:</B> {{$user['sex']}}<br><B>Born:</B> {{$user['born']}}<br><B>Job:</B> {{$user['job']}}<br><B>Relathionship:</B> {{$user['relation']}}<br><B>E-mail:</B> {{$user['email']}}">
       			Info
       			</button>
       			
@@ -82,16 +82,20 @@
 
 		                if ($post->photo != NULL) {
 
-		                    echo "<img src='".$user_io[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." ".$user_io[$post->id]->name." ".$user_io[$post->id]->surname."</B> posted a photo:<br><br>";
+		                    echo "<img src='".$user_io[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user_io[$post->id]->id}\">{$user_io[$post->id]->name} {$user_io[$post->id]->surname}</a></B> posted a photo:<br><br>";
 
 		                    echo $post->body."<br>";
+
 		                    echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
+
 		                    echo "<img src='".asset($post->photo)."' class='img-thumbnail' height='200' width='200'/><br><br>";
 
 		                }else{
 
-		                    echo "<img src='".$user_io[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." ".$user_io[$post->id]->name." ".$user_io[$post->id]->surname."</B> said:<br><br>";
+		                    echo "<img src='".$user_io[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user_io[$post->id]->id}\">{$user_io[$post->id]->name} {$user_io[$post->id]->surname}</a></B> said:<br><br>";
+
 		                    echo $post->body."<br>";
+
 		                    echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 
 		                }
@@ -165,19 +169,30 @@
 
 		                if ($post->photo != NULL) {
 
-		                    echo $user_io[$post->id]->name." ".$user_io[$post->id]->surname."</B> posted a photo:<br><br>";
+		                    echo "<img src='".$user_io[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user_io[$post->id]->id}\">{$user_io[$post->id]->name} {$user_io[$post->id]->surname}</a></B> posted a photo:<br><br>";
 
 		                    echo $post->body."<br>";
+
 		                    echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
+
 		                    echo "<img src='".asset($post->photo)."' class='img-thumbnail' height='200' width='200'/><br><br>";
+
+		                    echo "<hr>";
+		                    echo "</div>";
 
 		                }else{
 
-		                    echo$user_io[$post->id]->name." ".$user_io[$post->id]->surname."</B> said:<br><br>";
+		                    echo "<img src='".$user_io[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user_io[$post->id]->id}\">{$user_io[$post->id]->name} {$user_io[$post->id]->surname}</a></B> said:<br><br>";
+
 		                    echo $post->body."<br>";
+
 		                    echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
+		                    
+		                    echo "<hr>";
+		                    echo "</div>";
 
 		                }
+
 		            } ?>
 				</div>
 			</div>

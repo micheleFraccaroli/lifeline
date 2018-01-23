@@ -22,58 +22,82 @@ class UserController extends Controller
 
     public function show($id) {
 
-        $user = collect();
+        if (Auth::check() && (Auth::id()==$id)) {
+            
+            $user = collect();
 
-        $usr = User::find($id);
-        $user = $user->merge($usr);
+            $usr = User::find($id);
+            $user = $user->merge($usr);
 
-        $frn = new Friend;
-        $friends = $frn->getFriends($id); //<--potrebbe tornare utile
-        $check = $frn->checkFriendship(Auth::id(), $id);
-        $user = $user->merge($check);
-        $type = $frn->checkTypeRequest(Auth::id());
-        $user = $user->merge($type);
+            $all_posts = User::find($id)->posts;
 
-        /*$pst = new Post;
-        $user_posts = $pst->getPosts($id);
-        $user = $user->merge($user_posts);*/
+            foreach ($all_posts as $post) {
 
-        $all_requests = collect($friends);
+                $user_io[$post->id] = POST::find($post->id)->user;
+                $like[$post->id] = POST::find($post->id)->likes->count();
 
-        $only_friends = $all_requests->where('type',0);
+                $result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
 
-        if ($only_friends->isNotEmpty()) {
+                if ($result->count()) {
+                
+                    $my_like[$post->id] = 1;
+
+                }else{
+
+                    $my_like[$post->id] = 0;
+                }
+
+            }
+
+            return view('user.profile', compact('user','all_posts','user_io','my_like','like'));
+
+        }elseif (Auth::check() && (Auth::id()!=$id)){
+
+            $user = collect();
+
+            $usr = User::find($id);
+            $user = $user->merge($usr);
+
+            $frn = new Friend;
+            $friends = $frn->getFriends(Auth::id()); 
+            $check = $frn->checkFriendship(Auth::id(), $id);
+            $user = $user->merge($check);
+            $type = $frn->checkTypeRequest(Auth::id());
+            $user = $user->merge($type);
+
+            /*Verifico se io e l'utente indicato siamo amici*/
+
+            $all_requests = collect($friends);
+
+            $only_friends = $all_requests->where('type',0);
 
             $my_friend = DB::table('users')->whereIn('id',$only_friends->pluck('id_utente'))->where('id',$id)->count();
 
-        }else{
+            $all_posts = User::find($id)->posts;
 
-            $my_friend = 0;
-        }
+            foreach ($all_posts as $post) {
 
-        //$my_friend = DB::table('users')->whereIn('id',$only_friends->pluck('id_utente'))->where('id',$id)->count();
+                $user_io[$post->id] = POST::find($post->id)->user;
+                $like[$post->id] = POST::find($post->id)->likes->count();
 
-        $all_posts = User::find($id)->posts;
+                $result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
 
-        foreach ($all_posts as $post) {
+                if ($result->count()) {
+                
+                    $my_like[$post->id] = 1;
 
-            $user_io[$post->id] = POST::find($post->id)->user;
-            $like[$post->id] = POST::find($post->id)->likes->count();
+                }else{
 
-            $result = LIKE::getLikeForPost($post->id)->where('id_utente',Auth::id());
+                    $my_like[$post->id] = 0;
+                }
 
-            if ($result->count()) {
-            
-                $my_like[$post->id] = 1;
-
-            }else{
-
-                $my_like[$post->id] = 0;
             }
 
-        }
+            return view('user.index', compact('user','all_posts','user_io','my_friend','my_like','like'));
+        }else{
 
-        return view('user.index', compact('user','all_posts','user_io','my_friend','my_like','like'));
+            return redirect('/');
+        }
     }
 
     public function search(Request $request) {

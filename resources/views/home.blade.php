@@ -128,16 +128,20 @@
 
                                             if ($post->photo != NULL) {
 
-                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> posted a photo:<br><br>";
+                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> posted a photo:<br><br>";
 
                                                 echo $post->body."<br>";
+
                                                 echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
+
                                                 echo "<img src='".asset($post->photo)."' class='img-thumbnail' height='200' width='200'/><br><br>";
 
                                             }else{
 
-                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." ".$user[$post->id]->name." ".$user[$post->id]->surname."</B> said:<br><br>";
+                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> said:<br><br>";
+
                                                 echo $post->body."<br>";
+                                                
                                                 echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 
                                             }
