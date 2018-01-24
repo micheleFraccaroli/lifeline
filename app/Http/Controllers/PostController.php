@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Comment;
+use App\Like;
 
 class PostController extends Controller
 {
@@ -193,11 +194,26 @@ class PostController extends Controller
 
 
     public function show($id) {
+
+        $user = Post::find($id)->user; 
+
         $post = Post::find($id);
-        $user = Post::find($id)->user;
         $post->name = $user->name;
         $post->surname = $user->surname;
 
-        return view('post.post', compact('post'));
+        $like = POST::find($post->id)->likes->count();
+
+        $result = LIKE::getLikeForPost($post->id)->where('id_utente',$user->id);
+
+        if ($result->count()) {
+                
+            $my_like = 1;
+
+        }else{
+
+            $my_like = 0;
+        }
+
+        return view('post.post', compact('post','user','like','my_like'));
     }
 }
