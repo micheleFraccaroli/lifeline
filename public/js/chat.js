@@ -32,6 +32,7 @@ $(document).ready(function(){
 
         div.css("float","right");
         div.css("background-color","#ddf");
+        div.css("font-size",($('#buttons').height()/1.7)+'px');
 
         if(boxActive !== containers[data.id_utente]) {
             var suono=new Audio("Sonar.ogg");
@@ -82,6 +83,10 @@ $(document).ready(function(){
     $('#text').css("line-height",($('.chat').width()/100*7.5)+'px');
     $('#text').css("font-size",($('.chat').width()/100*5)+'px');
 
+    var sb_button=new PerfectScrollbar('#buttons', {
+        suppressScrollY: true
+    });
+
     $('#text').keyup(function(e) {
         var code=e.keyCode;
         
@@ -93,9 +98,10 @@ $(document).ready(function(){
             div.css("background-color","#dffddf");
 
             div.css("clear","both");
+            div.css("font-size",($('#buttons').height()/1.7)+'px');
 
             div.appendTo(boxActive);$('#text').val('');
-            $('.chat_div').scrollTop($('.chat_div')[0].scrollHeight);
+            boxActive.scrollTop(boxActive[0].scrollHeight);
                 
             var id_conv=boxActive.id_conv;
             var id_user = $('#0 input[name=user_log]').val()
@@ -141,6 +147,9 @@ function crea(text, id_other,id_conv, my_id, flag) {
         var element=$('<div></div>').addClass("btn btnName").text(text);
         var elementChild=$('<div></div>').addClass("btn btnX").text("X");
 
+        element.css("font-size",($('#buttons').height()/1.7)+'px');
+        elementChild.css("font-size",($('#buttons').height()/1.7)+'px');
+
         var container=$('<div></div>').addClass("chat_div");
 
         containers[id_other]=container;
@@ -156,7 +165,8 @@ function crea(text, id_other,id_conv, my_id, flag) {
 
         element.click(changeContext.bind(null,id_other));
 
-        var ps=new PerfectScrollbar('.chat_div'); //Creo scrollbar al container creando due figli
+        var selectors=document.querySelectorAll(".chat_div");   //Seleziono tutti i container
+        container.ps=new PerfectScrollbar(selectors[selectors.length-1]);           //Creo scrollbar al container
 
         if(flag == 0) {
             if(boxActive!=null) {
@@ -203,6 +213,7 @@ function getMessage(id_conv, text, id_other) {
                 div=$('<span class="chatMex">'+decryptedMessages+'</span>');
 
                 div.css("clear","both");
+                div.css("font-size",($('#buttons').height()/1.7)+'px');
 
                 if(data[i].id_utente == id_other) {
                     div.css("float","right");
@@ -254,6 +265,8 @@ function changeContext(id_other) {
     containers[id_other].buttonName.css("background-color","#aaf");
 
     boxActive=containers[id_other];
+
+    $('#text').focus();
 }
 
 function openChat() {
