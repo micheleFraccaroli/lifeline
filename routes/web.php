@@ -22,7 +22,7 @@ Route::post('/users/{id}', 'UserController@update');
 Route::get('/logout', 'LoginController@logout');
 
 //Groups
-Route::get('/groups/index','GroupController@index');
+//Route::get('/groups/index','GroupController@index');
 Route::get('/groups/index/{id}','GroupController@show');
 Route::get('/groups/create','GroupController@create');
 Route::post('/groups','GroupController@store');

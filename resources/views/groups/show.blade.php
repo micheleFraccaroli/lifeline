@@ -211,7 +211,7 @@
     								<input type='text' class='form-control' placeholder='...' id ='body_comment_{$post->id}'>
   								</div>
   								<form action='#'>
-  									<button type='submit' class='btn btn-info btn-block' name='answer' id='Post_comment_{$post->id}' disabled>Answer</button>
+  									<button type='submit' class='btn btn-info btn-block' name='answer' id='Post_comment_{$post->id}'>Answer</button>
   								</form>
   						</div>
 					</div>
