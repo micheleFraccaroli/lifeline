@@ -180,7 +180,7 @@ body {
 }
 
 .btnName:hover {
-	background-color: #ccf !important;
+	background-color: #dffddf !important;
 }
 
 .btnX:hover {
@@ -195,11 +195,11 @@ body {
 }
 
 #buttons {
-	overflow: hidden;
+	overflow: auto;
 	position: absolute;
 	height: 6.5%;/*25px*/
 	width: 100%;
-	background-color: #aeeaae;
+	background-color: #000;
 }
 
 .resizeChat {
@@ -296,7 +296,8 @@ textarea {
 }
 
 .homeGroups {
-	border-bottom-left-radius: 20px; 
+	border-bottom-left-radius: 20px;
+	text-align: center;
 }
 
 #post_page {
@@ -308,10 +309,10 @@ textarea {
 	border-bottom-left-radius: 20px;
 }
 
-input[type=button] {
+input[type=button] {					//Pulsanti chat
 	height: 5%;
 	background-color: transparent;
-	border-bottom: 2px solid #0f0;
+	border-bottom: 2px solid #313131;
 	border-top: 0px;
 	border-left: 0px;
 	border-right: 0px;
@@ -346,4 +347,44 @@ input[type=button] {
 	width: 50%;
 	height: 100%;
 	border-radius: 20px;
+}
+
+.btn-info {
+	background-color: #555 !important;
+	border: 1px solid black;
+}
+
+.alert-info {
+	background-color: #dffddf !important;
+	border: 1px solid #313131;
+}
+
+label {
+	color: #555;
+}
+
+a {
+	color: #313131;
+}
+
+a:hover {
+	color: #555;
+}
+
+b {
+	color: #313131;
+}
+
+.login_user {
+	height: 350px;
+}
+
+span.login_text {
+	font-size: 25px;
+	color: #aeeaae;
+	font-style: bold;
+}
+
+.container_login {
+	content: center;
 }

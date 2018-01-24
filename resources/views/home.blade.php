@@ -16,7 +16,7 @@
             <div class="panel panel-default homeGroups">
                 <form method="GET" action="/groups/create" >
 
-                    <div class="panel-heading">Gruppi</div>
+                    <div class="panel-heading">My Groups</div>
                         <div class="panel-body">
                             <?php foreach($groups as $group) { ?>
                                     <a href="/groups/index/{{$group->id}}">
@@ -24,8 +24,8 @@
                                         {{$group->name}}
                                     </a><br>
                             <?php } ?>
-                        </div>
                         <button type="submit" class="btn btn-info">Create new group</button>
+                        </div>
 
                 </form>
 
@@ -137,7 +137,7 @@
 
                                             }else{
 
-                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> said:<br><br>";
+                                                echo "<img src='".$user[$post->id]->image."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a> said:</B><br><br>";
 
                                                 echo $post->body."<br>";
                                                 

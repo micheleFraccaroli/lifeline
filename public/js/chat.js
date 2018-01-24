@@ -83,9 +83,7 @@ $(document).ready(function(){
     $('#text').css("line-height",($('.chat').width()/100*7.5)+'px');
     $('#text').css("font-size",($('.chat').width()/100*5)+'px');
 
-    var sb_button=new PerfectScrollbar('#buttons', {
-        suppressScrollY: true
-    });
+    var sb_button=new PerfectScrollbar('#buttons');
 
     $('#text').keyup(function(e) {
         var code=e.keyCode;
@@ -175,12 +173,12 @@ function crea(text, id_other,id_conv, my_id, flag) {
             }
             boxActive=container;
             boxActive.buttonName=element;
-            element.css("background-color","#aaf");
+            element.css("background-color","#7bb77b");
         }
         else if(flag == 1 && $('#buttons').children().length == 1) {
             boxActive=container;
             boxActive.buttonName=element;
-            element.css("background-color","#aaf");
+            element.css("background-color","#7bb77b");
         }
         else {
             container.css("visibility","hidden");
@@ -262,7 +260,7 @@ function changeContext(id_other) {
     boxActive.css("visibility","hidden");
 
     containers[id_other].css("visibility","visible");
-    containers[id_other].buttonName.css("background-color","#aaf");
+    containers[id_other].buttonName.css("background-color","#7bb77b");
 
     boxActive=containers[id_other];
 

@@ -33,11 +33,11 @@
 						<button type="submit" class="btn btn-info btn-lg btn-block" name="button_create_group" disabled>Create</button>
 					</div>
 				</form>
-				<form method = "GET" action = "/"> 
+				<a href="/"> 
 					<div class="form-group">
 						<button type="button" class="btn btn-secondary btn-lg btn-block">Discard</button>
 					</div>
-				</form>
+				</a>
 			</div>
 		</div>
 	</div>

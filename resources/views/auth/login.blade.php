@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-2 col-md-offset-2" class="container_login">
+            
+                <img src="{{asset('/favicon_real.png')}}" height="250px" width="250px"><br>
+                <span class="login_text font">The FIRST Extraterrestrial Social Network!!!!<br>Become one of us!!!!</span>
+            
+        </div>
+        <div class="col-md-4 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
 
