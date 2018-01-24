@@ -24,6 +24,7 @@
                                         {{$group->name}}
                                     </a><br>
                             <?php } ?>
+                        <br>
                         <button type="submit" class="btn btn-info">Create new group</button>
                         </div>
 

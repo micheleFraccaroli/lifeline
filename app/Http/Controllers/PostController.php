@@ -44,21 +44,32 @@ class PostController extends Controller
                 }
 
                 if($body){
+                    $xss = str_contains($body, ['<','>']);
+                    if($xss == false) {
+                        $request->validate([
+                            'body_post' => 'bail|string|max:255',
+                        ]);
 
-                    $request->validate([
-                        'body_post' => 'bail|string|max:255',
-                    ]);
-
-                    $post->body = $body;
+                        $post->body = $body;
+                    }
+                    else {
+                        return redirect('/');
+                    }
                 }
 
                 if($link){
 
-                    $request->validate([
-                        'link_post' => 'bail|string|max:255',
-                    ]);
+                    $xss = str_contains($link, ['<','>']);
+                    if($xss == false) {
+                        $request->validate([
+                            'link_post' => 'bail|string|max:255',
+                        ]);
 
-                    $post->link = $link;
+                        $post->link = $link;
+                    }
+                    else {
+                        return redirect('/');
+                    }
                 }
 
                     $post->save();
@@ -148,21 +159,32 @@ class PostController extends Controller
                 }
 
                 if($body){
+                    $xss = str_contains($body, ['<','>']);
+                    if($xss == false) {
+                        $request->validate([
+                            'body_post' => 'bail|string|max:255',
+                        ]);
 
-                    $request->validate([
-                        'body_post' => 'bail|string|max:255',
-                    ]);
-
-                    $post->body = $body;
+                        $post->body = $body;
+                    }
+                    else {
+                        return redirect('/');
+                    }
                 }
 
                 if($link){
 
-                    $request->validate([
-                        'link_post' => 'bail|string|max:255',
-                    ]);
+                    $xss = str_contains($link, ['<','>']);
+                    if($xss == false) {
+                        $request->validate([
+                            'link_post' => 'bail|string|max:255',
+                        ]);
 
-                    $post->link = $link;
+                        $post->link = $link;
+                    }
+                    else {
+                        return redirect('/');
+                    }
                 }
 
                     $post->group_id = $group_id;

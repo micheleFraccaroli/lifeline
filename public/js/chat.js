@@ -91,6 +91,14 @@ $(document).ready(function(){
 
         if(code==13 && !e.shiftKey){
             var txt = $('#text').val();
+            if(txt.indexOf("<")>-1 || txt.indexOf(">")>-1) {
+                txt = "*** MESSAGE BLOCKED FOR HACKING ATTEMPT ***";
+            }
+            else if(txt.length == 1) {
+                $('#text').val("");
+                return;
+            }
+            console.log("LUNGHEZZA TESTO ----> " + txt.length);
             var div=$('<span class="chatMex">'+txt+'</span>');
             div.css("float","left");
             div.css("background-color","#dffddf");

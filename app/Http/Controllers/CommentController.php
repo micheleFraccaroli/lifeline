@@ -45,15 +45,28 @@ class CommentController extends Controller
             $post_id = $request->input('post_id');
             $body = $request->input('body');
 
-            $request->validate([
-                'body' => 'bail|required|string|max:255',
-            ]);
-
             $comment = new Comment;
+
+            // XSS security *********************************************************
+
+            $xss = str_contains($body, ['<','>']);
+            if($xss == false) {
+                $request->validate([
+                    'body' => 'bail|required|string|max:255',
+                ]);
+
+                $comment->body = $body;
+            }
+            else {
+                return redirect('/');
+            }
+
+            //***********************************************************************
+
 
             $comment->user_id = Auth::id();
             $comment->post_id = $post_id;
-            $comment->body = $body;
+            
             $comment->save();
             $user = Auth::user();
 
@@ -67,9 +80,11 @@ class CommentController extends Controller
 
             if($group_id->group_id != null) {
                 $group_name = Group::find($group_id->group_id);
+                $news->group_id = $group_id->group_id;
                 $news->group_name = $group_name->name;     
             }
             else {
+                $news->group_id = null;
                 $news->group_name = null;
             }
             

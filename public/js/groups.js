@@ -700,7 +700,7 @@ function addNewlines(str) {
 
     while (str.length > 0) {
 
-        result += str.substring(0, 50) + '<br>';
+        result += str.substring(0, 50) + '\n';
         str = str.substring(50);
 
     }
