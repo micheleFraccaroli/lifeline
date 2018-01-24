@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 /*****Controllo input mascherina di creazione gruppi, in particolare il pulsante share with your friends*****/  
 
-$('input[name="name_group"],textarea[name="description_group"]').keyup(function() {
+/*$('input[name="name_group"],textarea[name="description_group"]').keyup(function() {
     if($('input[name="name_group"]').val() && $('textarea[name="description_group"]').val()){
 
         $('button[name="button_create_group"]').prop('disabled', false);
@@ -32,7 +32,7 @@ $('input[name="name_group"],textarea[name="description_group"]').keyup(function(
         $('button[name="button_create_group"]').prop('disabled', true);
 
     }
-});
+});*/
 
 
 /*****Controllo il bottone dei commenti, se presente viene disabilitato*****/
