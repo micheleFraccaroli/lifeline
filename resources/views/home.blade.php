@@ -119,9 +119,14 @@
                             <div class ="col-sm-12"> 
                                 <div class="alert alert-info" id="all_groups"> 
 
+                                    <!-- Modale -->
+                                    <div id="modal_image" class="modal">
+                                        <img class="modal-content" id="img01">
+                                    </div>
+
                                     <div id="bacheca_posts">
                                         <?php
-                                        
+                                        $i = 0;
                                         foreach ($all_posts as $post){
 
                                             echo "<div id='post_{$post->id}'>";
@@ -134,7 +139,10 @@
 
                                                 echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
 
-                                                echo "<img src='".asset($post->photo)."' class='img-thumbnail' height='200' width='200'/><br><br>";
+                                                $id_img_post = "post_image" . $i;
+
+                                                echo "<img src='".asset($post->photo)."' name='post_image' id='".$id_img_post."' class='img-thumbnail' height='200' width='200' onclick=\"openImg('".$id_img_post."')\"/><br><br>";
+                                                $i++;
 
                                             }else{
 
