@@ -24,14 +24,13 @@
                 <div class="panel panel-default homeGroups">
                     <div class="panel-heading">Activity</div>
                     <div class="panel-body">
-                        In this page you can see every notifications that you have received on Acheron                                                                                                                                                                                                                                                                                                                                                                                                                          
+                        In this page you can see every notifications that you have received on lifeline
                     </div>
                 </div>
             </div>
 
             <div class="col-md-8">
                 <div class="panel panel-default"> 
-                    
                     <ul class="list-group">
                         
                             @foreach(Auth::user()->Notifications as $notification)
