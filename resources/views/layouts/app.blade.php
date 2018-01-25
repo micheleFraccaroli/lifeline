@@ -138,5 +138,6 @@
     <script src="{{asset('js/groups.js') }}"></script>
     <script src="{{asset('js/friend.js') }}"></script>
     <script src="{{asset('js/like.js') }}"></script>
+    <script src="{{asset('js/modal_image.js') }}"></script>
 </body>
 </html>
