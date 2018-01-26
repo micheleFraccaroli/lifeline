@@ -146,22 +146,31 @@
 
 		<!-- mostra i post pubblicati sul gruppo -->
 
+    <!-- Modale per l'apertura delle immagini -->
+    <div id="modal_image" class="modal">
+        <img class="modal-content" id="img01">
+    </div>  
+
 		<div class ="col-sm-6 offset-md-3">	
 			<div class="alert alert-info" id="all_groups">
 				<div id="append_new_posts">
 				<?php  if($access){ ?>
 				<?php 
+          $i = 0;
 					foreach ($all_posts as $post){
 
 						echo "<div id='post_{$post->id}'>";
-
+            
 						if ($post->photo != NULL) {
 
 
   						echo "<img src='".asset($user[$post->id]->image)."' class='img-circle' height='30' width='30'/><B> ".$post->created_at." "."<a href=\"/users/{$user[$post->id]->id}\">{$user[$post->id]->name} {$user[$post->id]->surname}</a></B> posted a photo:<br><br>";
   						echo $post->body."<br>";
               echo "<a href='".$post->link."' target='_blank'>".$post->link."</a><br><br>";
-  						echo "<img src='".asset($post->photo)."' class = 'img-thumbnail' height='200' width='200'/><br><br>";
+
+              $id_img_post = "post_image" . $i;
+  						echo "<img src='".asset($post->photo)."' name='post_image' id='".$id_img_post."' class = 'img-thumbnail' height='200' width='200' onclick=\"openImg('".$id_img_post."')\"/><br><br>";
+              $i++;
 
 						}else{
 

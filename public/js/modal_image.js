@@ -5,7 +5,6 @@ function openImg(id_img) {
 	/*var img = document.getElementById("id_img").src;*/
 
 	src_img = $(id).attr('src');
-	console.log("ECCO L'IMMAGINE ---> " + src_img);
 	var modalImg = document.getElementById("img01");
 
 	modal.style.display = "block";
