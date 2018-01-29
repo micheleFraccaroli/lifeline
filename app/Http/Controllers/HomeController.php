@@ -9,6 +9,7 @@ use App\Friend;
 use App\Post;
 use App\User;
 use App\Like;
+use App\Conversations_user;
 use Auth;
 
 class HomeController extends Controller
@@ -36,7 +37,15 @@ class HomeController extends Controller
 
         $frn = new Friend;
 
+        $usr_for_friends = collect();
         $friends = $frn->getFriends(Auth::user()->id);
+        foreach ($friends as $fr) {
+            if($fr->type == 0) {
+                $user_ff = User::find($fr->id_utente);
+                $user_ff->id_conv = Conversations_user::find_conversation(Auth::user()->id, $user_ff['id']);
+                $usr_for_friends = $usr_for_friends->push($user_ff);
+            }
+        }
 
         $array = array_prepend($friends, ['id_utente'=>Auth::id(),'type' => 0]);
 
@@ -64,7 +73,7 @@ class HomeController extends Controller
 
         }
 
-        return view('home', compact('all_posts','user','like','my_like', 'groups'));
+        return view('home', compact('all_posts','user','like','my_like', 'groups', 'usr_for_friends'));
         
     } 
 

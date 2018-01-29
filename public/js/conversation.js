@@ -34,7 +34,7 @@ function add_id_other(id_other, my_id, id_form,chat_name,flag) {
             data : data,
             dataTy : 'json',
             success:function(data) {    //data: id di conversazione
-                console.log(data);
+                console.log("ID_CONVERSAZIONE" + data);
                 $('#'+id_form+' input[name="id_conversation"]').val(data);
                 crea(chat_name,id_other,$('#'+id_form+' input[name=id_conversation]').val(),my_id, flag);
             },

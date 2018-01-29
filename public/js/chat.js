@@ -183,8 +183,7 @@ function crea(text, id_other,id_conv, my_id, flag) {
             boxActive.buttonName=element;
             element.css("background-color","#7bb77b");
         }
-        else if(flag == 1 && $('#buttons').children().length == 1) {
-            boxActive=container;
+        else if(flag == 1 && (document.querySelectorAll('#buttons > div').length)/3) {            boxActive=container;
             boxActive.buttonName=element;
             element.css("background-color","#7bb77b");
         }

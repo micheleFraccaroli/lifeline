@@ -20,10 +20,9 @@ use App\Http\Controllers\FriendController;
 <div class="nomi">
             
     <?php   $index = 0;
-            $users = FriendController::show();
-
-            foreach($users['users'] as $user) { ?>
-                
+            //$users = FriendController::show();
+            
+            foreach($usr_for_friends as $user) { ?>
                 <form action="{{ URL::to('/conversations/create') }}" method="POST" id="<?= $index ?>">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="user_log" value="<?= Auth::user()->id ?>">
@@ -32,17 +31,11 @@ use App\Http\Controllers\FriendController;
                     <input type="hidden" name="id_conversation" value="">
 
                 <?php  
-                    $id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user['id']);
-                
-                    $chat_name = $user->name . " " . $user->surname; 
-                    if(!empty($id_conv)) { ?>
-                        <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}', 0);">
-
-                <?php    
-                    }
-                    else { ?>
-                        <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}',0);">
-                <?php    } ?>
+                    //$id_conv = App\Conversations_user::find_conversation(Auth::user()->id, $user['id']);
+                    //$id_conv = $user->id_conv[0]->id_conversazione;
+                    //dd($id_conv);
+                    $chat_name = $user->name . " " . $user->surname; ?>
+                    <input type="button" value="{{$chat_name}}" onclick="add_id_other({{$user->id}},{{Auth::user()->id}},{{$index}},'{{$chat_name}}', 0);"> 
                 
                 </form>
                 
